@@ -1,0 +1,21 @@
+# Virtual Enviroment
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (if large files)
+data/*.csv
+data/*.json
+
+# Models
+models/*.pkl
+
+# OS
+.DS_Store
+Thumbs.db
