@@ -1,0 +1,56 @@
+======================================================================
+ERROR ANALYSIS REPORT
+Bug Severity Classification - Random Forest Model
+======================================================================
+
+1. OVERALL STATISTICS
+----------------------------------------------------------------------
+Total predictions: 2000
+Correct: 1353 (67.7%)
+Incorrect: 647 (32.4%)
+
+2. ERROR RATE BY CLASS
+----------------------------------------------------------------------
+   Class  Total  Errors  Error Rate (%)  Accuracy (%)
+ blocker     41      39       95.121951      4.878049
+critical    121      62       51.239669     48.760331
+   major    148     113       76.351351     23.648649
+   minor    108      98       90.740741      9.259259
+  normal   1521     291       19.132150     80.867850
+ trivial     61      44       72.131148     27.868852
+
+3. TOP MISCLASSIFICATION PATTERNS
+----------------------------------------------------------------------
+true_label predicted_label  count
+    normal           major    125
+     major          normal     86
+    normal         trivial     77
+     minor          normal     72
+  critical          normal     48
+    normal        critical     44
+    normal           minor     40
+   trivial          normal     35
+   blocker          normal     30
+     minor           major     14
+
+4. CONFIDENCE ANALYSIS
+----------------------------------------------------------------------
+Avg confidence (correct): 0.342
+Avg confidence (incorrect): 0.315
+Confidence gap: 0.028
+
+5. CRITICAL ERRORS
+----------------------------------------------------------------------
+Critical/Blocker missed (predicted as normal): 78
+False alarms (normal predicted as critical): 49
+
+6. TEXT LENGTH ANALYSIS
+----------------------------------------------------------------------
+                   Total  Errors  Error Rate (%)
+text_length_bin                                 
+Very Short (0-20)    593     130            21.9
+Short (20-50)        835     262            31.4
+Medium (50-100)      430     181            42.1
+Long (100-200)       117      60            51.3
+Very Long (200+)      25      14            56.0
+

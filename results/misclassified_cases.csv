@@ -1,0 +1,648 @@
+true_label,predicted_label,confidence,text_length,short_description,component_name,product_name
+minor,normal,0.30920880376311183,34,Remove lots of redundant nsISupportsArray include/forward definitions from content,Layout,CORE
+major,normal,0.24047571685526642,91,[10.5] Viewing full-screen Flash screws up Command-W shortcut so that all tabs close,Plug-ins,CAMINO_GRAVEYARD
+normal,major,0.23637271366025728,31,blocked images no longer blocks background images,Image Blocking,CORE
+normal,major,0.28755613790211393,85,JavaScript onKeyDown event is not fired in certain Command + key combinations,User events and focus handling,CORE
+normal,minor,0.24160317453138652,100,TestRun.add_cases of 100 cases at a time to a run sets index values,API,TESTOPIA
+major,normal,0.279840041864585,39,Preview/Production Remora Database Update,WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+normal,major,0.21939680475854043,73,create_user.pl for 0.3 api broken/missing,Server: Sync,CLOUD_SERVICES
+major,normal,0.2845772620043436,79,Caret tracking broken with Windows screen readers [Cairo-related],Disability Access APIs,CORE
+normal,major,0.33330580002064886,184,Option to change precedences (order) of junk control and normal filters,Filters,MAILNEWS_CORE
+critical,normal,0.21677804644431806,59,threading by subject slow when threads are large,Backend,MAILNEWS_CORE
+minor,normal,0.36837975314918103,31,Get style.zIndex not yet implemented,DOM: CSS Object Model,CORE
+major,trivial,0.3178476204178197,16,beursbox.nl - part of the page is not displayed,Dutch,TECH_EVANGELISM_GRAVEYARD
+minor,normal,0.3305985772999195,26,Javascript animation does not finish,DOM: Core & HTML,CORE
+normal,minor,0.3003967822140215,104,Security warning dialogs cannot be made permanent through the checkbox,Preferences,FIREFOX
+trivial,normal,0.3442558666449825,9,add naist to mirrors page,General,WWW.MOZILLA.ORG
+normal,major,0.24430093425931582,48,Typed characters appear twice/double after visiting site with Java applet,Widget: Mac,CORE_GRAVEYARD
+critical,normal,0.34650037283713536,15,Some files not tagged in FIREFOX_1_0_7_RELEASE,General,FIREFOX
+critical,normal,0.2871083706009069,18,Running a mass change clears group bits.,Bugzilla-General,BUGZILLA
+minor,critical,0.36652514045017354,28,when a report fails to be processed give info as to why,General,SOCORRO
+normal,minor,0.2423563803773982,34,ssl2_StartGatherBytes() is dead or the comment is out of date,Libraries,NSS
+normal,major,0.2898052775514708,78,Left side menu does not appear as defined in css file.,English Other,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.21154134668977764,56,[patch] multi day all day events are not saved into ical file.,Internal Components,CALENDAR
+minor,trivial,0.2797879510652401,11,Expansion of voteremovedmail should honour emailsuffix,Email Notifications,BUGZILLA
+normal,trivial,0.23584690940885988,34,Downloads > Download Folder directory can't be changed.,Preferences,FIREFOX
+blocker,normal,0.3192127542075238,12,Latest trunk hourlies don't start up,Startup and Profile System,TOOLKIT
+minor,normal,0.31851384056697185,69,nsAppshellService shouldn't default to a hiddenWindow url that might not exist,Startup and Profile System,TOOLKIT
+critical,normal,0.30473867680716704,55,setuid root programs linked with NSPR allow elevation of privilege (CVE-2006-4842),NSPR,NSPR
+major,normal,0.4197319976474219,48,INI parser reads memory beyond EOF,Installer,SEAMONKEY
+normal,critical,0.365832387561463,32,Periodically auto-save window state for crash recovery,General,CAMINO_GRAVEYARD
+normal,major,0.40732869043223124,68,comedycentral.com - can't view Motherload videos,English US,TECH_EVANGELISM_GRAVEYARD
+major,trivial,0.22716288685599278,76,Automatically check for updates for my extensions and themes is unchecked after checking manually,Preferences,FIREFOX
+normal,minor,0.2793705261412971,49,Works With Text flows out of it's too-narrow container,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+minor,normal,0.3238391615536256,34,Remove unused functions forEachEntry getItemsWithFlagUnset and getStagedLeafName,Add-ons Manager,TOOLKIT
+minor,trivial,0.29243749875587743,43,Fix compiler warnings about redefining LOG in necko,Networking,CORE
+trivial,normal,0.31439091870162483,60,Fix wording on 410 Gone error page,General,WWW.MOZILLA.ORG
+normal,blocker,0.2382607419731588,8,Update preview.amo,WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+trivial,normal,0.318653577184664,34,whois replies displayed in conversations should have the noLog flag,IRC,CHAT_CORE
+major,normal,0.29661494417596246,71,bugzilla.dtd isn't quite correct,Bugzilla-General,BUGZILLA
+major,critical,0.3679389961907248,64,IMAP server connections sluggish/unresponsive,Networking: IMAP,MAILNEWS_CORE
+normal,minor,0.27055172444503045,89,Favicon in background unhovered toolbar has wrong background color,Toolbars and Customization,FIREFOX
+minor,normal,0.3708868710982913,14,Dynamically adding text to -moz-grid doesn't make the text appear,XUL,CORE
+normal,major,0.2895500754953183,91,Statusbar/Advanced Options software updater fails even if extension update exists,Application Update,TOOLKIT
+critical,normal,0.29223279979867206,6,Since cairo update 16bpp does not work in Linux,Graphics,CORE
+normal,critical,0.37881080134127565,13,Missing Breakpad/Crashreporter Report,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,critical,0.40612711000290524,87,Crash [@nsPalmSyncSupport::GetPalmSyncInstall],Palm Sync,MAILNEWS_CORE_GRAVEYARD
+normal,trivial,0.2560675222412829,12, hides text when padding value is high.,Layout: Form Controls,CORE
+normal,major,0.27051140586023675,98,Mail marked as read while not read at all,Mail Window Front End,THUNDERBIRD
+normal,major,0.24489820402797094,55,[Cairo] broken focus ring on pre-filled/focused input fields,HTML Form Controls,CAMINO_GRAVEYARD
+major,normal,0.2650731762963188,45,gmail titles shown below label when browser width is reduced,Layout,CORE
+blocker,normal,0.3084569428043219,30,Restart chat server,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,minor,0.3030185042265498,70,Bookmarks completely empty no folders shown,Bookmarks & History,FIREFOX
+normal,trivial,0.3387828892780995,15,Remove XPC_IDISPATCH_SUPPORT,XPConnect,CORE
+major,normal,0.30311748701519053,38,The user prefs tab let you change the password and email address of a user being impersonated when using the ENV method (with user_info_class=EnvCGI),User Accounts,BUGZILLA
+critical,minor,0.26796846802017266,177,Core preferences system bug stops ChatZilla startup,ChatZilla,OTHER_APPLICATIONS
+normal,minor,0.24814503259963894,64,Firefox does not open all tabs of a bookmarked tab session because of a malformed link (imported from galeon) wyciwyg://1/ in front of it. its stopps at this position and does not open the tabs after it.,Bookmarks & History,FIREFOX
+trivial,normal,0.35616284095389716,9,anomaly on the back button texture when clicking the forward button,Theme,FIREFOX
+minor,normal,0.3222982807943794,23, with no attributes triggers ASSERTION: getElementById() fix caller?,XUL,CORE
+trivial,normal,0.33005932561957985,30,Disabled link toolbar buttons need more three-dimensional appearance,Themes,SEAMONKEY
+blocker,critical,0.38090074551248043,607,Breakpad continually sends the same crash report over and over until you manually stop it,Crash Reporting,TOOLKIT
+major,normal,0.3643880961491689,26,Create in-product web pages for Firefox 2.0.0.2,General,WWW.MOZILLA.ORG
+normal,major,0.30043672681223876,182,S/MIME signed emails include duplicate cert in chain,Security: S/MIME,MAILNEWS_CORE
+normal,critical,0.37143395378863886,41,Crash-server isn't processing new jobs (and thinks it's yesterday),Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,trivial,0.2619566939280316,28,need Viewing options to control when messages viewed in preview pane are marked as read,General,PENELOPE_GRAVEYARD
+minor,normal,0.34601652596027177,5,[Mac] Document new tab switch shortcuts,Help Documentation,SEAMONKEY
+normal,trivial,0.30348542669921075,31,Identity settings dialog is too small,Account Manager,MAILNEWS_CORE
+blocker,normal,0.3116387817546301,94,Cannot determine if a given event queue is on the current thread,NSPR,NSPR
+blocker,normal,0.22815661160323308,38,fxdbug-linux-tbox wont restart,Server Operations,MOZILLA.ORG_GRAVEYARD
+major,minor,0.2470770338865298,43,Enable Camino to set itself to be the default browser,Preferences,CAMINO_GRAVEYARD
+major,trivial,0.2691303589616141,46,Advanced panel in Preferences is broken,Preferences,FIREFOX
+critical,normal,0.3130729717964434,94,[FIX] BookmarksUtils.cloneFolder does not clone subfolders (hordes of separators created in bookmarks),Bookmarks & History,SEAMONKEY
+normal,trivial,0.2385618166524037,80,Recently Added link on main page (https://addons.mozilla.org/) informs about recently updated (information wise),Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+normal,minor,0.28791146110019183,45,attachments with MIME type application/xhtml+xml cannot be viewed in the edit page,Attachments & Requests,BUGZILLA
+critical,major,0.27221553648153995,55,Error entry point GetLongPathNameA could not be located under NT 4.0 starting Firefox 2.0.0.4 RC1,General,FIREFOX
+minor,major,0.3502328011192574,88,Persistent JavaScript Error: GetThreadTree is not defined,Mail Window Front End,THUNDERBIRD
+minor,normal,0.3496343371837062,25,rustico: some ugly excess platform text when viewing an add-on that's not available for your platform,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+normal,trivial,0.23523572133866183,39,Show a proper error when there is no install.rdf,Developer Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+trivial,normal,0.334791433307166,27,Want xterm updates when using PARALLEL_DIRS,General,FIREFOX_BUILD_SYSTEM
+critical,normal,0.27278247722471566,23,GetGroupsByUserId() in buglist.cgi fails to return correct information,User Interface,BUGZILLA
+minor,normal,0.3229188676780148,10,Unused functions [PRUni]charPtrArrayTo[C]StringArray & [C]StringArrayTo[PRUni]charPtrArray,MailNews: Address Book & Contacts,SEAMONKEY
+critical,blocker,0.2836197933931403,23,AMO SVN update to fix developer translations error,WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+normal,trivial,0.24056614004061516,28,(1.8.0 0.7 nightly) select not showing items,XForms,CORE_GRAVEYARD
+minor,major,0.279785152285764,43,Output with mediatype and SVG doesn't work properly,XForms,CORE_GRAVEYARD
+normal,critical,0.49647545232884055,54,crash in nsViewManager::~nsViewManager during XPCOM shutdown,Web Painting,CORE
+normal,major,0.27165874531290596,77,.gz file silently uncompressed when right-click save link to disk [contentAreaUtils.js],Downloads API,TOOLKIT
+normal,minor,0.23458538274219617,24,Add a shortcut for Rewrap,MailNews: Composition,SEAMONKEY
+minor,normal,0.35708578384209516,22,Add option to disable Register button,Verbatim,WEBTOOLS_GRAVEYARD
+minor,blocker,0.40535806748086306,5,make releases list easier maintenance,bugzilla.org,BUGZILLA
+normal,major,0.35116928074642123,42,Sub forum header text is missing at Cd Freaks.,English Other,TECH_EVANGELISM_GRAVEYARD
+major,trivial,0.28786337888030056,13,Label not exported,Operator,MOZILLA_LABS
+blocker,normal,0.2777185842606409,51,Courier IMAP: Accessing Courier IMAP mail account will encounter different abnormal alerts.,Networking: IMAP,MAILNEWS_CORE
+normal,minor,0.26857555644182596,92,Some languages need weekdays in plural form for some particular sentences inside Recurrence Summary.,General,CALENDAR
+normal,minor,0.2549367090243841,107,Deletion of non-contiguous cookies leaves holes in Cookie Manager,Preferences,FIREFOX
+major,normal,0.3047806967661315,40,Restricting a bug to a group sets reporter_accessible and cc_accessible to 0,Creating/Changing Bugs,BUGZILLA
+normal,major,0.25817910413314393,53,onmouseover not working,DOM: CSS Object Model,CORE
+normal,major,0.2417356615564377,425,Add Buypass AS root certificates,CA Certificate Root Program,NSS
+blocker,normal,0.33047395172579974,11,talos qm-pxp013 either not working or not reporting,General,RELEASE_ENGINEERING
+blocker,normal,0.31380373589260824,120,Recent fixes to nsChromeRegistry.cpp cause HP builds to fail,RDF,CORE_GRAVEYARD
+normal,trivial,0.29645617141568126,27,FlagTypes uses DB dependent comma operator,Creating/Changing Bugs,BUGZILLA
+normal,major,0.2748871399717142,89,Build error with disable-installer,General,FIREFOX_BUILD_SYSTEM
+normal,major,0.3080433719275821,120,When right click on email address add option to open existing contact in address book,Mail Window Front End,THUNDERBIRD
+minor,normal,0.3235091312613881,27,mention additional perl module,Documentation,BUGZILLA
+normal,critical,0.31150878596452086,51,Breakpad should report if extension compatibility overrides are being used,Crash Reporting,TOOLKIT
+normal,trivial,0.2681932720855325,29,bugs not registered as new,Bugzilla-General,BUGZILLA
+normal,critical,0.42852627829915013,10,jsreftests - Crash [@ GetAndCacheLocalTime ],JavaScript Engine,CORE
+blocker,normal,0.3472031548841803,9,[BEOS] transparent images defined as background aren't rendered properly,GFX: BeOS,CORE_GRAVEYARD
+normal,major,0.28903570428602005,61,Content of the phpBB bulletin board administration section is not displaying properly. It should be some kind of table but it's just floating text!,Layout,CORE
+minor,normal,0.33672600546459913,22,FUEL Application registers unnecessary observers,General,FIREFOX
+normal,trivial,0.2666900729337911,19,http://www.bugzilla.org/docs/2.22/html/ loading incorrectly,bugzilla.org,BUGZILLA
+major,normal,0.35512277704403894,37,Query for CC/longdesc/OR takes long time,Query/Bug List,BUGZILLA
+blocker,major,0.26254128959090983,54,building error in  ../../dist/bin/chrome/en-US.jar,Build Config,THUNDERBIRD
+normal,major,0.24153505818783258,104,Add ACEDICOM Root certificate,CA Certificate Root Program,NSS
+normal,critical,0.5742907506441366,34,mailbox protocol in email message causes crash,Backend,MAILNEWS_CORE
+major,normal,0.2874640522884812,25,datepickers & export code not usable in Lightning on Japanese Win2k,Lightning Only,CALENDAR
+critical,normal,0.32547843054086173,16,Cant specify sub directories for videos in CameraControl API,DOM: Core & HTML,CORE
+normal,major,0.3128155502000674,123,Icons corrupted/missing in seamonkey.exe,General,FIREFOX_BUILD_SYSTEM
+blocker,normal,0.3414222131936839,36,Migration Integration Audit,Bookmarks & History,FIREFOX
+normal,major,0.3411327885596346,182,sendmail cannot execute importxml.pl from any other path than the bugzilla directory,Bug Import/Export & Moving,BUGZILLA
+minor,major,0.3535162137010844,188,Mail body contains ++ produces error message,General,THUNDERBIRD
+normal,trivial,0.45169008903245234,33,warnings: hiding inherited virtual functions,Layout,CORE
+trivial,normal,0.3404647731760686,15,Clean up abCommon.js,Address Book,MAILNEWS_CORE
+major,normal,0.2998109034315878,17,Bugzilla::Config should check for defparams.pl failure,Bugzilla-General,BUGZILLA
+blocker,normal,0.32305428057806196,46,Please update ebay_extension.html to point at the latest version of the ebay companion,Administration,ADDONS.MOZILLA.ORG_GRAVEYARD
+minor,normal,0.3535697478667998,14,[PORKJOCKEY] nsCOMPtr-ize nsBrowserInstance.cpp,General,SEAMONKEY
+minor,normal,0.3700525235109681,14,Add const to the 'nickname' parameter of SEC_CertNicknameConflict,Libraries,NSS
+trivial,minor,0.27881516292167896,62,Display of tabs not clean,Tabbed Browser,SEAMONKEY
+minor,trivial,0.2638600544422554,35,The Any Product under the Environment Variables  is not a link,Environments,TESTOPIA
+normal,critical,0.48470236344136786,61,I have a bookmark file that will crash mozilla on solaris and linux.  It was generated by mozilla too.,Bookmarks & History,SEAMONKEY
+major,trivial,0.2440773682722438,22,p1 critical not displayed in red when groups are used for bug.,Query/Bug List,BUGZILLA
+minor,major,0.25984162195038574,58,unable to unselect single event from a group of selected events in main view,Calendar Views,CALENDAR
+normal,major,0.32521467953340294,62,server response controls lost in referral chase,LDAP C SDK,DIRECTORY
+normal,trivial,0.28438707314812467,30,Cleanup chatzilla.dtd,ChatZilla,OTHER_APPLICATIONS
+normal,major,0.3291490404869133,67,Rhino E4X does not correctly build from source with Ant,E4X,RHINO_GRAVEYARD
+normal,major,0.3587874871056625,129,application and addon updates fail when Danish Government browser extension is installed,Application Update,TOOLKIT
+major,normal,0.31283061071805085,43,Move Hula to orga,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,trivial,0.24892772871073343,61,Allow whines to be sorted according to the sort order of the saved search,Whining,BUGZILLA
+minor,normal,0.33050976896653245,26,Removed item not passed back in nsSVGAttributes::RemoveNamedItem,SVG,CORE
+normal,trivial,0.27018858145499713,19,[es-MX] Spanish (Mexico): Firefox,Registration & Management,MOZILLA_LOCALIZATIONS
+blocker,normal,0.2895635864051603,37,Alarms don't work for recurring events,Alarms,CALENDAR
+blocker,normal,0.43576061460411014,35,hl={moz:locale} in google plugin doesn't do the right thing,Search,FIREFOX
+major,normal,0.3722931244812122,46,GetPersonas.com has started logging users out too often,getpersonas.com,WEBSITES_GRAVEYARD
+normal,major,0.2549181824545607,45,The new Lens feature in Google Reader doesn't work under Windows,General,FIREFOX
+minor,normal,0.32243789671746265,11,gcparam() help and error message do not mention markStackLimit,JavaScript Engine,CORE
+normal,critical,0.4119598852057267,37,nsFrameLoader::GetDocShell should not throw if it can create the docshell,"Layout: Images, Video, and HTML Frames",CORE
+normal,critical,0.5271159189543169,59,something with pop blocker crashes browser,General,CAMINO_GRAVEYARD
+major,minor,0.24522326990491713,24,When right-clicking images copy image copies the image location not the image,General,CAMINO_GRAVEYARD
+minor,normal,0.36176168112303964,11,Talos reboots (20090422 edition),Server Operations,MOZILLA.ORG_GRAVEYARD
+major,normal,0.35385203299965085,18,Slovenian Sunbird -> calendar views are defect,sl / Slovene,MOZILLA_LOCALIZATIONS
+critical,major,0.2933000716986313,49,Printing. 4 pages print  2 only have headers and footers [@ nsBlockFrame::SplitPlaceholder],Layout,CORE
+normal,major,0.3988489987922168,135,I receive a The page cannot be displayed message when trying to veiw the above address.  Works OK in I.E.,English US,TECH_EVANGELISM_GRAVEYARD
+major,trivial,0.24280379374612548,87,Event/Task dialog: edited values in date/time combo boxes not always saved on save and close (does not prompt to save changes when dialogue is closed),Dialogs,CALENDAR
+normal,major,0.257197328296877,59,Need error message when connection to server is lost.,ChatZilla,OTHER_APPLICATIONS
+major,trivial,0.2758755255924166,13,Deleting products does not clean up the component_cc table,Administration,BUGZILLA
+normal,trivial,0.39637328225554647,33,TM: Allow CALLINFO macros to specify linkage,JavaScript Engine,CORE
+minor,major,0.24041881025070405,70,rounding problems with half pixels at negative widget coordinates causes gap between image and border,GFX,CORE_GRAVEYARD
+normal,major,0.30564217438128716,63,gilan.nl - images not showing on some pages,Dutch,TECH_EVANGELISM_GRAVEYARD
+minor,normal,0.24368401822458732,58,Link to release notes from about: points to 1.0 notes instead of 1.4 notes,General,FIREFOX
+normal,major,0.36173612235764985,157,[DAP] External Download Manager stopped downloading after making on the download URL,Plug-ins,CORE
+normal,trivial,0.27971868328435384,18,Add foreign key constraints for components table,Database,BUGZILLA
+major,normal,0.31237848883753533,77,[INPUT TYPE=FILE ] file input with display: none does not hold value,Layout: Form Controls,CORE
+minor,major,0.29556010078736006,59,ati.com - navigation tree is IE-only,English US,TECH_EVANGELISM_GRAVEYARD
+trivial,normal,0.378493024279218,5,Get/FormatLocalizedString should use nsXPIDLString,Layout,CORE
+major,normal,0.30672531492842237,254,Style system should not reresolve for every attribute change,CSS Parsing and Computation,CORE
+normal,major,0.2897791769415778,85,Don't allow alert/confirm/prompt in onbeforeunload onunload and onpagehide,DOM: Core & HTML,CORE
+normal,critical,0.5348693872217045,109,Restore from bfcache crashes with non-HTML  [@ PresShell::EnumeratePlugins] [@ StartPluginInstance],Document Navigation,CORE
+critical,trivial,0.2834025681395181,20,Animated GIFs leave trails / don't erase in Cairo,Graphics,CORE
+minor,normal,0.2902685066804549,50,404 error does not result in xforms-link-exception for external schema,XForms,CORE_GRAVEYARD
+normal,major,0.30494338950718375,96,allmovie.com - broken HTTP headers,English US,TECH_EVANGELISM_GRAVEYARD
+major,trivial,0.29860923164088776,41,Default CC is ignored when creating a bug via the webservice,WebService,BUGZILLA
+normal,critical,0.4031799711230273,29,Assertion failure: JSVAL_IS_VOID(obj->fslots[JSSLOT_ARRAY_LOOKUP_HOLDER]),JavaScript Engine,CORE
+major,normal,0.37034535188128714,38,Provide notification when embed/object elements are created/destroyed/resized,Layout,CORE
+critical,normal,0.31846490708930364,31,Assertion failure: pn->pn_type != TOK_COMMA at ../jsemit.cpp,JavaScript Engine,CORE
+minor,normal,0.34163762036255363,62,dereferencing type-punned pointer will break strict-aliasing in nsCOMPtr,XPCOM,CORE
+minor,normal,0.36196017941583514,27,Nagios auth prompt could be super helpful for busy people,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,trivial,0.25613912605506745,62,can't valid choices in option menu,Menus,FIREFOX
+normal,trivial,0.25181997204657436,62,Notification widget for new add-ons added to collection launches Add-on Manager in a separate dialog (FIREFOX 4),Collector Extension,ADDONS.MOZILLA.ORG_GRAVEYARD
+trivial,normal,0.296159712143531,4,Confirmed email address is missing ,User Interface,BUGZILLA
+normal,major,0.23374308767226107,41,border in form objects is visible even with border-style:none and border-width:0,Layout: Form Controls,CORE
+critical,major,0.3609130231605599,134,Duplicate messages appearing in list and some messages not appearing (IMAP),Database,MAILNEWS_CORE
+critical,normal,0.3067942435227311,64,Canceling a HTTP request while it is reading a partial cache entry does not cancel the corresponding transaction,Networking: HTTP,CORE
+minor,trivial,0.3382357082131003,20,Add suggested parentheses to layout/,Layout,CORE
+normal,minor,0.2401847242993017,76,Folders and files with non-latin characters don't show up,Internationalization,CORE
+normal,major,0.29568421244459203,51,Forward doesn't work with some email messages when mailnews.send_default_charset and mailnews.view_default_charset both are set to utf-8,Composition,MAILNEWS_CORE
+normal,major,0.26548481439831617,63,Duplicated content with  inside table markup,Layout,CORE
+trivial,normal,0.28305614703843046,128,please fix some of the misspellings in JSS,Library,JSS
+normal,major,0.20555099493779477,37,Linux x86_64 startup-notification relocation error gcc-4.2.x,General,FIREFOX_BUILD_SYSTEM
+minor,normal,0.30459954123938365,19,Header/Footer settings not saved,Printing: Output,CORE
+normal,minor,0.2401931260919407,73,Link to specific IRC channels on mozilla.org/community/forums/,Pages & Content,WWW.MOZILLA.ORG
+major,normal,0.30470385541216255,119,download manager doesn't work with non-ASCII file names.,Download & File Handling,SEAMONKEY
+critical,normal,0.31678354887053517,45,forwarding as attachment produces wrong message body for forwarded message,Message Compose Window,THUNDERBIRD
+major,normal,0.3539376783096862,18,seat.es - is optimized for IE and NS4 in Windows,Spanish,TECH_EVANGELISM_GRAVEYARD
+trivial,normal,0.3504756011859165,8,nsCSSFrameConstructor::ContentRemoved has a hopefully useless DEBUG oversafe null check of parentFrame,Layout,CORE
+normal,trivial,0.2630890082260933,35,Deadline Field not available when changing several bugs at once,Creating/Changing Bugs,BUGZILLA
+major,normal,0.2454867804654056,64,Extension pages on https://addons.mozilla.org have stopped updating as of March 13 2006,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+blocker,normal,0.227984959963625,40,Nightly builds on 2005/03/13 are all dated 2005/03/07 or before,FTP: Mirrors,MOZILLA.ORG
+normal,major,0.25856159752875074,56,Download manager fails to close with files that download very quickly (small files / cached files),Downloads API,TOOLKIT
+trivial,normal,0.3561682137112288,19,Use .hidden and .collapsed instead of [GS]etAttribute,Composer,SEAMONKEY
+major,normal,0.3682462866918656,15,Considerable Memory Usage increase,General,SEAMONKEY
+minor,normal,0.3543342975092425,14,fix classes that have error-prone calls in constructor,RDF,CORE_GRAVEYARD
+normal,minor,0.23219180504806525,139,mozilla 1.7 and 1.7.1 doesn't compiles under gcc 3.4.1,Internationalization,CORE
+minor,normal,0.3001813648399036,43,Pasting a bookmark in the Bookmarks Bar collection results in the bookmark in the Bookmarks Menu collection,Bookmarks,CAMINO_GRAVEYARD
+major,critical,0.4641371320579614,30,mozilla::storage::Connection::Close can spin a nested event loop,Storage,TOOLKIT
+normal,major,0.2727854585699944,49,Close all windows  then cannot reopen window,Mail Window Front End,THUNDERBIRD
+critical,normal,0.37407311976550134,39,ObserverService shouldn't recurse infinitely for stupid consumers,XPCOM,CORE
+blocker,trivial,0.3089470721584487,23,nsCRT::atoi should be removed or fixed,XPCOM,CORE
+blocker,normal,0.32689178296862237,16,bl-bldlnx01 (Linux perf tinderbox)'s Tp numbers are broken,General,RELEASE_ENGINEERING
+normal,critical,0.457223547249906,28,crashreporter fails to compile when doing 32-bit cross compile on Mac OS X 10.6 seed 10A335,Crash Reporting,TOOLKIT
+minor,normal,0.30808086716701594,20,checksetup.pl doesn't pick up the user's language correctly,Installation & Upgrading,BUGZILLA
+critical,major,0.4432764791159239,73,browser hangs (window manager) when loading first URL,DOM: Events,CORE
+normal,major,0.35898206610674344,137,unable to access a canadian secure site dreaded IE 6 works fine!,English US,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.3487538653281922,169,Hooks needed from mime parser to message window display and nsMsgHeaderSink,General,THUNDERBIRD
+normal,major,0.33221499298315976,138,The up arrow on the right scroll bar malfunctions,General,SEAMONKEY
+minor,trivial,0.22684615264111407,39,text in textarea is not displayed until after window.onload,DOM: Core & HTML,CORE
+major,normal,0.3632100481668856,20,On secure sites due to Larry autocomplete results won't align with what you've typed,Address Bar,FIREFOX
+normal,critical,0.4773402628481784,51,infi.net - doesn't load and kills Moz if view-source is attempted during load,English US,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.27523657101767457,110,Subscribe to RSS feed didn't initially work when specifying Vienna reader,General,CAMINO_GRAVEYARD
+normal,major,0.33063163561672754,73,[FIX]id attribute outside a form overrides,DOM: Core & HTML,CORE
+minor,normal,0.3635828851486458,25,need to package files from toolkit/components/printing (/skin),Build Config,THUNDERBIRD
+normal,trivial,0.3276886106956129,48,JavaScript Error: alarmTime has no properties,Internal Components,CALENDAR
+normal,critical,0.49600734548668,53,Using extension Spellbound 0.7.3 choosing option Recheck Page causes a crash [@  GetScopeOfObject f4e69a55 ],DOM: Core & HTML,CORE
+normal,major,0.29015589946383824,66,CSS :hover property not obeyed by background images,Layout,CORE
+critical,normal,0.2863711104729037,164,out of bounds read in BMP decoder can lead to information disclosure,ImageLib,CORE
+normal,critical,0.5211799409169514,19,ss:crash on startup,Windows FE,MOZILLACLASSIC_GRAVEYARD
+critical,normal,0.2911164410724454,33,Windows don't remember location,UI Design,SEAMONKEY
+critical,normal,0.26129538798828966,49,Can't install on WinXP,General,FIREFOX
+major,minor,0.24680067739011755,18,Forgotten password process,General,SKYWRITER_GRAVEYARD
+minor,normal,0.3434054127463183,12,SVN Account Request - Alex Polvi ,Repository Account Requests,MOZILLA.ORG
+critical,normal,0.31418569741087354,58,Assertion failure: OBJ_SCOPE(obj)->object == pobj at ../jsobj.cpp or Assertion failure: OBJ_IS_CLONED_BLOCK(obj) at ../jsobj.cpp,JavaScript Engine,CORE
+normal,trivial,0.26181535463970596,32,OS/2 installer removes old WPS folder,Installer,SEAMONKEY
+critical,normal,0.36826392756303816,18,load monitoring on production-master,Server Operations,MOZILLA.ORG_GRAVEYARD
+minor,major,0.2816084493983291,94,A select form element behaves differently when the size attribute is changed to 1 before being changed to other sizes (as oppsed to vice-versa),Layout: Form Controls,CORE
+minor,normal,0.33986094776644066,12,designmode.css is not removed after designMode is turned off,Editor,CORE
+normal,trivial,0.33697569088109747,3,use of uninitialized variable in nsAccessibleRelationWrap.cpp,Disability Access APIs,CORE
+critical,normal,0.3327617255093534,25,[FIX]ASSERTION: Reparenting something that has no usable parent? Shouldn't happen!: 'Not Reached',Layout,CORE
+normal,major,0.257522283758748,48,Camino's default homepage points to an outdated old page.,General,CAMINO_GRAVEYARD
+major,normal,0.3633271319590912,32,Unable to find library 'libsoftokn3.sl' on HP-UX 64 bit,Libraries,NSS
+normal,major,0.30677396274355434,88,some fonts not being loaded properly,General,FIREFOX
+normal,trivial,0.22282100931328752,68,NativeArray: improve performance of sort([fn]) using java's Arrays.sort(..),Core,RHINO_GRAVEYARD
+normal,trivial,0.38418382537568213,38,preprocessor prints repr of file objects,General,FIREFOX_BUILD_SYSTEM
+normal,trivial,0.24694109355908062,28,chaletsdirect.com - Can't show submenu,Other,TECH_EVANGELISM_GRAVEYARD
+blocker,critical,0.38827469295508316,29,[mach] Mach-o builds crash on startup,General,SEAMONKEY
+normal,trivial,0.2904121894690431,25,Mozilla Web site needs to remove copyright artwork from all pages.,Miscellaneous,MOZILLA.ORG
+critical,normal,0.3143892101026723,13,Mac builds not packaging .chk files,General,FIREFOX_BUILD_SYSTEM
+minor,normal,0.3798864392507625,24,Sisyphus - sync misc changes,Sisyphus,TESTING_GRAVEYARD
+normal,trivial,0.27741021900991925,24,Bad accesskey (button Submit Report),Reporter,OTHER_APPLICATIONS_GRAVEYARD
+major,normal,0.3311514497699681,120,dlopen() bug in FreeBSD 3.x causes problems with components also impacts Purify on Solaris.,Internationalization,CORE
+major,critical,0.4607538410201962,110,Need a stack trace to aid debugging,General,RELEASE_ENGINEERING
+normal,critical,0.4118686870251451,7,crash on unpaired restore(),Canvas: 2D,CORE
+normal,major,0.3310690915105912,49,Redirection Limit exceeded-Error when trying to load a page,General,FIREFOX
+normal,trivial,0.2324775741261227,40,missing support for AIX target in configure.in,General,FIREFOX_BUILD_SYSTEM
+normal,trivial,0.2732130867442129,11,Unitialized rv variable in filter code,SVG,CORE
+normal,critical,0.4723318962095705,52,some ICE/STUN negotiations hang or crash on Android in mbslen(),WebRTC,CORE
+major,normal,0.2733228466646146,92,changing file from EXTRA_COMPONENTS to EXTRA_PP_COMPONENTS causes srcdir modification,General,FIREFOX_BUILD_SYSTEM
+trivial,major,0.2516506018992736,43,does not properly refresh borders,Web Painting,CORE
+minor,normal,0.3418202405500481,29,Allow editor to edit xhtml files (as html),Editor,CORE
+minor,normal,0.3826946432656834,67,Should call ::GdiFlush before trying to read from a DIB section's memory,GFX: Win32,CORE_GRAVEYARD
+critical,normal,0.36995079038727646,114,[Security-news] SA-CONTRIB-2009-100 - AddToAny - Cross Site Scripting,spreadfirefox.com,WEBSITES_GRAVEYARD
+major,normal,0.3205055571315697,8,Update .htaccess on support-stage,Server Operations,MOZILLA.ORG_GRAVEYARD
+minor,normal,0.3664336200966922,40,DOM Inspector blink selected element wrong on startup if show whitespace nodes is false,DOM Inspector,OTHER_APPLICATIONS
+trivial,normal,0.3368112518344351,37,Update spidermonkey-n.tests to eliminate obsolete tests,JavaScript Engine,CORE
+normal,major,0.313150595920287,41,Spatial Navigation extension broken on trunk by Units landing,User events and focus handling,CORE
+normal,major,0.2832966664986778,43,Casing errors in firefox/source/intl/uconv/src/charsetalias.properties prevent encoding aliases from working,Internationalization,CORE
+critical,normal,0.22463153868479588,228,Unresolved reference when trying to compile static Firebird cvs,General,FIREFOX_BUILD_SYSTEM
+critical,normal,0.308163372178379,18,Assertion failure: UPVAR_FRAME_SKIP(uva->vector[i]) == 1 with nested eval,JavaScript Engine,CORE
+normal,critical,0.4737681814586038,190,Always poison deallocated objects in the frame arena,Layout,CORE
+critical,normal,0.30616680117928086,26,Assertion failure: OBJ_GET_CLASS(cx obj) != &js_BlockClass at ../jsobj.cpp with defineGetter eval,JavaScript Engine,CORE
+major,normal,0.3233122746292342,39,News Messages being marked as read automatically,Networking,MAILNEWS_CORE
+normal,minor,0.27196080679266715,45,[10.4] Camino should set the kMDItemWhereFroms attribute on downloaded files,Downloading,CAMINO_GRAVEYARD
+normal,trivial,0.24799323835145548,48,CSS outline property not applied to some elements,Layout,CORE
+critical,normal,0.35790397246632033,25,Fix maxVersion on 1.8.0 branch,XForms,CORE_GRAVEYARD
+trivial,minor,0.23814039673752338,141,Top border threedhighlight one pixel too thick as well the as click-down menu (all errors warnings etc.) not centered.,Error Console,TOOLKIT_GRAVEYARD
+critical,trivial,0.24090975823433902,56,QueryInterface() allows arbitrary code execution,XPConnect,CORE
+normal,major,0.2567910041612964,63,-profile ./noexist returns silently to the shell prompt,Startup and Profile System,TOOLKIT
+normal,trivial,0.24533372726645675,61,{inc} element with properties { position: absolute right: 0 } nested in an relative pos. inline element is displayed oddly,Layout: Positioned,CORE
+normal,major,0.24290999705578303,45,Bad link for Croatian dictionary prevents dictionary installation,Administration,ADDONS.MOZILLA.ORG_GRAVEYARD
+minor,normal,0.34590452516263986,60,disable scary-but-harmless zlib trace warnings in debug builds,ImageLib,CORE
+normal,critical,0.35433070852749715,82,[moz2-darwin9-slave*] xpcshell-tests: test_crashreporter.js crashes intermittently,Crash Reporting,TOOLKIT
+minor,normal,0.3127352260971347,17,Events appear out of box in month view,Sunbird Only,CALENDAR
+trivial,normal,0.28430573162033856,31,Decide what to do when add-ons are pulled but remain on Recommended list,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+blocker,normal,0.32189001674743767,92,build error: build.dtd not found,General,FIREFOX_BUILD_SYSTEM
+major,normal,0.344136072431617,16,Cannot remove freetags from live articles,Knowledge Base Software,SUPPORT.MOZILLA.ORG
+normal,trivial,0.2862137103875255,27,onDeleteURI of nsINavHistoryObserver does not fire when deleting more than 10 entries at once,Bookmarks & History,FIREFOX
+minor,normal,0.323935861673879,44,No bug record listed as bad keyword cache.,Administration,BUGZILLA
+critical,normal,0.36905020329891064,32,Toronto office is offline,Server Operations,MOZILLA.ORG_GRAVEYARD
+trivial,normal,0.36964342294552816,70,ChromeWindow Object wrapped by XPConnect has members whose names shadow each other,DOM: Core & HTML,CORE
+normal,minor,0.23302486620842836,42,detailingdirect.com - bad html unclosed a tag,English US,TECH_EVANGELISM_GRAVEYARD
+major,normal,0.2546664279686848,31,Openfire needs a restart,Server Operations,MOZILLA.ORG_GRAVEYARD
+major,normal,0.3539592160217991,30,dashboard apps need to use url reverse to do links,Infrastructure,MOZILLA_LOCALIZATIONS
+major,normal,0.344962690146886,10,[@font-face] Timeout caused by src-format-arabic.html,Layout: Text and Fonts,CORE
+minor,major,0.26530985919463207,66,border-collapse: collapse. table borders should be reported as overflow,Layout: Tables,CORE
+critical,normal,0.3356996742036163,28,Unsafe DOM mutation events in scrollable frame,DOM: Events,CORE
+normal,minor,0.27242885028651037,78,Cannot add new folder to Bookmarks toolbar using right-click after new toolbar is added via View->Toolbars->Customize Add New Folder,Toolbars and Customization,FIREFOX
+trivial,normal,0.3381415364289634,12,JavaScript Tests - update test template copyright,JavaScript Engine,CORE
+normal,trivial,0.30799907801391313,29,Open is not marked as the default double click action in Download Manager context menu,Download & File Handling,SEAMONKEY
+major,critical,0.3344946660916295,61,Assert fail: cg->stackDepth >= 0 at jsemit.c:164,JavaScript Engine,CORE
+major,normal,0.3027130141820813,27,Buttons non-functional for FTP url login,General,CAMINO_GRAVEYARD
+normal,trivial,0.3056009080697504,25,fix broken links (using_firefox.xhtml and #using_the_Sidebar),Help Documentation,FIREFOX_GRAVEYARD
+trivial,normal,0.3575974723553723,62,Delete unreachable code in ssl_DestroySID and ssl_LookupSID lib/ssl/sslnonce.c,Libraries,NSS
+blocker,critical,0.42964395499034697,83,Network connection dies after browser has been idle,General,CAMINO_GRAVEYARD
+normal,minor,0.2485627475409107,17,need a hotkey to toggle read/unread status,Mail Window,PENELOPE_GRAVEYARD
+normal,major,0.26845528237151767,94,Breakpad code fails to build using GCC-4.3 snapshot,Crash Reporting,TOOLKIT
+minor,normal,0.368368235300042,21,[l10n] In 3.5 landing page for ru locale Mozilla Europe link is doubled,General,WWW.MOZILLA.ORG
+minor,trivial,0.24113366624639793,19,Dead link to CA listings at netscape.com,Help Documentation,SEAMONKEY
+blocker,normal,0.3410973598988957,20,breadcrumbs fetching wrong title,General,DEVELOPER.MOZILLA.ORG
+trivial,normal,0.33305704259444335,15,setAttribute(src) does not load iframe document,"Layout: Images, Video, and HTML Frames",CORE
+major,normal,0.31874462697991895,42,Make http://euro-surveys.php5stage.mozilla.com/results/ not redirect to surveys.mozilla-europe.org/results,Server Operations,MOZILLA.ORG_GRAVEYARD
+minor,major,0.3035328779267745,58,No criteria rows displayed on Search Messages dialog box if sized too small or splitter moved too high,Search,THUNDERBIRD
+normal,critical,0.36706632330699873,42,Remove code to suppress Maemo autocomplete widget,Widget: Gtk,CORE
+minor,normal,0.3672469927277331,37,Highlight shared searches in userprefs.cgi,User Interface,BUGZILLA
+major,normal,0.36727073652901704,14,sterpolis.nl - redirection to IE,Dutch,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.30626215528140716,76,MyWebSearch spyware toolbar breaks the browser with a large grey bar at the bottom of the screen,Application Update,TOOLKIT
+normal,critical,0.42483033440706264,21,Control crashes if you navigate to a new page while printing,Embedding: ActiveX Wrapper,CORE_GRAVEYARD
+minor,normal,0.35074330123827785,20,Clean up findBar.css,XUL Widgets,TOOLKIT
+normal,minor,0.23999778366000782,29,Give the firefox .dmg a nice icon,General,FIREFOX_BUILD_SYSTEM
+blocker,critical,0.3619254475202296,25,crash on shutdown releasing root in dead JS runtime,XUL,CORE
+normal,minor,0.28823496118636466,121,Remove registration barrier - allow experimental testing via alternate confirmation method.,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+major,normal,0.35791085475651035,22,nsTimerGTK changes causing performance degradation,XUL,CORE
+major,normal,0.3333338555840281,22,www.mozilla.org build process broken (at least partially),WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+normal,critical,0.4180578603905472,14,Crash on Exit when emptying trash,Backend,MAILNEWS_CORE
+normal,minor,0.24968753200020324,54,format=flowed DelSp=yes not supported (RFC 3676),MIME,MAILNEWS_CORE
+normal,critical,0.4725471910704524,89,iframe's should not be allowed to load any parent document as a child iframe,General,SEAMONKEY
+normal,major,0.29454414727673284,132,Recipient Autocomplete: Nickname does not get highest precedence for matching address book entries for searchphrase==nickname [To CC addressing field/area toplisted priority results],Message Compose Window,THUNDERBIRD
+normal,trivial,0.3110692872597782,14,Copy Plain Text extension not available/working for firefox 2,Extension Compatibility,FIREFOX
+blocker,normal,0.3321048685164191,29,leading ** in ignored file matches all leaks,Test,NSS
+minor,normal,0.2844994474185433,48,Userregexp matching for new product should be case-insensitive,Bugzilla-General,BUGZILLA
+blocker,critical,0.42549815533878305,42,A11y hierarchy is broken on Ubuntu 8.10 (GNOME 2.24),Disability Access APIs,CORE
+normal,major,0.3638760196713453,61,ewaterways.com - mousing over javascript dynamic menu fails,English US,TECH_EVANGELISM_GRAVEYARD
+trivial,normal,0.37681273048012914,4,deadcode in nsCSSFrameConstructor::ConstructMathMLFrame isReplaced will not be true,MathML,CORE
+critical,normal,0.34824164255609147,41,Install script should not do maintenance tasks,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+normal,critical,0.385567162752197,32,talos trunk qm-pmac03 has fallen and it can't get up,General,RELEASE_ENGINEERING
+normal,minor,0.2515710000603474,69,Greek version of Firefox has english question marks in many greek sentences,Other,MOZILLA_LOCALIZATIONS
+minor,normal,0.30425156138214926,33,ASSERTION: bad geometric parent: 'mFrames.ContainsFrame(aNextInFlow)' file nsContainerFrame.cpp line 870,Layout: Block and Inline,CORE
+normal,major,0.3146204492559661,74,https://secure.postplaza.nl/ contains Win32 IE only site navigation,Dutch,TECH_EVANGELISM_GRAVEYARD
+critical,normal,0.34787316197336116,35,irt.org - DHTML/JS content is outdated.,English US,TECH_EVANGELISM_GRAVEYARD
+minor,normal,0.28629834811896054,14,Update About Sunbird dialog include copyright and credits info,Sunbird Only,CALENDAR
+minor,major,0.3607785446162891,43,Can't use only icons-only or text-only in standalone message window toolbar (custom),Mail Window Front End,THUNDERBIRD
+major,normal,0.40687657523610526,76,spam found on labs forum,mozillalabs.com,WEBSITES
+blocker,normal,0.361101062482626,34,nsprpub does not build,NSPR,NSPR
+major,critical,0.4658838698027804,218,Weave does not sync bookmarks (FastDial -> NS_ERROR_MALFORMED_URI),Sync,FIREFOX
+normal,trivial,0.3219411543782055,29,ES5 strict mode: delete operand may not be a variable argument or function name,JavaScript Engine,CORE
+normal,major,0.23682495086958644,73,linking NSPR shared libs should use LDFLAGS,NSPR,NSPR
+major,critical,0.39079720577441196,47,JS getter/setter callouts not foolproof or fully threadsafe,JavaScript Engine,CORE
+normal,major,0.30927268948274217,123,nsISSLSocketControl interface not scriptable,Networking,CORE
+normal,minor,0.24434706520742522,43,relatively positioned does not take 100% width until clicked,Web Painting,CORE
+normal,trivial,0.2888325550675554,21,password not hidden in Publishing prefs,Sunbird Only,CALENDAR
+normal,major,0.39068665204807523,322,NSS relies on unchecked PKCS#11 object attribute values,Libraries,NSS
+normal,trivial,0.2621196160558698,34,Version reporting seems screwy. http://www.mozilla.org/start/ says I need to upgrade,General,SEAMONKEY
+major,normal,0.33476339010496914,36,Search.pm fails if multiple LEFT JOINs are on the same table in the same chart,Query/Bug List,BUGZILLA
+major,normal,0.35962553427356153,17,Reboot several talos machines,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,blocker,0.36026180793435303,34,Throttle FF3.0.11->FF3.5rc3 major update before FF3.5 release day,General,AUS_GRAVEYARD
+normal,major,0.29314223714928817,70,AccessibleObjectFromPoint gives wrong object in some cases when text object is incorrectly not exposed,Disability Access,FIREFOX
+normal,minor,0.2556903073830829,49,keyboard shortcut mapping menu label conflict,Compose Window,PENELOPE_GRAVEYARD
+normal,critical,0.45032252526501154,102,SVG path: marker-start/-end (auto orient): wrong direction,SVG,CORE
+minor,normal,0.328065764602573,24,Page Info theme should be more reusable by extensions.,Page Info Window,FIREFOX
+minor,normal,0.28540478933475544,8,Status and resolution values in CSV output aren't delimited,Reporting/Charting,BUGZILLA
+normal,major,0.2962684479446841,78,onReset is not fired after calling reset() method through Javascript.,Layout: Form Controls,CORE
+trivial,normal,0.34694158729668195,3,Port Bug 180156 to SeaMonkey,Bookmarks & History,SEAMONKEY
+normal,major,0.23896358228165124,80,[SECURITY] Boolean charts let me query for users being in any given group,Query/Bug List,BUGZILLA
+trivial,minor,0.23567695873418448,86,In Advanced/General/Choose en-US (set via intl.accept_languages) is not match to en-us,Preferences,SEAMONKEY
+critical,normal,0.30895466141593897,25,Form scroll bars don't display anymore,XUL,CORE
+normal,major,0.30069071799626446,180,Compact | Folders (IMAP purge) updates inode change time (ctime) on *all* server's mail files even if not changed,Networking: IMAP,MAILNEWS_CORE
+normal,critical,0.45167118159635194,111,API for address of first stack variable to prevent Mozilla crashes,JavaScript Engine,CORE
+major,normal,0.31280007487690636,24,need major update billboard HTML files for Firefox 2 -> Firefox 3 update offer,General,WWW.MOZILLA.ORG
+minor,normal,0.33095442857644275,30,Ctrl+Shift+I shortcut for DOM Inspector not shown in menu,Menus,FIREFOX
+normal,major,0.328799979535099,76,Display keyboard shortcuts for back and forward in Go menu,Menus,FIREFOX
+normal,trivial,0.2582304390060914,14,Beautify mail_help,Help Documentation,SEAMONKEY
+critical,normal,0.2599099460693072,69,platform detection not working on macintosh,Creating/Changing Bugs,BUGZILLA
+minor,major,0.30457784669528315,72,Inline svg does not resize when window is shrunk and expanded,SVG,CORE
+normal,major,0.29351598771838106,97,Clipped objects are sometimes not fully redrawn after clipping,Layout: Positioned,CORE
+minor,critical,0.2656264458350564,30,Memory leak/crash in trunk @ cisco.com,General,FIREFOX
+minor,critical,0.33995600678975846,70,remove unneeded assert from sec_PKCS7EncryptLength,Libraries,NSS
+normal,blocker,0.27538528254420064,18,New version of JEP (0.9.5+c) please land on trunk and branch,Plug-ins,CORE
+normal,trivial,0.28089345107082847,44,l10n: Not able to localize Open in New Tabs in ctrl-click a folder in the bookmark bar.,Toolbars & Menus,CAMINO_GRAVEYARD
+normal,major,0.35669252952191954,108,nsJAR cache too frequently flushed by nsZipReaderCache::Observe(),Image: Painting,CORE_GRAVEYARD
+trivial,normal,0.3677086279428362,12,Typo in Welcome to Shredder prose,Thunderbird,WWW.MOZILLA.ORG_GRAVEYARD
+major,critical,0.3793921081667779,81,using -d option on viewer causes premature exit,Viewer App,CORE_GRAVEYARD
+normal,minor,0.3073683539805642,72,My extension not listed as mine  request to change it's ownership,Administration,ADDONS.MOZILLA.ORG_GRAVEYARD
+minor,normal,0.3143414238580846,26,create two new VMs for sse disabled unittests,Server Operations,MOZILLA.ORG_GRAVEYARD
+minor,normal,0.3407650939842227,21,[Windows] Remove ppm repo up instructions for ActiveState builds 819 and higher,Installation & Upgrading,BUGZILLA
+normal,trivial,0.26396503819483635,37,Website pretending to be Mozilla,Trademark Violations,MARKETING
+normal,trivial,0.38160249934847934,33,[Vista] New toolbar button icon improvements,Toolbars and Tabs,THUNDERBIRD
+major,normal,0.35289244592701535,25,Need to find MDC's images for Deki migration,Server Operations,MOZILLA.ORG_GRAVEYARD
+blocker,normal,0.33223001305141314,12,Thunderbird 2.0.0.6 push to production,WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+normal,major,0.2761570125494567,115,Calendar HTML Export functionality missing,General,CALENDAR
+normal,major,0.3039815193346667,45,text of ftp file doesn't appear,Networking: FTP,CORE
+normal,minor,0.26364823183539904,52,Allow Bug ID fields to have one-way mutual relationships (like blocks/dependson),Creating/Changing Bugs,BUGZILLA
+major,trivial,0.22880202082895668,35,OS/2 linking problem after mDeferredPositioner removal,Widget: OS/2,CORE_GRAVEYARD
+normal,minor,0.34718837281356696,77,Fieldsets never shrink below their min-intrinsic width even if min-width is explicitly set to 0,Layout: Form Controls,CORE
+major,normal,0.3687016729387521,73,Update Hunspell to version 1.1.12,Spelling checker,CORE
+normal,minor,0.24048321493118166,33,Add X-Content-Type-Options: nosniff support to Firefox,DOM: Security,CORE
+blocker,normal,0.3382033675755409,65,Strings requires unfrozen nsCRT class,String,CORE
+major,normal,0.30725344050152775,31,documentation+pdf landfill tinderbox is a false green,bugzilla.org,BUGZILLA
+normal,trivial,0.2848549414718499,42,Text Inside Child  Elements Does Not Render,SVG,CORE
+minor,trivial,0.3591686758175399,37,In full screen buttons at top are not on edge of screen,Toolbars and Customization,FIREFOX
+normal,major,0.4073953410665579,125,ActiveX error cannot create control {00000000-0000-0000-0000-000000000000},Embedding: ActiveX Wrapper,CORE_GRAVEYARD
+normal,major,0.37537613172316997,78,Preference appearance startup does not allow Mail and News Groups as preference,Preferences,SEAMONKEY
+minor,normal,0.3739857355190933,18,nsCommandGroup.cpp should use nsAutoVoidArray,Embedding: APIs,CORE_GRAVEYARD
+critical,normal,0.35569931962584717,22,[FIX]crash at [@ nsCSSFrameConstructor::ConstructFrame] with Web Developer Toolbar and custom XPI,Layout,CORE
+normal,major,0.2230422970279021,87,Bad: not able to setup any RSS feeds,Feed Reader,MAILNEWS_CORE
+trivial,normal,0.21705075629178505,459,Small cleanup for nsInstallVersion.cpp,Installer: XPInstall Engine,CORE_GRAVEYARD
+critical,normal,0.24914484102169168,58,alfred chrome out of date--won't run on moz0.8.1,Skinability,CORE_GRAVEYARD
+major,normal,0.3433982691311104,50,rendering problems on gamespot.com flashing while moving mouse over image,Web Painting,CORE
+normal,trivial,0.22290754948316313,78,Edit Event dialog shows incorrect End Date and Time values,General,CALENDAR
+normal,critical,0.481369132161157,172,Crashes with BadIdChoice X errors,Graphics,CORE
+blocker,critical,0.6295768220724589,158,Firefox 3 crashes with Java applets,Plug-ins,CORE
+trivial,normal,0.23639269464046667,29,messages/days was not grayout (Retention Policytab in Folder Properties),Preferences,THUNDERBIRD
+normal,major,0.2987329910898618,108,Toolbar overflow causes parts of webpage to bounce and the UI to extend beyond the edge of the screen,Toolbars and Customization,FIREFOX
+normal,critical,0.44437459960372655,126,ANR: Deadlock during backgrounding when shutting down disk cache,General,FIREFOX_FOR_ANDROID
+normal,trivial,0.2717920796470655,17,voelkerschlachtdenkmal-leipzig.org - pictures overlay text,German,TECH_EVANGELISM_GRAVEYARD
+critical,major,0.3139546816228533,65,cookies for background color and font size are not being set properly,Networking: Cookies,CORE
+critical,normal,0.3743000131238057,48,Parsing in LDAPUrl(String url) ignores attributes,LDAP Java SDK,DIRECTORY
+normal,major,0.2579312461740559,57,Accelerators needed for Account Wizard's 1st dialog (New Account Setup dialog),MailNews: Account Configuration,SEAMONKEY
+normal,trivial,0.2877584430157008,29,recrutement.bnpparibas.com - Unrecognized user-agent,French,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.2277976640842824,53,Multiple schema types for a node not being processed correctly,XForms,CORE_GRAVEYARD
+major,normal,0.2922596635617524,55,threads hanging in nss_InitLock,Libraries,NSS
+normal,major,0.27850097112683897,99,Memory leak on google personalized home page,DOM: Core & HTML,CORE
+minor,normal,0.36515242839721884,5,powerdns WRR & Geo deploy,Server Operations,MOZILLA.ORG_GRAVEYARD
+blocker,normal,0.2697796856688881,12,push web content changes for 2.0.0.7 live release,WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+normal,trivial,0.27943621537980123,34,Accesskeys conflicts/missing in Mail context menu,MailNews: Message Display,SEAMONKEY
+trivial,major,0.25997575672319867,109,Text zoom with scroll mouse doesn't obey minimum/maximum zoom properly (momentary exceed allowed),User events and focus handling,CORE
+normal,major,0.27062005194567634,25,[10.4] Can't drag page proxy to mail.app compose window,Drag & Drop,CAMINO_GRAVEYARD
+normal,major,0.29390649716750367,74,Redo Undo both use keyboard shortcut COMMAND+Z in Mail message composition,MailNews: Composition,SEAMONKEY
+minor,normal,0.3348650378927905,29,Error ``document.getElementById(cmd_SwitchTextDirection) has no properties'' [xs] in file ``chrome://communicator/content/utilityOverlay.js'' line 387 character 0.,Layout: Text and Fonts,CORE
+major,normal,0.35966392985279044,30,[@font-face] printing pages with downloadable fonts doesn't render all fonts on the page,Graphics,CORE
+normal,critical,0.38795881626869433,9,reporter crashes with this dump.,General,SOCORRO
+minor,normal,0.34756540895401467,23,warning C4244: 'return' : conversion from 'const PRUint64' to 'PLDHashNumber' in nsHashKeys.h,DOM: Core & HTML,CORE
+normal,trivial,0.29129461967014314,57,Make summary the link title for bookmarkable templates,Creating/Changing Bugs,BUGZILLA
+normal,trivial,0.29654685547738224,33,Calendar colors not honored,Sunbird Only,CALENDAR
+critical,normal,0.29084440532460587,68,Production Socorro execute SQL to add Firefox Versions,WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+minor,major,0.25071443153409767,90,Import folders from Outlook containing hash sign (#) or slash (/) results in error [cannot create proxy objec],Backend,MAILNEWS_CORE
+normal,major,0.27464191776309604,122,[FAYT] typing a composed/accented character starts FAYT in Midas and selects character (when autostart is enabled),General,CAMINO_GRAVEYARD
+trivial,normal,0.3783383647612872,52,JavaScript Tests - update slow-n-*.tests,JavaScript Engine,CORE
+minor,normal,0.30798838807519224,50,Using ctrl+right arrow in textarea first word after hard line break is skipped,User events and focus handling,CORE
+normal,critical,0.4770378714815105,346,nsDependentSingleFragmentCSubstring assertions,DOM: Core & HTML,CORE
+normal,major,0.27081240548489716,97,Some links don't resolve properly. When Love finds you and When I call your name both sometimes go to when love finds you,Layout,CORE
+major,normal,0.34069796246201756,21,Bug 200433 regressed by patch in bug 253597,Image Blocking,CORE
+major,critical,0.38974485579098833,154,hang in PK11_ListCerts in Web Server 6,Libraries,NSS
+normal,major,0.2369005573161458,40,SVG feTile fails if filter size is twice the size of the source,SVG,CORE
+major,normal,0.2589937556638271,69,Set up databases and scripts for data warehouse on support-stage,Server Operations,MOZILLA.ORG_GRAVEYARD
+major,normal,0.31007999584337465,28,Quicksearch.pm defines $cgi outside routines,Bugzilla-General,BUGZILLA
+normal,major,0.31177638525627316,163,XSLTProcessor.transformToFragment seems to use only output method text,XSLT,CORE
+minor,major,0.2750789501933377,57,fifteen- (15-) minute events make later events align too early in day/week(multiday) view,Calendar Views,CALENDAR
+minor,normal,0.287462029311148,65,Menu bars in background windows should be grayed out (disabled appearance),Themes,TOOLKIT
+normal,trivial,0.26643736582759586,31,Not Displaying proper Font,General,FIREFOX
+trivial,normal,0.36651401521475313,37,-O3 build will open the window but segv [WAS: gcc3 -O3 Garbage characters in time on status bar.],ImageLib,CORE
+normal,blocker,0.4366016617404522,11,Tracking bug for Build and Release of FF3.0 RC2,General,RELEASE_ENGINEERING
+normal,major,0.2880268043787395,37,tippecanoe.in.us - URL contains \ (backslash) at CourtView Online,English US,TECH_EVANGELISM_GRAVEYARD
+normal,trivial,0.27353930871411053,53,Patch viewer mishandling patched filenames with spaces,Attachments & Requests,BUGZILLA
+major,trivial,0.3084753184528757,31,color picker is broken (popup doesn't close after selecting a color),XUL Widgets,TOOLKIT
+normal,major,0.2577287490335674,116,Upgrade MailNews smileys (emoticons),Themes,SEAMONKEY
+major,normal,0.32964904509396076,40,switching tabs doesn't update toolbarbutton states,Mail Window Front End,THUNDERBIRD
+major,normal,0.3458752353731199,42,[preview] Collections should not be shown for incompatible applications,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+normal,critical,0.5191482668500921,41,Fix gqi dep build (crash on startup),XPCOM,CORE
+major,normal,0.32077726941299206,43,netscape search plugin (mozilla's default) is no longer functioning. search is broken,Search,SEAMONKEY
+normal,minor,0.2763998812572442,77,hotizontal scrolling required with default browser size (not required in IE5.5 Netscape 4.79),Layout,CORE
+major,trivial,0.21731754373709994,49,((OSX Classic) scrollbar appears in the middle of TEXTAREAs,Themes,SEAMONKEY
+normal,trivial,0.25790409961702704,23,L10n Mercurial (hg) account request - Emilio Sepúlveda - es-CL,Repository Account Requests,MOZILLA.ORG
+major,normal,0.3094981812564351,8,Hang on DHTML [reflow/painting],GFX,CORE_GRAVEYARD
+trivial,major,0.2475987428915103,66,when clicking on the magnifying glass for notes in a test run the context of the screen resets to the top,Test Runs,TESTOPIA
+normal,major,0.30865861340709344,64,ocps.net - Menu Line Missing on Webpage Javascript I think.,English US,TECH_EVANGELISM_GRAVEYARD
+major,normal,0.3993732326100741,65,Support table interfaces for grid/treegrid when no HTML table undeneath,Disability Access APIs,CORE
+normal,major,0.3688848575168355,98,[Enhancement] If Choose a Test Plan page listed available Test Plans it would be helpful for a user to select an appropriate Test Plan for a new Test Run.,Test Runs,TESTOPIA
+major,normal,0.3149122401865945,14,Solve the imacros.c.out out of date problem,JavaScript Engine,CORE
+trivial,normal,0.24672874367082656,31,API documentation for Product.update incorrectly mentions the Product must have version error message,WebService,BUGZILLA
+critical,normal,0.30344399978919157,49,Cannot install NS into directory with some double-byte characters name,Internationalization,CORE
+normal,major,0.21850781973226496,330,Improve Autophone s1s2 test reproducibility,Autophone,TESTING
+major,normal,0.29356358246206393,25,Chatzilla leaks its chrome (again),XPCOM,CORE
+normal,major,0.2652439821983693,46,[BiDi] Right-to-left Hebrew does not work on Mac,Layout: Text and Fonts,CORE
+normal,trivial,0.261575193178746,27,Icons with Text feature misaligned,Toolbars and Customization,FIREFOX
+normal,major,0.24695102454326467,47,Hitting enter to edit recurring meetings doesn't work,General,CALENDAR
+normal,critical,0.3705339110296061,338,[turbo] On exit after unloading accts we are again loading accts because we are rebuilding tree,XUL,CORE
+minor,normal,0.3699149943840204,3,Talos reboots (20090610),RelOps: General,INFRASTRUCTURE_&_OPERATIONS
+normal,minor,0.24059097447227795,65,No repaint after scrolling 32768 pixels,Web Painting,CORE
+trivial,critical,0.2343268056576215,37,copyright notice for SupportSoft but no Talkback in the SeaMonkey 1.0 builds,Help Documentation,SEAMONKEY
+blocker,normal,0.3643865142817236,37,/mnt/netapp/lun0 on cvs.m.o went away,Server Operations,MOZILLA.ORG_GRAVEYARD
+critical,normal,0.34457335975265807,20,blocklisting broken sometime after implementation,Add-ons Manager,TOOLKIT
+normal,trivial,0.33436546690609203,12,Remove AppendComment entirely in favor of Bugzilla::Bug->add_comment,Creating/Changing Bugs,BUGZILLA
+major,normal,0.30919530285719166,31,Address-Field in MailNews Compose Window not working properly,Composition,MAILNEWS_CORE
+blocker,normal,0.29007993826833106,36,Thunderbird Installer Builds DOA,Mail Window Front End,THUNDERBIRD
+major,normal,0.30268365504605665,30,multiple subject headers causes different subject in thread pane than preview pane should use first subject,Backend,MAILNEWS_CORE
+critical,normal,0.37681589262963344,18,Package updater executable and updater.ini files with installer builds,Application Update,TOOLKIT
+minor,normal,0.2925752853366933,57,Find Event toolbar button doesn't restore collapsed unifinder,Calendar Views,CALENDAR
+trivial,minor,0.23921124135324032,77,Clicking on red/yellow warning text in certificate panel causes text to change to black,Security,CAMINO_GRAVEYARD
+normal,major,0.2943010613766338,136,e-zim.com - top paragraph in absolutely positioned div is vertically offset (pushed down),English US,TECH_EVANGELISM_GRAVEYARD
+normal,critical,0.31757777983989727,35,[FIXr]PresShell::PopCurrentEventInfo fails if a null pointer is stored/pushed to nsCOMArray,XPCOM,CORE
+critical,major,0.23273717845186032,33,Cut copy and paste of bookmark failed,Bookmarks & History,SEAMONKEY
+normal,trivial,0.33308486573744917,22,delete button don't use systems delete icon,Message Reader UI,THUNDERBIRD
+normal,trivial,0.2583955868283326,26,No provision for disabling welcome and override pages,Preferences,FIREFOX
+normal,minor,0.34640040041248005,74,Ampersand in bookmark keyworded search string doesn't get URL encoded properly,Location Bar & Autocomplete,CAMINO_GRAVEYARD
+major,normal,0.3636616271266117,6,qm-pleopard-trunk03 needs a reboot.,Server Operations,MOZILLA.ORG_GRAVEYARD
+minor,normal,0.2940882247500793,32,[wiki] Remove spam and maybe add to blacklist,other.mozilla.org,WEBSITES
+normal,major,0.2682683761812102,80,xml.cgi and other future xml pages generate invalid XML,Query/Bug List,BUGZILLA
+normal,minor,0.2694354934255233,26,User List should have don't show disabled users option,Administration,BUGZILLA
+minor,normal,0.2587324359922984,28,Talkback option should be removed from build until we can build TB again.,Installer,SEAMONKEY
+normal,major,0.24868942782670803,113, is choppy on WindowsXP (32bit) / affected by screen drawing.,Audio/Video,CORE
+minor,major,0.3059924501326334,81,Preference browser.cache.disk_cache_ssl  does nothing,Networking: HTTP,CORE
+normal,trivial,0.3077035179417351,13,View Dependencies extension not available/working for firefox 2,Extension Compatibility,FIREFOX
+normal,trivial,0.3545363607673714,33,Incompatible Dutch dictionary for the Seamonkey version 2.0,nl / Dutch,MOZILLA_LOCALIZATIONS
+major,normal,0.3554629919672989,16,Cannot reconvert with VJE-Delta ver4.0 (IME of ja),Internationalization,CORE
+normal,major,0.29996418966263877,69,hitbox.com - Javascript based flyout menus not displaying,English US,TECH_EVANGELISM_GRAVEYARD
+normal,minor,0.2255269955558173,68,write overflow in nss_ckmdSessionObject_SetAttribute,Libraries,NSS
+normal,trivial,0.27320198384872807,33,Allow multiple user selection in CC pull downs,Creating/Changing Bugs,BUGZILLA
+normal,trivial,0.2674909292555477,32,128.61.127.9 changing ip adddress,FTP: Mirrors,MOZILLA.ORG
+normal,critical,0.6762483825586775,125,Bulletproof common crash in [@ nsXULDocument::ResumeWalk],XUL,CORE
+normal,major,0.23450673154036306,120,EDIPartyName should be CONSTRUCTED (probably X400AddressName also),Libraries,NSS
+normal,major,0.25213183099840186,58,[FIX] {drag-select} Scrolling by selecting & dragging jumps to top of page when marquee tag is encountered,Selection,CORE
+major,normal,0.2884242779677143,126,signing of softokn3.dll may fail on OS/2,Build,NSS
+critical,normal,0.3021488660646686,8,null check missing (seamonkey version of bug 235129),Bookmarks & History,SEAMONKEY
+critical,major,0.2587908063566199,67,Update service behaves badly with unset prefs,XULRunner,TOOLKIT_GRAVEYARD
+critical,normal,0.3706522169059637,5,qm-plinux-fast01 dead,RelOps: General,INFRASTRUCTURE_&_OPERATIONS
+normal,trivial,0.2617976379308149,41,Can drag bookmarks into address book collection of Show All Bookmarks,Bookmarks,CAMINO_GRAVEYARD
+normal,major,0.38157813514783867,153,bcc field in mailto-URL query string is not unescaped correctly,Message Compose Window,THUNDERBIRD
+normal,major,0.2058027527159158,56,background doesn't repaint on back with iframe in certain situations with bfcache,Document Navigation,CORE
+normal,major,0.24846507436748005,53,password is shown in plain text in error messages,Sunbird Only,CALENDAR
+normal,trivial,0.2816890737521154,81,Remove autofill build-id for non-browser products on guided enter bug page,General,BUGZILLA.MOZILLA.ORG
+minor,normal,0.36639825118922253,17,Convert method comments in nsISecretDecoderRing to doxygen,Networking,CORE
+critical,normal,0.3316018622511181,17,Did JS_SealObject mean to call JS_UNLOCK_OBJ instead of JS_UNLOCK_SCOPE ?,JavaScript Engine,CORE
+normal,minor,0.2521711318568334,34,Caret should be focused in Find area in History,Bookmarks & History,FIREFOX
+minor,normal,0.3367865704147266,10,Send button should be disabled until we have a recipient,Message Compose Window,THUNDERBIRD
+normal,critical,0.32544061301940114,37,bcJavaComponentLoader not thread-safe,Java to XPCOM Bridge,CORE_GRAVEYARD
+trivial,normal,0.33651642682110244,11,Sisyphus - JavaScript Tests - bisect.sh does not use numeric comparisons on local revs,Sisyphus,TESTING_GRAVEYARD
+major,normal,0.30860984224729654,15,mpt-vpn is slow and sometimes completely useless since this morning,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,critical,0.4087672953442914,16,Proper l10n for crash reporter client,Crash Reporting,TOOLKIT
+normal,major,0.27502224212642584,40,Mail Client - New Message - Alt-E shortcut does not work,de / German,MOZILLA_LOCALIZATIONS
+normal,critical,0.3853077722311732,56,Unsuitable behaviour when $HOME is not set,XPCOM,CORE
+blocker,normal,0.3578013598279493,21,MDC and wikimo returning outage page,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,critical,0.3892177881241336,291,nsScriptError not thread-safe,XPConnect,CORE
+trivial,normal,0.32268885360070426,12,Spelling mistake in description of platform keyword,Administration,BUGZILLA.MOZILLA.ORG
+blocker,minor,0.25250374308163537,88,GTK linking problem,Build Config,SEAMONKEY
+minor,normal,0.3440048865932237,39,Offer to re-add an autodiscovered engine if user removes it,Search,FIREFOX
+trivial,normal,0.3717495125006487,10,learn to spell,RDF,CORE_GRAVEYARD
+minor,normal,0.3394638746382189,49,Menus do not update their layout when their direction is changed,XUL,CORE
+major,normal,0.3147209561765532,105,Line selection blocked by style changes,Selection,CORE
+major,normal,0.2868514804648544,100,Need to remove menu from its menubar when the menu goes away,XUL,CORE
+blocker,normal,0.2814340939050782,25,Cannot search for milestones nor change them in bugs,General,BUGZILLA.MOZILLA.ORG
+minor,normal,0.29519704482389686,14,Make new calendar wizard localizable,Sunbird Only,CALENDAR
+major,normal,0.33149628633256406,27,[cocoa] frequently page doesn't show / repaint I have to switch between tabs,Widget: Cocoa,CORE
+blocker,normal,0.30723935647242917,72,Establish review policy for Remora,Policy,ADDONS.MOZILLA.ORG_GRAVEYARD
+normal,trivial,0.33050619514960844,17,add William Quiviger's blog to Planet Mozilla,planet.mozilla.org,WEBSITES
+normal,major,0.2540396711136879,613,franklin.edu - Javascript drop-down menus will not form,English US,TECH_EVANGELISM_GRAVEYARD
+normal,minor,0.2778259418665679,75,Poor SVG Performance,SVG,CORE
+normal,major,0.2564572838733902,49,extension should not install when chrome registration fails,Add-ons Manager,TOOLKIT
+critical,normal,0.2770001212264446,21,nsIBookmarksService.idl incorrectly modified on MOZILLA_1_8_BRANCH,Bookmarks & History,FIREFOX
+major,trivial,0.24557992412365745,26,Overflown content is rendered with black background,Web Painting,CORE
+normal,trivial,0.3000132579651198,30,addressingwidget appears as sunken not as button,Composition,MAILNEWS_CORE
+normal,trivial,0.2885509040543584,36,Accented text copied in Chimera doesn't paste correctly in another application,General,CAMINO_GRAVEYARD
+major,critical,0.469619342172535,23,Need [NSApp run] on the stack,Widget: Cocoa,CORE
+normal,minor,0.23145835860133399,16,DOMFocusIn/DOMFocusOut not working properly,XForms,CORE_GRAVEYARD
+critical,normal,0.2518154911858464,29,need new embedded player for air.mozilla.com,WebOps: Other,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+normal,trivial,0.29766132976011084,54,RFE: line-through deleted IMAP messages (PATCH),MailNews: Message Display,SEAMONKEY
+normal,trivial,0.2707512001139224,29,input[type=boolean].xf-value has no effect missing class=xf-value in XBL,XForms,CORE_GRAVEYARD
+critical,major,0.296603873067895,86,lockup on select from right to left on a remote 8bit truecolor X server,XUL,CORE
+major,normal,0.4087433298888701,12,FindPrimaryFrameFor might not with floating first-letter,Layout,CORE
+normal,trivial,0.2638806167476846,29,Update of profile info for Author of Nitpick mod theme,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+major,normal,0.3175853615660655,23,cvs-mirror.m.o busted,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,major,0.32971182307075475,46,vmi.lt - Side menu of the www.vmi.lt page doesn't expand [document.all],Other,TECH_EVANGELISM_GRAVEYARD
+normal,trivial,0.26360229386737294,43,ctrl+Q could close windows belonging to the same Web App instead of all Prism windows,Prism,MOZILLA_LABS
+normal,major,0.256851428446887,41,All day events should be printed at the top,Printing,CALENDAR
+normal,major,0.3210127087599771,28,Playing embedded (wav) music doesn't work,General,MINIMO_GRAVEYARD
+normal,critical,0.3448542868543635,13,Use Gecko-based thumbnailing for Tabsposé,Tabbed Browsing,CAMINO_GRAVEYARD
+normal,critical,0.31985291674348365,15,can't search for crash reports whose url contains a substring,Webapp,SOCORRO
+major,normal,0.32499864954695795,22,calls to bz_alter_column on FK referenced columns will lose their referenced status in bz_schema unless the REFERENCES hash is included,Database,BUGZILLA
+normal,major,0.2837443496208106,84,Make flags show up in View All attachments list,Attachments & Requests,BUGZILLA
+normal,major,0.24931474141360652,226,SSL_REQUIRE_CERTIFICATE semantic troubles,Libraries,NSS
+trivial,normal,0.3693620030194485,18,Request approval for three small spelling corrections - Basque language (eu),Other,MOZILLA_LOCALIZATIONS
+trivial,normal,0.36811173802836444,24,non-subscribable folders in subscribe ui should be grayed out and have the subscribe checkbox hidden),MailNews: Message Display,SEAMONKEY
+trivial,normal,0.3138992949248113,49,Fix the inability to edit keywords on folders in the outline view,Bookmarks,CAMINO_GRAVEYARD
+normal,major,0.2769403161985925,195,Fix the reflow functions in nsPresShell,Layout,CORE
+minor,normal,0.35130830675746155,36,if alt+tab fails to switch windows menu gains focus,User events and focus handling,CORE
+critical,normal,0.31006489406898263,25,create mozilla.accessibility newsgroup,Server Operations,MOZILLA.ORG_GRAVEYARD
+major,normal,0.2746718602268643,32,downloading via ftp doesn't proceed,Networking: FTP,CORE
+major,normal,0.2940343296833511,15,AMO tests cross the streams,Admin/Editor Tools,ADDONS.MOZILLA.ORG_GRAVEYARD
+normal,major,0.2760158661527765,77,spell checking disabled when indenting text in HTML composition,Spelling checker,CORE
+normal,minor,0.289329782078685,83,Change several bugs at once causes extraneous messages in apache log file,Creating/Changing Bugs,BUGZILLA
+critical,major,0.2572738893843767,41,accepting certificate from unknown authority causes firebird to hang,Security,CORE
+normal,trivial,0.2764271754679872,24,theinquirer.net - This page can't be viewed because is identified as Binary Executable,English Other,TECH_EVANGELISM_GRAVEYARD
+critical,normal,0.338268422277103,21,Labs blog individual post pages are blank,mozillalabs.com,WEBSITES
+critical,normal,0.274060408552618,88,[Linux] alarms too late / internal time wrong after resuming from sleep / suspend / hibernation mode,Alarms,CALENDAR
+trivial,normal,0.3377769026249971,16,comment wrong,Layout,CORE
+major,normal,0.33741995832337623,40,[FIXr]ctrl+middleclick in body to open selection in new window sends referer,UI Design,SEAMONKEY
+normal,major,0.2581453757294729,77,Regexp matching error in JS Engine,JavaScript Engine,CORE
+minor,normal,0.37786116733633807,102,Bayes trait analysis sees keyword header which biases the evaluation,Filters,MAILNEWS_CORE
+normal,major,0.2926136369261511,76,Thread appears to disappear,MailNews: Message Display,SEAMONKEY
+normal,major,0.31713367376675183,94,Text boxes ignore keyboard on opening URL from an external app,Widget: Mac,CORE_GRAVEYARD
+normal,minor,0.24930352024681132,48,use alarms? -- preference on a per-calendar basis,Preferences,CALENDAR
+normal,major,0.2247630852703434,64,MSVCR71.dll and MSVCP71.dll are not installed on Windows 2000 by default preventing Eudora 8.0b1 to run,Installer,PENELOPE_GRAVEYARD
+critical,normal,0.32608890422055176,20,comm-central should pull Venkman from hg rather than CVS,Build Config,MAILNEWS_CORE
+trivial,major,0.25660226953586807,42,Use literal Array initializers instead of Kit.semicolonSplit(),Core,RHINO_GRAVEYARD
+major,normal,0.2817575881979872,39,Requested requesteeless flags get updated spuriously,Creating/Changing Bugs,BUGZILLA
+blocker,normal,0.360235210452881,37,can't push to try server,RelOps: General,INFRASTRUCTURE_&_OPERATIONS
+major,trivial,0.2344492298269919,39,Selecting text with a light color on a light background results in a white background-color for ::selection,Selection,CORE
+normal,trivial,0.28779182797284597,14,Wrong IMPORT_LIB_SUFFIX on MinGW.,General,FIREFOX_BUILD_SYSTEM
+minor,normal,0.37436125188671093,8,clean up #includes in Cocoa nsToolkit,Widget: Cocoa,CORE
+major,minor,0.28810529299138454,71,events do not have calendar colors. only blue.,Internal Components,CALENDAR
+normal,major,0.31261757208446556,28,vhdl-online.de - Form does not work,German,TECH_EVANGELISM_GRAVEYARD
+normal,trivial,0.3378325625450962,19,nederlandgaatdigitaal.nl - Page does not render,Dutch,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.2269017248050069,132,PR_Interrupt() interrupts PR_TransmitFile() while PR_BlockInterrupt() in effect,NSPR,NSPR
+blocker,normal,0.3366125377231966,76,Add support for custom cookies and cache headers,General,SUPPORT.MOZILLA.ORG
+normal,major,0.30198033112632894,271,Implement inter-process communication (IPC) in Mozilla (protozilla),Networking,CORE
+major,normal,0.3093984008528422,44,Clone crazyhorse and patrocles (or adjust VI permissions),Server Operations,MOZILLA.ORG_GRAVEYARD
+trivial,normal,0.3007162143124603,34,warning C4047: 'return' : 'foo *' differs in levels of in direction from 'int',JavaScript Engine,CORE
+normal,major,0.2915058695750522,62,mail server appended to usernames with @ (Password dialog for IMAP says @@ instead of @ on(at/...) ),Networking: IMAP,MAILNEWS_CORE
+major,normal,0.33106800982725637,38,Memory error in ber_get_stringal/ber_bvfree,LDAP C SDK,DIRECTORY
+minor,trivial,0.3062098341805217,21,Replace deprecated preventBubble() on MOZILLA_1_8_BRANCH,XUL Widgets,TOOLKIT
+minor,normal,0.3790877927894815,61,[cookies] refactor prompting helper to where it belongs,Networking: Cookies,CORE
+normal,major,0.2677522970149063,66,Combo box for selecting Environments shows all Environments instead of only active ones,Test Runs,TESTOPIA
+minor,normal,0.31075114491849204,4,Update mozilla-1.9.1 branch description (3.1->3.5),Server Operations,MOZILLA.ORG_GRAVEYARD
+minor,normal,0.34801226271563707,18,Mail window opened from biff icon (new mail notification in system tray) can't be maximized/minimised/resized,MailNews: Message Display,SEAMONKEY
+major,normal,0.24190212989021265,36,thegomezlawfirm.com - the top frame does not extend to 100% of browser - right whitespace!,English US,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.2610218151636551,74,Fire text changed event when content of hypertext accessible is changed,Disability Access APIs,CORE
+normal,critical,0.3992115069161553,14,crash closing stand-alone msg window opened from cross-folder saved search,Backend,MAILNEWS_CORE
+normal,trivial,0.2850308125993384,15,Custom events don't bubble,XForms,CORE_GRAVEYARD
+normal,major,0.2677376106119892,73,kat5kaos.com - form submit results in 'location is not a registered protocol' error along with blank page result,English US,TECH_EVANGELISM_GRAVEYARD
+minor,normal,0.37598050968566915,14,add minimal logging to nsDocShell,Document Navigation,CORE
+normal,trivial,0.3285280318957788,12,Menu Editor extension not available/working for firefox 2,Extension Compatibility,FIREFOX
+normal,minor,0.2150950590092249,63,Border corners missing in print preview and in print output if the border is not monochrome,Printing: Output,CORE
+normal,minor,0.22532541539617593,16,Enhanced Bookmark Search not available/working for firefox2,Extension Compatibility,FIREFOX
+trivial,normal,0.25870463772410174,35,When selecting open with... Mozilla option is blank,UI Design,SEAMONKEY
+minor,normal,0.3658339186419736,51,No down arrow on next button in table cell properties dialog with rows selected,Editor,CORE
+major,normal,0.3200817357536927,20,SEC_ASN1DecodeItem asserts when decoding SPKI,Libraries,NSS
+normal,major,0.3067676229077067,62,Keyword search doesn't quote '+' character,Bookmarks & History,FIREFOX
+major,normal,0.33154901324212277,144,build fails if cygwin mount prefix is not /cygdrive,Build Config,SEAMONKEY
+minor,normal,0.3814890714968853,20,bonsai.mozilla.org should have a favicon.ico,Server Operations,MOZILLA.ORG_GRAVEYARD
+normal,major,0.31421916113688547,106,Problems with import of downloads.rdf after switch to toolkit download manager,Downloads API,TOOLKIT
+major,normal,0.31848566742791834,43,run-mozilla.sh hangs at startup and shutdown doing md5sum,General,SEAMONKEY
+major,normal,0.29290677739148874,58,Find as you type stops finding further characters after a page scroll,UI Design,SEAMONKEY
+normal,major,0.31617711698973144,87,Bookmarks History and about:blank site icons (favicons) fail to load on first load of bookmarks/history/about:blank,General,CAMINO_GRAVEYARD
+normal,major,0.31087361094089017,90,nsRDFXMLSerializer incorrectly serializes newline characters in literals,RDF,CORE_GRAVEYARD
+major,normal,0.2961221387740225,26,Canedit group_control_map entry does not prevent making attachments,Attachments & Requests,BUGZILLA
+critical,major,0.29225245294615715,65,Dragging file from Windows Explorer FTP into Firefox deletes the file.,Widget: Win32,CORE
+critical,normal,0.31329747005386116,27,new files missing on server update fails,Server Operations,MOZILLA.ORG_GRAVEYARD
+major,normal,0.3259909452334693,122,Camellia cipher causes datatype misalignment on Windows CE,Libraries,NSS
+major,trivial,0.22337147940318502,65,Drop down menus are rendering with white text instead of black and are unreadable,Widget: Cocoa,CORE
+blocker,normal,0.38535254863325913,59,Improve discoverability of QMO extension,QA Companion,OTHER_APPLICATIONS_GRAVEYARD
+major,normal,0.33181355376751626,18,No way to search for private comments,Query/Bug List,BUGZILLA
+major,normal,0.3484246663845152,10,Input streams are not implemented consistently,Networking,CORE
+normal,trivial,0.29248948956481724,27,nordea.lu - javascript menu appearas as text,German,TECH_EVANGELISM_GRAVEYARD
+normal,major,0.2558417266988828,49,Weekly recurrence doesn't work properly,Sunbird Only,CALENDAR
+major,normal,0.27926390612170765,100,nsDocLoader doesn't clear requests from mRequestInfoHash security UI may not report mixed content,Document Navigation,CORE
+minor,normal,0.31452076740719237,8,faq.php contains two mbody divs,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+major,normal,0.3717139211250705,40,Middle truncate attachment list in message headers,MailNews: Message Display,SEAMONKEY
+normal,major,0.35915330890743713,88,Ajax links not stored in Navigation History,General,FIREFOX
+normal,major,0.264274579776673,40,ldap tools build without svrcore is broken.,LDAP C SDK,DIRECTORY
+critical,normal,0.31665034441707135,36,Thunderbird needs another conference room,Servicedesk,INFRASTRUCTURE_&_OPERATIONS_GRAVEYARD
+normal,trivial,0.25846276783974526,23,Add theme: Brauserix02,Public Pages,ADDONS.MOZILLA.ORG_GRAVEYARD
+normal,blocker,0.451622020163843,5,tracking bug for build and release of thunderbird 17.0.7 esr,Release Requests,RELEASE_ENGINEERING
+normal,critical,0.42822044819618776,15,crash when moving a folder to a different folder,Bookmarks & History,FIREFOX
+blocker,normal,0.3585293699367009,9,qm-vmware01 paging non-responsive,Server Operations,MOZILLA.ORG_GRAVEYARD

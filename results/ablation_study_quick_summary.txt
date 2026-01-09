@@ -1,0 +1,16 @@
+
+ABLATION STUDY SUMMARY
+======================
+
+Hypothesis: Removing 'crash' (most important feature) should degrade performance
+
+Results:
+- Baseline F1-Macro:    0.3010
+- Ablation F1-Macro:    0.2748
+- Difference:           +0.0261 (+8.68%)
+
+- Baseline F1-Weighted: 0.6768
+- Ablation F1-Weighted: 0.6597
+- Difference:           +0.0171 (+2.52%)
+
+Conclusion: CONFIRMED - crash is critical
