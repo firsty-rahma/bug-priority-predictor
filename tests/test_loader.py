@@ -21,9 +21,10 @@ class TestDataLoader:
     
     def test_clean_raw_data(self, sample_bug_data):
         """Test cleaning raw data."""
-        # Add severity_code column
         data = sample_bug_data.copy()
-        data['severity_code'] = [0, 5, 1, 4, 2]
+        
+        # Add severity_code column with matching length
+        data['severity_code'] = data.index % 6
         
         # Clean
         cleaned = clean_raw_data(data)
@@ -34,6 +35,20 @@ class TestDataLoader:
         # Other columns should remain
         assert 'severity_category' in cleaned.columns
         assert len(cleaned) == len(data)
+    
+    def test_clean_raw_data_without_severity_code(self, sample_bug_data):
+        """Test cleaning data that doesn't have severity_code."""
+        data = sample_bug_data.copy()
+        
+        # Make sure no severity_code exists
+        if 'severity_code' in data.columns:
+            data = data.drop('severity_code', axis=1)
+        
+        # Should not fail
+        cleaned = clean_raw_data(data)
+        
+        assert len(cleaned) == len(data)
+        assert 'severity_category' in cleaned.columns
     
     def test_save_and_load_data(self, sample_bug_data, temp_directory):
         """Test saving and loading data."""
@@ -52,16 +67,25 @@ class TestDataLoader:
     
     def test_load_preprocessed_data_validation(self, temp_directory):
         """Test validation when loading preprocessed data."""
-        # Create incomplete data
         incomplete_data = pd.DataFrame({
             'text_processed': ['test'],
             'severity_category': ['normal']
-            # Missing component_name, product_name
         })
         
         filepath = temp_directory / 'incomplete.csv'
         incomplete_data.to_csv(filepath, index=False)
         
-        # Should raise ValueError for missing columns
+        # Should raise ValueError
         with pytest.raises(ValueError, match="Missing required columns"):
             load_preprocessed_data(filepath)
+    
+    def test_load_raw_data_with_path_object(self, sample_bug_data, temp_directory):
+        """Test that loading works with pathlib.Path objects."""
+        filepath = temp_directory / 'test_data.csv'
+        
+        save_data(sample_bug_data, filepath)
+        
+        # Load using Path object
+        loaded = load_raw_data(filepath)
+        
+        assert len(loaded) == len(sample_bug_data)

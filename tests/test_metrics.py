@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import sys
 from pathlib import Path
+import warnings
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
@@ -31,7 +32,11 @@ class TestModelEvaluator:
         y_true = sample_predictions['y_true']
         y_pred = sample_predictions['y_pred']
         
-        metrics = evaluator.calculate_metrics(y_true, y_pred)
+        # Suppress expected warning about precision for unpredicted classes
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore', category=UserWarning, 
+                                  message='.*Precision is ill-defined.*')
+            metrics = evaluator.calculate_metrics(y_true, y_pred)
         
         # Check required metrics exist
         assert 'f1_macro' in metrics
@@ -103,3 +108,27 @@ class TestModelEvaluator:
         
         # 1 normal predicted as critical
         assert critical_errors['false_alarms'] == 1
+    
+    def test_metrics_with_perfect_predictions(self, evaluator):
+        """Test metrics when all predictions are correct."""
+        y_true = np.array(['blocker', 'critical', 'major', 'minor', 'normal', 'trivial'])
+        y_pred = y_true.copy()  # Perfect predictions
+        
+        metrics = evaluator.calculate_metrics(y_true, y_pred)
+        
+        # All metrics should be perfect (1.0)
+        assert metrics['accuracy'] == 1.0
+        assert metrics['f1_macro'] == 1.0
+        assert metrics['f1_weighted'] == 1.0
+    
+    def test_metrics_with_all_wrong_predictions(self, evaluator):
+        """Test metrics when all predictions are wrong."""
+        y_true = np.array(['blocker', 'critical', 'major', 'minor', 'normal', 'trivial'])
+        y_pred = np.array(['trivial', 'normal', 'minor', 'major', 'critical', 'blocker'])
+        
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore', category=UserWarning)
+            metrics = evaluator.calculate_metrics(y_true, y_pred)
+        
+        # Accuracy should be 0
+        assert metrics['accuracy'] == 0.0

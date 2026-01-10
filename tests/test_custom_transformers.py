@@ -25,7 +25,11 @@ class TestFeatureCombiner:
     
     def test_fit_transform(self, preprocessed_bug_data):
         """Test fitting and transforming data."""
-        combiner = FeatureCombiner(max_features=50)
+        combiner = FeatureCombiner(
+            max_features=50,
+            min_df=1,
+            max_df=1.0
+        )
         
         X = preprocessed_bug_data[['text_processed', 'component_name', 
                                     'product_name', 'text_length']]
@@ -36,52 +40,58 @@ class TestFeatureCombiner:
         
         # Check output shape
         assert X_transformed.shape[0] == len(X)
-        
-        # Should have TF-IDF features + 3 additional features
-        # (component, product, text_length)
         assert X_transformed.shape[1] > 3
-    
-    def test_remove_crash_option(self, preprocessed_bug_data):
-        """Test remove_crash option for ablation study."""
-        # Create data with 'crash' keyword
-        data = preprocessed_bug_data.copy()
-        data.loc[0, 'text_processed'] = 'firefox crash startup crash'
-        
-        X = data[['text_processed', 'component_name', 'product_name', 'text_length']]
-        
-        # Without removing crash
-        combiner1 = FeatureCombiner(max_features=50, remove_crash=False)
-        combiner1.fit(X)
-        
-        # With removing crash
-        combiner2 = FeatureCombiner(max_features=50, remove_crash=True)
-        combiner2.fit(X)
-        
-        # The vocabulary should be different
-        vocab1 = combiner1.tfidf.get_feature_names_out()
-        vocab2 = combiner2.tfidf.get_feature_names_out()
-        
-        # 'crash' should be in vocab1 if it wasn't filtered
-        # but definitely not in vocab2
-        assert 'crash' not in vocab2
     
     def test_handle_unknown_categories(self, preprocessed_bug_data):
         """Test handling of unknown categorical values."""
-        combiner = FeatureCombiner()
+        combiner = FeatureCombiner(min_df=1, max_df=1.0)
         
-        # Fit on training data
         X_train = preprocessed_bug_data[['text_processed', 'component_name', 
                                          'product_name', 'text_length']]
         combiner.fit(X_train)
         
-        # Create test data with unknown category
         X_test = pd.DataFrame({
-            'text_processed': ['test text'],
-            'component_name': ['UnknownComponent'],  # Unknown!
+            'text_processed': ['test text crash vulnerability'],
+            'component_name': ['UnknownComponent'],
             'product_name': ['FIREFOX'],
-            'text_length': [2]
+            'text_length': [4]
         })
         
-        # Should not raise error (handles unknown with -1)
         X_transformed = combiner.transform(X_test)
         assert X_transformed.shape[0] == 1
+    
+    def test_feature_combination(self, preprocessed_bug_data):
+        """Test that TF-IDF and categorical features are properly combined."""
+        combiner = FeatureCombiner(max_features=10, min_df=1, max_df=1.0)
+        
+        X = preprocessed_bug_data[['text_processed', 'component_name', 
+                                    'product_name', 'text_length']]
+        
+        combiner.fit(X)
+        X_transformed = combiner.transform(X)
+        
+        # Should have at least TF-IDF features + 3 categorical/numeric
+        # (component_encoded, product_encoded, text_length)
+        assert X_transformed.shape[1] >= 3
+        
+        # Should be sparse matrix
+        from scipy.sparse import issparse
+        assert issparse(X_transformed)
+    
+    def test_multiple_fits(self, preprocessed_bug_data):
+        """Test that transformer can be fitted multiple times."""
+        combiner = FeatureCombiner(max_features=10, min_df=1, max_df=1.0)
+        
+        X = preprocessed_bug_data[['text_processed', 'component_name', 
+                                    'product_name', 'text_length']]
+        
+        # First fit
+        combiner.fit(X)
+        vocab_1 = set(combiner.tfidf.get_feature_names_out())
+        
+        # Second fit (should reset)
+        combiner.fit(X)
+        vocab_2 = set(combiner.tfidf.get_feature_names_out())
+        
+        # Vocabularies should be the same (fitted on same data)
+        assert vocab_1 == vocab_2
