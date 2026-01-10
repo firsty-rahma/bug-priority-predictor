@@ -45,6 +45,69 @@ Bug tracking systems like Bugzilla receive thousands of bug reports daily. Manua
 - Provide consistent severity assignments across teams
 
 ---
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
+- 4GB RAM minimum (8GB recommended)
+
+### Installation
+
+#### Option 1: Automated Setup (Recommended)
+
+**Linux/Mac:**
+```bash
+./setup.sh
+```
+
+**Windows:**
+```batch
+setup.bat
+```
+
+#### Option 2: Manual Setup
+```bash
+# 1. Clone repository
+git clone https://github.com/yourusername/bug-severity-classification.git
+cd bug-severity-classification
+
+# 2. Create virtual environment
+python -m venv venv
+
+# 3. Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Linux/Mac:
+source venv/bin/activate
+
+# 4. Install dependencies
+pip install -r requirements.txt
+
+# 5. Download NLTK data
+python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4'); nltk.download('averaged_perceptron_tagger')"
+```
+
+### Verify Installation
+```bash
+python verify_installation.py
+```
+
+### Running the Pipeline
+```bash
+# Complete pipeline
+python scripts/01_data_exploration.py
+python scripts/02_text_preprocessing.py
+python scripts/03_modeling.py
+python scripts/04_hyperparameter_tuning.py
+python scripts/05_error_analysis.py
+
+# Or use make commands
+make train
+```
+
+For detailed installation instructions, see [INSTALLATION.md](INSTALLATION.md).
+---
 
 ## 🏆 Key Results
 

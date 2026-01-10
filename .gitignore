@@ -87,3 +87,10 @@ dmypy.json
 
 # Environments
 .python-version
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/

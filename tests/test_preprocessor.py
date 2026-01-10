@@ -139,12 +139,18 @@ class TestTextPreprocessor:
     
     def test_preprocess_with_custom_stopwords(self):
         """Test preprocessing with custom stopwords."""
-        custom_stopwords = ['crash', 'firefox']
+        # Note: 'crash' is in the default extended stopwords!
+        # So we need to test with words NOT in default list
+        custom_stopwords = ['vulnerability', 'security']
         preprocessor = TextPreprocessor(custom_stopwords=custom_stopwords)
         
-        text = 'Firefox crashes on startup'
+        text = 'critical security vulnerability found in system'
         result = preprocessor.preprocess(text)
         
         # Custom stopwords should be removed
-        assert 'crash' not in result.split()
-        assert 'firefox' not in result.split()
+        result_words = result.split()
+        assert 'vulnerability' not in result_words
+        assert 'security' not in result_words
+        
+        # But other words should remain
+        assert 'critical' in result_words or 'system' in result_words
