@@ -6,51 +6,51 @@ Bug Severity Classification - Random Forest Model
 1. OVERALL STATISTICS
 ----------------------------------------------------------------------
 Total predictions: 2000
-Correct: 1353 (67.7%)
-Incorrect: 647 (32.4%)
+Correct: 1311 (65.5%)
+Incorrect: 689 (34.4%)
 
 2. ERROR RATE BY CLASS
 ----------------------------------------------------------------------
    Class  Total  Errors  Error Rate (%)  Accuracy (%)
  blocker     41      39       95.121951      4.878049
-critical    121      62       51.239669     48.760331
-   major    148     113       76.351351     23.648649
-   minor    108      98       90.740741      9.259259
-  normal   1521     291       19.132150     80.867850
- trivial     61      44       72.131148     27.868852
+critical    121      63       52.066116     47.933884
+   major    148     116       78.378378     21.621622
+   minor    108     102       94.444444      5.555556
+  normal   1521     321       21.104536     78.895464
+ trivial     61      48       78.688525     21.311475
 
 3. TOP MISCLASSIFICATION PATTERNS
 ----------------------------------------------------------------------
 true_label predicted_label  count
-    normal           major    125
-     major          normal     86
-    normal         trivial     77
-     minor          normal     72
-  critical          normal     48
-    normal        critical     44
-    normal           minor     40
+    normal           major    134
+     major          normal     90
+    normal         trivial     86
+     minor          normal     75
+  critical          normal     49
+    normal           minor     44
+    normal        critical     43
    trivial          normal     35
    blocker          normal     30
-     minor           major     14
+    normal         blocker     14
 
 4. CONFIDENCE ANALYSIS
 ----------------------------------------------------------------------
-Avg confidence (correct): 0.342
+Avg confidence (correct): 0.347
 Avg confidence (incorrect): 0.315
-Confidence gap: 0.028
+Confidence gap: 0.032
 
 5. CRITICAL ERRORS
 ----------------------------------------------------------------------
-Critical/Blocker missed (predicted as normal): 78
-False alarms (normal predicted as critical): 49
+Critical/Blocker missed (predicted as normal): 79
+False alarms (normal predicted as critical): 57
 
 6. TEXT LENGTH ANALYSIS
 ----------------------------------------------------------------------
                    Total  Errors  Error Rate (%)
 text_length_bin                                 
-Very Short (0-20)    593     130            21.9
-Short (20-50)        835     262            31.4
-Medium (50-100)      430     181            42.1
-Long (100-200)       117      60            51.3
-Very Long (200+)      25      14            56.0
+Very Short (0-20)    593     137            23.1
+Short (20-50)        835     275            32.9
+Medium (50-100)      430     198            46.0
+Long (100-200)       117      63            53.8
+Very Long (200+)      25      16            64.0
 
