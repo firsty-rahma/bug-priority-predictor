@@ -14,11 +14,20 @@ import logging
 from pathlib import Path
 from typing import Dict, Tuple, Any
 import pickle
+import sys
+import warnings
+
+# Add src to path for imports
+src_path = Path(__file__).parent.parent
+if str(src_path) not in sys.path:
+    sys.path.insert(0, str(src_path))
+
+from utils.custom_transformers import FeatureCombiner
 
 logger = logging.getLogger(__name__)
 
 class ModelTrainer:
-    """Handles model training with SMOTE and hyperparameter tuning"""
+    """Train and evaluate bug severity classification models."""
 
     def __init__(self, random_state: int = 42):
         """
@@ -72,28 +81,28 @@ class ModelTrainer:
         
         return X_train, X_test, y_train, y_test
     
-    def create_pipeline(self, feature_combiner, classifier, 
-                        use_smote: bool = True) -> ImbPipeline:
+    def create_pipeline(self, feature_combiner:FeatureCombiner, classifier:Any, 
+                        use_smote: bool = True, smote_neighbors = 3) -> ImbPipeline:
         """
-        Create training pipeline with optional SMOTE.
+        Create sklearn pipeline with optional SMOTE.
         
         Parameters
         ----------
-        feature_combiner : transformer
-            Feature engineering transformer
-        classifier : estimator
+        feature_combiner : FeatureCombiner
+            Custom feature engineering transformer
+        classifier : sklearn estimator
             Classification model
         use_smote : bool
             Whether to use SMOTE oversampling
             
         Returns
         -------
-        ImbPipeline
-            Complete training pipeline
+        Pipeline
+            Configured pipeline
         """
         steps = [('feature_combiner', feature_combiner)]
         if use_smote:
-            steps.append(('smote', SMOTE(random_state=self.random_state, k_neighbors=3)))
+            steps.append(('smote', SMOTE(random_state=self.random_state, k_neighbors=smote_neighbors)))
 
         steps.append(('classifier', classifier))
         return ImbPipeline(steps)
@@ -187,9 +196,9 @@ class ModelTrainer:
             random_state=self.random_state
         )
 
-        grid_search = GridSearchCV(pipeline, param_grid, cv,
+        grid_search = GridSearchCV(pipeline, param_grid, cv=cv,
                                    scoring=make_scorer(f1_score, average='macro'),
-                                   n_jobs=-1, verbose=1, return_train_score=True)
+                                   n_jobs=-1, verbose=1, return_train_score=True, error_score='raise')
         grid_search.fit(X_train, y_train)
 
         self.best_model = grid_search.best_estimator_
@@ -297,6 +306,14 @@ class ModelTrainer:
         dict or model
             Loaded model (and encoder if saved together)
         """
+        filepath = Path(filepath)
+        if not filepath.exists():
+            raise FileNotFoundError(f"Model file not found {filepath}")
+        
+        # CRITICAL FIX: Import FeatureCombiner before unpickling
+        # This ensures pickle can find the class definition
+        from utils.custom_transformers import FeatureCombiner
+
         with open(filepath, 'rb') as f:
             model_data = pickle.load(f)
 

@@ -1,161 +1,209 @@
-
-#!/usr/bin/env python
 """
-Prediction Script
-
-Makes predictions on new bug reports using trained model.
+Interactive prediction script for bug severity classification.
 """
 import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
 import pandas as pd
-import logging
-import argparse
+import numpy as np
 
-from utils.config import MODEL_DIR, PREPROCESSED_DATA_PATH
+# Add src to path
+src_path = Path(__file__).parent.parent / "src"
+sys.path.insert(0, str(src_path))
+
+# CRITICAL: Import FeatureCombiner BEFORE loading model
+from utils.custom_transformers import FeatureCombiner
 from models.train import ModelTrainer
+from data.preprocessor import TextPreprocessor
 
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
-def predict_single_bug(short_desc: str, long_desc: str, 
-                       component: str, product: str, model_path: Path) -> dict:
+def print_prediction_results(prediction: str, probabilities: np.ndarray, label_encoder):
     """
-    Predict severity for a single bug report.
+    Pretty print prediction results.
+    
+    Parameters
+    ----------
+    prediction : str
+        Predicted severity
+    probabilities : np.ndarray
+        Class probabilities
+    label_encoder : LabelEncoder
+        Label encoder for class names
+    """
+    print("\n" + "=" * 70)
+    print("PREDICTION RESULTS")
+    print("=" * 70)
+    
+    confidence = probabilities.max()
+    
+    print(f"\nPredicted Severity: {prediction.upper()}")
+    print(f"Confidence: {confidence:.1%}")
+    
+    print("\nAll Class Probabilities:")
+    
+    # Sort by probability
+    class_probs = list(zip(label_encoder.classes_, probabilities))
+    class_probs.sort(key=lambda x: x[1], reverse=True)
+    
+    for class_name, prob in class_probs:
+        bar_length = int(prob * 40)
+        bar = "█" * bar_length
+        print(f"  {class_name:12s}: {prob:6.2%} {bar}")
+    
+    # Warnings
+    if prediction in ['blocker', 'critical']:
+        print("\n⚠️  High severity - recommend human review")
+    
+    if confidence < 0.60:
+        print("\n⚠️  Low confidence - consider manual triage")
+    
+    print("=" * 70 + "\n")
+
+
+def get_user_input():
+    """
+    Get bug information from user.
+    
+    Returns
+    -------
+    dict
+        Bug information
+    """
+    print("\n" + "=" * 70)
+    print("Interactive Prediction Mode")
+    print("=" * 70)
+    
+    short_desc = input("\nShort description: ").strip()
+    long_desc = input("Long description: ").strip()
+    component = input("Component (default: General): ").strip() or "General"
+    product = input("Product (default: FIREFOX): ").strip() or "FIREFOX"
+    
+    return {
+        'short_description': short_desc,
+        'long_description': long_desc,
+        'component_name': component,
+        'product_name': product
+    }
+
+
+def predict_bug_severity(
+    short_desc: str,
+    long_desc: str,
+    component: str = "General",
+    product: str = "FIREFOX",
+    model_path: Path = None,
+    verbose: bool = True
+):
+    """
+    Predict severity for a single bug.
     
     Parameters
     ----------
     short_desc : str
-        Short description
+        Short bug description
     long_desc : str
-        Long description
+        Long bug description
     component : str
         Component name
     product : str
         Product name
-    model_path : Path
+    model_path : Path, optional
         Path to trained model
+    verbose : bool
+        Whether to print results
         
     Returns
     -------
-    dict
-        Prediction results
+    tuple
+        (prediction, confidence, all_probabilities)
     """
+    # Default model path
+    if model_path is None:
+        model_path = Path(__file__).parent.parent / "models" / "best_model_random_forest_tuned.pkl"
+    
     # Load model
+    if verbose:
+        print("\nLoading model...")
+    
     model_data = ModelTrainer.load_model(model_path)
     model = model_data['model']
     label_encoder = model_data['label_encoder']
-
-    # Preprocess text (simplified - in production, use TextPreprocessor)
-    from data.preprocessor import TextPreprocessor
+    
+    # Preprocess text
+    if verbose:
+        print("Preprocessing text...")
+    
     preprocessor = TextPreprocessor()
-
     combined_text = preprocessor.combine_text(short_desc, long_desc)
-    processed_text = preprocessor.preprocess(combined_text)
-    text_length = len(processed_text.split())
-
-    # Create DataFrame
+    text_processed = preprocessor.preprocess(combined_text)
+    text_length = len(text_processed.split())
+    
+    # Create feature DataFrame
     bug_df = pd.DataFrame({
-        'text_processed': [processed_text],
+        'text_processed': [text_processed],
         'component_name': [component],
         'product_name': [product],
         'text_length': [text_length]
     })
     
     # Predict
+    if verbose:
+        print("Making prediction...\n")
+    
     prediction_encoded = model.predict(bug_df)[0]
-    prediction_proba = model.predict_proba(bug_df)[0]
+    probabilities = model.predict_proba(bug_df)[0]
     
-    # Decode
+    # Decode prediction
     prediction = label_encoder.inverse_transform([prediction_encoded])[0]
-    confidence = prediction_proba.max()
+    confidence = probabilities.max()
     
-    # Get all class probabilities
-    all_probs = {
-        label: prob
-        for label, prob in zip(label_encoder.classes_, prediction_proba)
-    }
+    # Print results
+    if verbose:
+        print_prediction_results(prediction, probabilities, label_encoder)
     
-    return {
-        'predicted_severity': prediction,
-        'confidence': confidence,
-        'all_probabilities': all_probs,
-        'processed_text_length': text_length
-    }
+    return prediction, confidence, probabilities
+
 
 def main():
-    """Main execution function"""
-    parser = argparse.ArgumentParser(description='Predict bug severity')
-    parser.add_argument('--short-desc', type=str, help='Short description')
-    parser.add_argument('--long-desc', type=str, default='', help='Long description')
-    parser.add_argument('--component', type=str, default='General', help='Component name')
-    parser.add_argument('--product', type=str, default='FIREFOX', help='Product name')
-    parser.add_argument('--model', type=str, default=None, help='Model path')
-
-    args = parser.parse_args()
-
-    # Determine model path
-    if args.model:
-        model_path = Path(args.model)
-    else:
-        model_path = MODEL_DIR / "best_model_random_forest_tuned.pkl"
+    """Main interactive prediction loop."""
+    print("\n" + "=" * 70)
+    print("Bug Severity Prediction System")
+    print("=" * 70)
+    print("\nThis system predicts bug severity using ML.")
+    print("Enter bug details to get a severity prediction.\n")
     
-    if not model_path.exists():
-        logger.error(f"Model not found: {model_path}")
-        return
+    while True:
+        try:
+            # Get user input
+            bug_info = get_user_input()
+            
+            # Predict
+            predict_bug_severity(
+                short_desc=bug_info['short_description'],
+                long_desc=bug_info['long_description'],
+                component=bug_info['component_name'],
+                product=bug_info['product_name']
+            )
+            
+            # Continue?
+            again = input("\nPredict another bug? (y/n): ").strip().lower()
+            if again not in ['y', 'yes']:
+                break
+                
+        except KeyboardInterrupt:
+            print("\n\nExiting...")
+            break
+        except FileNotFoundError as e:
+            print(f"\n❌ Error: {e}")
+            print("Make sure the trained model exists in models/ folder")
+            break
+        except Exception as e:
+            print(f"\n❌ Error during prediction: {e}")
+            import traceback
+            traceback.print_exc()
+            break
     
-    # Interactive mode if no description provided
-    if not args.short_desc:
-        logger.info("Interactive Prediction Mode")
-        logger.info("="*70)
-        
-        short_desc = input("Short description: ")
-        long_desc = input("Long description (optional): ")
-        component = input("Component (default: General): ") or "General"
-        product = input("Product (default: FIREFOX): ") or "FIREFOX"
-    else:
-        short_desc = args.short_desc
-        long_desc = args.long_desc
-        component = args.component
-        product = args.product
-    
-    # Predict
-    logger.info("\nMaking prediction...")
-    result = predict_single_bug(short_desc, long_desc, component, product, model_path)
-    
-    # Display results
-    logger.info("\n" + "="*70)
-    logger.info("PREDICTION RESULTS")
-    logger.info("="*70)
-    logger.info(f"Predicted Severity: {result['predicted_severity'].upper()}")
-    logger.info(f"Confidence: {result['confidence']:.2%}")
-    logger.info(f"\nAll Class Probabilities:")
-    
-    sorted_probs = sorted(
-        result['all_probabilities'].items(),
-        key=lambda x: x[1],
-        reverse=True
-    )
-    
-    for label, prob in sorted_probs:
-        bar = '█' * int(prob * 50)
-        logger.info(f"  {label:12s}: {prob:.2%} {bar}")
-    
-    # Recommendation
-    if result['confidence'] < 0.6:
-        logger.warning("\n⚠️  Low confidence - recommend human review")
-    
-    if result['predicted_severity'] in ['blocker', 'critical']:
-        logger.warning("⚠️  High severity - always verify with human review")
+    print("\nThank you for using the Bug Severity Prediction System!")
 
 
 if __name__ == "__main__":
     main()
-
-    

@@ -16,7 +16,7 @@ for directory in [DATA_DIR, MODEL_DIR, RESULTS_DIR, FIGURES_DIR]:
     directory.mkdir(parents=True, exist_ok=True)
 
 # Data files
-RAW_DATA_PATH = DATA_DIR / "bugs.csv"
+RAW_DATA_PATH = DATA_DIR / "mozilla_bug_report_data.csv"
 CLEANED_DATA_PATH = DATA_DIR / "bugs_cleaned.csv"
 PREPROCESSED_DATA_PATH = DATA_DIR / "bugs_preprocessed.csv"
 

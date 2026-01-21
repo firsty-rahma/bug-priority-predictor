@@ -54,7 +54,7 @@ def main():
         data['text_length'] = data['text_processed'].str.split().str.len()
 
     # Prepare features
-    X = data[['text_processed', 'component_name', 'product name', 'text_length']].copy()
+    X = data[['text_processed', 'component_name', 'product_name', 'text_length']].copy()
     y = data['severity_category']
 
     # Initialize trainer
