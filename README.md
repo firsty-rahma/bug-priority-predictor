@@ -1,6 +1,6 @@
 # Bug Severity Classification using NLP and Machine Learning
 
-![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-orange.svg)
 ![NLTK](https://img.shields.io/badge/NLTK-3.8+-green.svg)
 ![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)
