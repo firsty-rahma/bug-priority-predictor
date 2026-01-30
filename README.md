@@ -1518,14 +1518,6 @@ This project demonstrates my transition from manual testing to ML engineering, s
 - Software Engineer in Test (SDET)
 - Data Scientist (Applied ML)
 
-**Target Companies (Indonesia):**
-| E-commerce | Fintech | Tech Services |
-|------------|---------|---------------|
-| Tokopedia | Flip | Gojek |
-| Shopee | Dana | Grab |
-| Bukalapak | OVO | Traveloka |
-| Blibli | Modalku | Tiket.com |
-
 **What I Offer:**
 - ✅ 3 years manual testing experience (enterprise applications)
 - ✅ ML engineering portfolio (this project + Cypress automation)
