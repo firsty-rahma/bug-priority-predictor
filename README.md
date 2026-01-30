@@ -46,8 +46,6 @@ This project was developed with **AI assistance from Claude (Anthropic)** as a t
 
 ---
 
----
-
 ## 📋 Table of Contents
 
 - [Problem Statement](#-problem-statement)
@@ -98,8 +96,6 @@ This project demonstrates my transition from **manual software testing to ML eng
 - Monitoring strategy and retraining recommendations
 
 **Currently seeking:** QA Automation Engineer or ML Engineer roles in Indonesian tech companies.
-
----
 
 ---
 
@@ -235,6 +231,12 @@ python scripts/predict.py --batch data/test_bugs.csv
 
 ### Performance Visualization
 
+> **Note:** Visualization figures are generated when running the analysis scripts. To generate:
+> ```bash
+> python scripts/05_error_analysis.py
+> ```
+> Figures will be saved to `figures/` directory.
+
 ![Confusion Matrix](figures/confusion_matrix_baseline.png)
 
 *Confusion matrix showing model's tendency to predict the majority class (normal)*
@@ -340,8 +342,6 @@ weighted avg       0.67      0.66      0.66      2000
 - Test Accuracy: 65% - 67%
 
 **All random seeds set to 42** for maximum reproducibility.
-
----
 
 ---
 
@@ -1598,6 +1598,6 @@ This project demonstrates my transition from manual testing to ML engineering, s
 
 ---
 
-**Built with 💙 by Firstyani Imannisa Rahma | Surakarta, Central Java, Indonesia | 2026**
+**Built with 💙 by Firstyani Imannisa Rahma | Yogyakarta, Indonesia | 2026**
 
 </div>
