@@ -1,10 +1,12 @@
 """
 Tests for text preprocessing module.
 """
-import pytest
-import pandas as pd
+
 import sys
 from pathlib import Path
+
+import pandas as pd
+import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
@@ -13,144 +15,144 @@ from data.preprocessor import TextPreprocessor
 
 class TestTextPreprocessor:
     """Test TextPreprocessor class."""
-    
+
     def test_initialization(self):
         """Test preprocessor initialization."""
         preprocessor = TextPreprocessor()
         assert preprocessor is not None
         assert len(preprocessor.stopwords) > 0
-    
+
     def test_initialization_with_custom_stopwords(self):
         """Test initialization with custom stopwords."""
-        custom_stopwords = ['crash', 'bug']
+        custom_stopwords = ["crash", "bug"]
         preprocessor = TextPreprocessor(custom_stopwords=custom_stopwords)
-        
-        assert 'crash' in preprocessor.stopwords
-        assert 'bug' in preprocessor.stopwords
-    
+
+        assert "crash" in preprocessor.stopwords
+        assert "bug" in preprocessor.stopwords
+
     def test_combine_text(self):
         """Test text combination."""
         preprocessor = TextPreprocessor()
-        
+
         # Normal case
-        result = preprocessor.combine_text('Short desc', 'Long desc')
-        assert result == 'Short desc Long desc'
-        
+        result = preprocessor.combine_text("Short desc", "Long desc")
+        assert result == "Short desc Long desc"
+
         # Empty long description
-        result = preprocessor.combine_text('Short desc', '')
-        assert result == 'Short desc'
-        
+        result = preprocessor.combine_text("Short desc", "")
+        assert result == "Short desc"
+
         # None values
-        result = preprocessor.combine_text(None, 'Long desc')
-        assert result == 'Long desc'
-        
+        result = preprocessor.combine_text(None, "Long desc")
+        assert result == "Long desc"
+
         # Both None
         result = preprocessor.combine_text(None, None)
-        assert result == ''
-    
+        assert result == ""
+
     def test_clean_text(self):
         """Test text cleaning."""
         preprocessor = TextPreprocessor()
-        
+
         # Lowercase conversion
-        assert preprocessor.clean_text('HELLO WORLD') == 'hello world'
-        
+        assert preprocessor.clean_text("HELLO WORLD") == "hello world"
+
         # Special character removal
-        assert preprocessor.clean_text('Hello, World!') == 'hello world'
-        
+        assert preprocessor.clean_text("Hello, World!") == "hello world"
+
         # Numbers removal
-        assert preprocessor.clean_text('Test123') == 'test'
-        
+        assert preprocessor.clean_text("Test123") == "test"
+
         # Empty/None handling
-        assert preprocessor.clean_text('') == ''
-        assert preprocessor.clean_text(None) == ''
-    
+        assert preprocessor.clean_text("") == ""
+        assert preprocessor.clean_text(None) == ""
+
     def test_tokenize(self):
         """Test tokenization."""
         preprocessor = TextPreprocessor()
-        
+
         # Normal text
-        tokens = preprocessor.tokenize('hello world test')
-        assert tokens == ['hello', 'world', 'test']
-        
+        tokens = preprocessor.tokenize("hello world test")
+        assert tokens == ["hello", "world", "test"]
+
         # Empty string
-        tokens = preprocessor.tokenize('')
+        tokens = preprocessor.tokenize("")
         assert tokens == []
-        
+
         # Single word
-        tokens = preprocessor.tokenize('hello')
-        assert tokens == ['hello']
-    
+        tokens = preprocessor.tokenize("hello")
+        assert tokens == ["hello"]
+
     def test_remove_stopwords(self):
         """Test stopword removal."""
         preprocessor = TextPreprocessor()
-        
-        tokens = ['the', 'quick', 'brown', 'fox']
+
+        tokens = ["the", "quick", "brown", "fox"]
         filtered = preprocessor.remove_stopwords(tokens)
-        
+
         # 'the' should be removed (it's a stopword)
-        assert 'the' not in filtered
-        assert 'quick' in filtered
-        assert 'brown' in filtered
-    
+        assert "the" not in filtered
+        assert "quick" in filtered
+        assert "brown" in filtered
+
     def test_lemmatize(self):
         """Test lemmatization."""
         preprocessor = TextPreprocessor()
-        
+
         # Plural to singular
-        tokens = ['crashes', 'bugs', 'errors']
+        tokens = ["crashes", "bugs", "errors"]
         lemmatized = preprocessor.lemmatize(tokens)
-        
+
         # Should lemmatize to base forms
-        assert 'crash' in lemmatized or 'crashes' in lemmatized
-        
+        assert "crash" in lemmatized or "crashes" in lemmatized
+
         # Empty list
         assert preprocessor.lemmatize([]) == []
-    
+
     def test_preprocess(self):
         """Test full preprocessing pipeline."""
         preprocessor = TextPreprocessor()
-        
-        text = 'Firefox CRASHES on startup!!!'
+
+        text = "Firefox CRASHES on startup!!!"
         result = preprocessor.preprocess(text)
-        
+
         # Should be lowercase, cleaned, and processed
-        assert result.islower() or result == ''
-        assert '!' not in result
-        assert 'crash' in result.lower() or 'startup' in result.lower()
-    
+        assert result.islower() or result == ""
+        assert "!" not in result
+        assert "crash" in result.lower() or "startup" in result.lower()
+
     def test_preprocess_dataframe(self, sample_bug_data):
         """Test DataFrame preprocessing."""
         preprocessor = TextPreprocessor()
-        
+
         result = preprocessor.preprocess_dataframe(sample_bug_data)
-        
+
         # Check required columns exist
-        assert 'text_processed' in result.columns
-        assert 'text_length' in result.columns
-        
+        assert "text_processed" in result.columns
+        assert "text_length" in result.columns
+
         # Check no empty text
-        assert (result['text_processed'].str.len() > 0).all()
-        
+        assert (result["text_processed"].str.len() > 0).all()
+
         # Check text_length is correct
         for idx, row in result.iterrows():
-            expected_length = len(row['text_processed'].split())
-            assert row['text_length'] == expected_length
-    
+            expected_length = len(row["text_processed"].split())
+            assert row["text_length"] == expected_length
+
     def test_preprocess_with_custom_stopwords(self):
         """Test preprocessing with custom stopwords."""
         # Note: 'crash' is in the default extended stopwords!
         # So we need to test with words NOT in default list
-        custom_stopwords = ['vulnerability', 'security']
+        custom_stopwords = ["vulnerability", "security"]
         preprocessor = TextPreprocessor(custom_stopwords=custom_stopwords)
-        
-        text = 'critical security vulnerability found in system'
+
+        text = "critical security vulnerability found in system"
         result = preprocessor.preprocess(text)
-        
+
         # Custom stopwords should be removed
         result_words = result.split()
-        assert 'vulnerability' not in result_words
-        assert 'security' not in result_words
-        
+        assert "vulnerability" not in result_words
+        assert "security" not in result_words
+
         # But other words should remain
-        assert 'critical' in result_words or 'system' in result_words
+        assert "critical" in result_words or "system" in result_words
