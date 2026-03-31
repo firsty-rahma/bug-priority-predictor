@@ -170,8 +170,8 @@ Expected output:
 # Complete pipeline
 python scripts/01_data_exploration.py
 python scripts/02_text_preprocessing.py
-python scripts/03_modeling.py
-python scripts/04_hyperparameter_tuning.py
+python scripts/03_modelling.py
+python scripts/04_modelling_hypertuning.py
 python scripts/05_error_analysis.py
 
 # Or use make commands (if Makefile is present)
