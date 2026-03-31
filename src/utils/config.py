@@ -1,8 +1,9 @@
 """
 Configuration settings for bug severity classification.
 """
-from pathlib import Path
+
 import string
+from pathlib import Path
 
 # Project paths
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -27,7 +28,7 @@ BEST_MODEL_PATH = MODEL_DIR / "best_model_random_forest_tuned.pkl"
 SEVERITY_CLASSES = ["blocker", "critical", "major", "minor", "normal", "trivial"]
 
 # Text preprocessing settings
-STOPWORD_STRATEGY = 'extended'  # Options: 'minimal', 'extended', 'adaptive'
+STOPWORD_STRATEGY = "extended"  # Options: 'minimal', 'extended', 'adaptive'
 
 # Text preprocessing settings
 USE_POS_LEMMATIZATION = True  # Set to False for faster preprocessing
@@ -35,39 +36,104 @@ USE_POS_LEMMATIZATION = True  # Set to False for faster preprocessing
 # Extended custom stopwords for bug reports
 CUSTOM_STOPWORDS = {
     # Platform/tool specific
-    'always', 'firefox', 'mozilla', 'gecko', 'bugzilla', 'os', 'com', 'nt',
-    'http', 'window', 'windows', 'enus',
-    
+    "always",
+    "firefox",
+    "mozilla",
+    "gecko",
+    "bugzilla",
+    "os",
+    "com",
+    "nt",
+    "http",
+    "window",
+    "windows",
+    "enus",
     # Procedural language
-    'reproduce', 'reproduced', 'reproducing', 'reproduces', 
-    'reproducible', 'reproducibly',
-    'see', 'saw', 'sees', 'seeing', 'seen',
-    'step', 'steps', 'stepped', 'stepping',
-    'report', 'reported', 'reports', 'reporting', 'reporter',
-    'testcases', 'testcase',
-    'expect', 'expected', 'expects',
-    
+    "reproduce",
+    "reproduced",
+    "reproducing",
+    "reproduces",
+    "reproducible",
+    "reproducibly",
+    "see",
+    "saw",
+    "sees",
+    "seeing",
+    "seen",
+    "step",
+    "steps",
+    "stepped",
+    "stepping",
+    "report",
+    "reported",
+    "reports",
+    "reporting",
+    "reporter",
+    "testcases",
+    "testcase",
+    "expect",
+    "expected",
+    "expects",
     # Generic actions
-    'use', 'uses', 'used', 'using',
-    'get', 'gets', 'got', 'gotten', 'getting',
-    'try', 'tries', 'tried', 'trying',
-    'open', 'opens', 'opened', 'opening',
-    'close', 'closes', 'closed', 'closing',
-    'click', 'clicks', 'clicked', 'clicking',
-    'produce', 'produces', 'produced', 'producing',
-    'build', 'builds', 'built', 'building',
-    
+    "use",
+    "uses",
+    "used",
+    "using",
+    "get",
+    "gets",
+    "got",
+    "gotten",
+    "getting",
+    "try",
+    "tries",
+    "tried",
+    "trying",
+    "open",
+    "opens",
+    "opened",
+    "opening",
+    "close",
+    "closes",
+    "closed",
+    "closing",
+    "click",
+    "clicks",
+    "clicked",
+    "clicking",
+    "produce",
+    "produces",
+    "produced",
+    "producing",
+    "build",
+    "builds",
+    "built",
+    "building",
     # Generic nouns
-    'line', 'lines',
-    'result', 'results', 'resulting', 'resulted',
-    'file', 'files', 'filed',
-    'page', 'pages', 'paged',
-    
+    "line",
+    "lines",
+    "result",
+    "results",
+    "resulting",
+    "resulted",
+    "file",
+    "files",
+    "filed",
+    "page",
+    "pages",
+    "paged",
     # Temporal
-    'new', 'news', 'newly', 'newer', 'newest',
-    'today', 'yesterday',
-    'current', 'currently',
-    'latest', 'recent', 'recently',
+    "new",
+    "news",
+    "newly",
+    "newer",
+    "newest",
+    "today",
+    "yesterday",
+    "current",
+    "currently",
+    "latest",
+    "recent",
+    "recently",
 }
 
 # Add single letters
@@ -86,14 +152,14 @@ CV_FOLDS = 5
 
 # Hyperparameter grids
 RF_PARAM_GRID = {
-    'feature_combiner__ngram_range': [(1, 1), (1, 2)],
-    'classifier__n_estimators': [100, 200],
-    'classifier__max_depth': [10, 20, 30],
-    'classifier__min_samples_split': [2, 10]
+    "feature_combiner__ngram_range": [(1, 1), (1, 2)],
+    "classifier__n_estimators": [100, 200],
+    "classifier__max_depth": [10, 20, 30],
+    "classifier__min_samples_split": [2, 10],
 }
 
 LR_PARAM_GRID = {
-    'feature_combiner__ngram_range': [(1, 1), (1, 2)],
-    'classifier__C': [0.1, 1, 10],
-    'classifier__penalty': ['l2']
+    "feature_combiner__ngram_range": [(1, 1), (1, 2)],
+    "classifier__C": [0.1, 1, 10],
+    "classifier__penalty": ["l2"],
 }
