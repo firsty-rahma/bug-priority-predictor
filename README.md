@@ -7,6 +7,7 @@
 ![Coverage](https://img.shields.io/badge/coverage-85%25-green.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Imports: isort](https://img.shields.io/badge/imports-isort-1674b1?labelColor=ef8336)](https://pycqa.github.io/isort/)
 
 **Quick Links:** 
 [📥 Installation](#-quick-start) | 
@@ -146,7 +147,7 @@ pip install -r requirements.txt
 pip install -r requirements-dev.txt
 
 # 5. Download NLTK data
-python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4'); nltk.download('averaged_perceptron_tagger')"
+python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4'); nltk.download('averaged_perceptron_tagger_eng')"
 ```
 
 ### Verify Installation
@@ -806,7 +807,7 @@ pip install -r requirements-dev.txt
 #### 4. Download NLTK Data
 
 ```bash
-python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4'); nltk.download('averaged_perceptron_tagger')"
+python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4'); nltk.download('averaged_perceptron_tagger_eng')"
 ```
 
 Or run interactively:
@@ -1092,6 +1093,7 @@ bug-priority-predictor/
 │
 ├── requirements.txt            # Production dependencies
 ├── requirements-dev.txt        # Development dependencies
+├── pyproject.toml              # Black and isort configuration
 ├── .gitignore
 ├── LICENSE
 └── README.md                   # This file
@@ -1245,7 +1247,7 @@ To ensure exact reproducibility, all random seeds are set to 42.
 - [ ] Containerize application (Docker)
 - [ ] Build REST API (FastAPI or Flask)
 - [ ] Implement model versioning (MLflow)
-- [ ] Set up CI/CD pipeline (GitHub Actions)
+- [x] Set up CI/CD pipeline (GitHub Actions)
 - [ ] Add monitoring dashboard (Grafana + Prometheus)
 
 ### Long-Term Vision (6+ months)
@@ -1450,7 +1452,8 @@ pytest tests/ -v
 ```
 
 **Code standards:**
-- Follow PEP 8 style guide
+- Formatting enforced with `black` and `isort` (configured in `pyproject.toml`)
+- Run `black src/ scripts/ tests/` and `isort src/ scripts/ tests/` before submitting
 - Add docstrings (NumPy style)
 - Write unit tests for new features
 - Update README if needed
