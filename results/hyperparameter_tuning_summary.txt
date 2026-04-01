@@ -2,7 +2,7 @@
 HYPERPARAMETER TUNING SUMMARY
 ======================================================================
 
-Date: 2026-03-27 07:40:53
+Date: 2026-04-01 06:43:12
 Dataset size: 9998 rows
 Train set: 7998 samples
 Test set: 2000 samples
@@ -21,7 +21,7 @@ MODEL COMPARISON
 
 Random Forest:
   Best CV F1-Macro: 0.3328
-  Tuning Time: 17.13 minutes
+  Tuning Time: 15.82 minutes
   Best Parameters:
     classifier__max_depth: 20
     classifier__min_samples_split: 2
@@ -30,7 +30,7 @@ Random Forest:
 
 Logistic Regression:
   Best CV F1-Macro: 0.2871
-  Tuning Time: 2.66 minutes
+  Tuning Time: 2.61 minutes
   Best Parameters:
     classifier__C: 10
     classifier__penalty: l2
