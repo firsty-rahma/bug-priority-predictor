@@ -22,144 +22,106 @@ CLEANED_DATA_PATH = DATA_DIR / "bugs_cleaned.csv"
 PREPROCESSED_DATA_PATH = DATA_DIR / "bugs_preprocessed.csv"
 
 # Model files
-BEST_MODEL_PATH = MODEL_DIR / "best_model_random_forest_tuned.pkl"
+BEST_MODEL_PATH = MODEL_DIR / "best_model.pkl"
+LEGACY_MODEL_PATH = MODEL_DIR / "best_model_random_forest_tuned.pkl"
+
+# Text columns
+RAW_TEXT_COLUMN = "text_for_model"
+PROCESSED_TEXT_COLUMN = "text_processed"
 
 # Severity categories (in order)
 SEVERITY_CLASSES = ["blocker", "critical", "major", "minor", "normal", "trivial"]
 
 # Text preprocessing settings
-STOPWORD_STRATEGY = "extended"  # Options: 'minimal', 'extended', 'adaptive'
+STOPWORD_STRATEGY = "minimal"  # Boilerplate only; negations are never removed
+USE_POS_LEMMATIZATION = False  # POS tagging did not help; keep preprocessing cheap
 
-# Text preprocessing settings
-USE_POS_LEMMATIZATION = True  # Set to False for faster preprocessing
+# Negation and contrast terms must never be treated as stopwords: a
+# bag-of-words model otherwise merges "does not crash" with "crashes".
+NEGATION_WORDS = {
+    "not",
+    "no",
+    "nor",
+    "never",
+    "none",
+    "nothing",
+    "without",
+    "cannot",
+    "can't",
+    "cant",
+    "don't",
+    "dont",
+    "doesn't",
+    "doesnt",
+    "didn't",
+    "didnt",
+    "isn't",
+    "isnt",
+    "wasn't",
+    "wasnt",
+    "weren't",
+    "werent",
+    "won't",
+    "wont",
+    "wouldn't",
+    "wouldnt",
+    "shouldn't",
+    "shouldnt",
+    "couldn't",
+    "couldnt",
+    "unable",
+}
 
-# Extended custom stopwords for bug reports
+# Boilerplate only. Do NOT add bug-domain terms such as file, page, window,
+# open, close, click, line, use, get, or new: they carry severity signal.
 CUSTOM_STOPWORDS = {
-    # Platform/tool specific
-    "always",
-    "firefox",
-    "mozilla",
-    "gecko",
     "bugzilla",
-    "os",
-    "com",
-    "nt",
     "http",
-    "window",
-    "windows",
+    "https",
+    "www",
+    "com",
     "enus",
-    # Procedural language
+    "testcase",
+    "testcases",
     "reproduce",
     "reproduced",
     "reproducing",
     "reproduces",
     "reproducible",
     "reproducibly",
-    "see",
-    "saw",
-    "sees",
-    "seeing",
-    "seen",
-    "step",
-    "steps",
-    "stepped",
-    "stepping",
-    "report",
-    "reported",
-    "reports",
-    "reporting",
-    "reporter",
-    "testcases",
-    "testcase",
-    "expect",
-    "expected",
-    "expects",
-    # Generic actions
-    "use",
-    "uses",
-    "used",
-    "using",
-    "get",
-    "gets",
-    "got",
-    "gotten",
-    "getting",
-    "try",
-    "tries",
-    "tried",
-    "trying",
-    "open",
-    "opens",
-    "opened",
-    "opening",
-    "close",
-    "closes",
-    "closed",
-    "closing",
-    "click",
-    "clicks",
-    "clicked",
-    "clicking",
-    "produce",
-    "produces",
-    "produced",
-    "producing",
-    "build",
-    "builds",
-    "built",
-    "building",
-    # Generic nouns
-    "line",
-    "lines",
-    "result",
-    "results",
-    "resulting",
-    "resulted",
-    "file",
-    "files",
-    "filed",
-    "page",
-    "pages",
-    "paged",
-    # Temporal
-    "new",
-    "news",
-    "newly",
-    "newer",
-    "newest",
-    "today",
-    "yesterday",
-    "current",
-    "currently",
-    "latest",
-    "recent",
-    "recently",
 }
 
-# Add single letters
+# Add single letters (noise from tokenization)
 CUSTOM_STOPWORDS.update(string.ascii_lowercase)
 
-# Model settings
-TFIDF_MAX_FEATURES = 1000
-TFIDF_MIN_DF = 2
-TFIDF_MAX_DF = 0.8
-NGRAM_RANGE = (1, 1)  # Based on hyperparameter tuning results
+# Legacy Random Forest baseline (1000 filtered features)
+RF_TFIDF_MAX_FEATURES = 1000
+RF_TFIDF_MIN_DF = 2
+RF_TFIDF_MAX_DF = 0.8
+RF_NGRAM_RANGE = (1, 1)
+
+# Primary linear model (near-raw text)
+RAW_TFIDF_MAX_FEATURES = 20000
+RAW_TFIDF_MIN_DF = 2
+RAW_TFIDF_MAX_DF = 0.8
+RAW_NGRAM_RANGE = (1, 2)
+RAW_SUBLINEAR_TF = True
+# Keeps contractions such as "can't" and "don't" intact. The sklearn
+# default splits them into "can" + "t", and "can" is an NLTK stopword.
+RAW_TOKEN_PATTERN = r"(?u)\b\w[\w']+\b"
+
+# Multiclass strategies compared by the training script
+MULTICLASS_STRATEGIES = ["ovr", "multinomial"]
 
 # Training settings
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
 CV_FOLDS = 5
+CV_REPEATS = 2  # Repeated CV: a single 5-fold split is too noisy for selection
+EVAL_SEEDS = [42, 0, 1, 2, 3]
 
-# Hyperparameter grids
-RF_PARAM_GRID = {
-    "feature_combiner__ngram_range": [(1, 1), (1, 2)],
-    "classifier__n_estimators": [100, 200],
-    "classifier__max_depth": [10, 20, 30],
-    "classifier__min_samples_split": [2, 10],
-}
-
-LR_PARAM_GRID = {
-    "feature_combiner__ngram_range": [(1, 1), (1, 2)],
-    "classifier__C": [0.1, 1, 10],
-    "classifier__penalty": ["l2"],
-}
+# Prefer the default regularisation unless a tuned value wins by more than
+# this margin. A 0.003 CV difference is well inside fold noise and did not
+# replicate on held-out splits.
+DEFAULT_C = 1.0
+CV_TOLERANCE = 0.005

@@ -13,10 +13,12 @@ src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
 from data.preprocessor import TextPreprocessor
+from models.linear import TEXT_COLUMN
 from models.train import ModelTrainer
+from utils.config import BEST_MODEL_PATH, LEGACY_MODEL_PATH
 
-# CRITICAL: Import FeatureCombiner BEFORE loading model
-from utils.custom_transformers import FeatureCombiner
+# CRITICAL: import before unpickling so pickle can resolve the class
+from utils.custom_transformers import FeatureCombiner  # noqa: F401
 
 
 def print_prediction_results(prediction: str, probabilities: np.ndarray, label_encoder):
@@ -119,13 +121,9 @@ def predict_bug_severity(
     tuple
         (prediction, confidence, all_probabilities)
     """
-    # Default model path
+    # Prefer the newly selected artifact, fall back to the legacy RF model
     if model_path is None:
-        model_path = (
-            Path(__file__).parent.parent
-            / "models"
-            / "best_model_random_forest_tuned.pkl"
-        )
+        model_path = BEST_MODEL_PATH if BEST_MODEL_PATH.exists() else LEGACY_MODEL_PATH
 
     # Load model
     if verbose:
@@ -140,13 +138,15 @@ def predict_bug_severity(
         print("Preprocessing text...")
 
     preprocessor = TextPreprocessor()
-    combined_text = preprocessor.combine_text(short_desc, long_desc)
-    text_processed = preprocessor.preprocess(combined_text)
+    text_for_model = preprocessor.build_model_text(short_desc, long_desc)
+    text_processed = preprocessor.preprocess(text_for_model)
     text_length = len(text_processed.split())
 
-    # Create feature DataFrame
+    # Include every column either pipeline family may need. ColumnTransformer
+    # ignores the extras; FeatureCombiner reads its own.
     bug_df = pd.DataFrame(
         {
+            TEXT_COLUMN: [text_for_model],
             "text_processed": [text_processed],
             "component_name": [component],
             "product_name": [product],

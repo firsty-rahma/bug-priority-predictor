@@ -4,17 +4,47 @@ Text preprocessing utilities with POS-aware lemmatization.
 
 import logging
 import re
-import string
 from typing import List, Optional
 
 import nltk
-import numpy as np
 import pandas as pd
 from nltk import pos_tag
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer
 
+from utils.config import CUSTOM_STOPWORDS, NEGATION_WORDS
+
 logger = logging.getLogger(__name__)
+
+# Expand contractions before punctuation stripping. Without this, "can't"
+# is split into "can" + "t", and "can" is an NLTK stopword, so the
+# negation disappears from the processed text entirely.
+CONTRACTIONS = {
+    "ain't": "is not",
+    "aren't": "are not",
+    "can't": "cannot",
+    "couldn't": "could not",
+    "didn't": "did not",
+    "doesn't": "does not",
+    "don't": "do not",
+    "hadn't": "had not",
+    "hasn't": "has not",
+    "haven't": "have not",
+    "isn't": "is not",
+    "mustn't": "must not",
+    "needn't": "need not",
+    "shan't": "shall not",
+    "shouldn't": "should not",
+    "wasn't": "was not",
+    "weren't": "were not",
+    "won't": "will not",
+    "wouldn't": "would not",
+}
+
+_CONTRACTION_RE = re.compile(
+    r"\b(?:" + "|".join(map(re.escape, CONTRACTIONS)) + r")\b",
+    flags=re.IGNORECASE,
+)
 
 
 class TextPreprocessor:
@@ -60,19 +90,16 @@ class TextPreprocessor:
     def _download_nltk_data(self) -> None:
         """Download required NLTK data packages."""
         required_packages = [
-            "stopwords",
-            "wordnet",
-            "omw-1.4",
-            "averaged_perceptron_tagger",  # For POS tagging
+            ("corpora", "stopwords"),
+            ("corpora", "wordnet"),
+            ("corpora", "omw-1.4"),
+            ("taggers", "averaged_perceptron_tagger"),
+            ("taggers", "averaged_perceptron_tagger_eng"),
         ]
 
-        for package in required_packages:
+        for folder, package in required_packages:
             try:
-                nltk.data.find(
-                    f"corpora/{package}"
-                    if package != "averaged_perceptron_tagger"
-                    else f"taggers/{package}"
-                )
+                nltk.data.find(f"{folder}/{package}")
             except LookupError:
                 logger.info(f"Downloading NLTK package: {package}")
                 nltk.download(package, quiet=True)
@@ -94,134 +121,30 @@ class TextPreprocessor:
         # Start with standard English stopwords
         stop_words = set(stopwords.words("english"))
 
-        # Clean special characters from standard stopwords
-        cleaned_stop_words = {re.sub(r"[^a-z]", "", s) for s in stop_words}
+        # Normalize the same way clean_text does so entries match tokens
+        cleaned_stop_words = {self.clean_text(word) for word in stop_words}
+        cleaned_stop_words = {word for word in cleaned_stop_words if word}
 
-        # Add default extended stopwords if none provided
+        # Never remove negation or contrast terms
+        cleaned_stop_words -= NEGATION_WORDS
+
         if custom_stopwords is None:
             custom_stopwords = self._get_default_custom_stopwords()
 
-        # Add custom stopwords
         cleaned_stop_words.update(custom_stopwords)
+        cleaned_stop_words -= NEGATION_WORDS
 
         return cleaned_stop_words
 
     @staticmethod
     def _get_default_custom_stopwords() -> set:
         """
-        Get default extended stopword list for bug reports.
+        Return the reduced, boilerplate-only stopword set.
 
-        Returns
-        -------
-        set
-            Extended stopword set
+        Domain terms such as "crash", "file", "window", "open", "close",
+        and "click" are intentionally kept: they carry severity signal.
         """
-        custom_stopwords = {
-            # Platform/tool specific
-            "always",
-            "firefox",
-            "mozilla",
-            "gecko",
-            "bugzilla",
-            "os",
-            "com",
-            "nt",
-            "http",
-            "window",
-            "windows",
-            "enus",
-            # Procedural language
-            "reproduce",
-            "reproduced",
-            "reproducing",
-            "reproduces",
-            "reproducible",
-            "reproducibly",
-            "see",
-            "saw",
-            "sees",
-            "seeing",
-            "seen",
-            "step",
-            "steps",
-            "stepped",
-            "stepping",
-            "report",
-            "reported",
-            "reports",
-            "reporting",
-            "reporter",
-            "testcases",
-            "testcase",
-            "expect",
-            "expected",
-            "expects",
-            # Generic actions
-            "use",
-            "uses",
-            "used",
-            "using",
-            "get",
-            "gets",
-            "got",
-            "gotten",
-            "getting",
-            "try",
-            "tries",
-            "tried",
-            "trying",
-            "open",
-            "opens",
-            "opened",
-            "opening",
-            "close",
-            "closes",
-            "closed",
-            "closing",
-            "click",
-            "clicks",
-            "clicked",
-            "clicking",
-            "produce",
-            "produces",
-            "produced",
-            "producing",
-            "build",
-            "builds",
-            "built",
-            "building",
-            # Generic nouns
-            "line",
-            "lines",
-            "result",
-            "results",
-            "resulting",
-            "resulted",
-            "file",
-            "files",
-            "filed",
-            "page",
-            "pages",
-            "paged",
-            # Temporal
-            "new",
-            "news",
-            "newly",
-            "newer",
-            "newest",
-            "today",
-            "yesterday",
-            "current",
-            "currently",
-            "latest",
-            "recent",
-            "recently",
-        }
-
-        # Add single letters (noise from tokenization)
-        custom_stopwords.update(string.ascii_lowercase)
-
-        return custom_stopwords
+        return set(CUSTOM_STOPWORDS)
 
     def combine_text(self, short_desc: str, long_desc: str) -> str:
         """
@@ -243,9 +166,38 @@ class TextPreprocessor:
         long = str(long_desc) if pd.notna(long_desc) else ""
         return f"{short} {long}".strip()
 
+    def build_model_text(self, short_desc: str, long_desc: str) -> str:
+        """
+        Build the near-raw text consumed by the linear model.
+
+        Deliberately minimal: combine, strip URLs/HTML, collapse whitespace.
+        Case, punctuation, digits, and negations are preserved. TF-IDF
+        lowercases internally, so lowercasing here would be redundant.
+
+        Parameters
+        ----------
+        short_desc : str
+            Short description
+        long_desc : str
+            Long description
+
+        Returns
+        -------
+        str
+            Combined text for the model
+        """
+        combined = self.combine_text(short_desc, long_desc)
+        combined = re.sub(r"https?://\S+|www\.\S+", " ", combined)
+        combined = re.sub(r"<[^>]+>", " ", combined)
+        return re.sub(r"\s+", " ", combined).strip()
+
     def clean_text(self, text: str) -> str:
         """
-        Clean text: lowercase, remove special characters.
+        Normalize text before tokenization.
+
+        Keeps digits, version numbers, error codes, and the characters
+        that make up technical identifiers. Contractions are expanded so
+        negations survive tokenization.
 
         Parameters
         ----------
@@ -260,13 +212,18 @@ class TextPreprocessor:
         if pd.isna(text) or text == "":
             return ""
 
-        # Lowercase
-        text = str(text).lower()
+        text = str(text)
+        text = _CONTRACTION_RE.sub(
+            lambda match: CONTRACTIONS[match.group(0).lower()], text
+        )
+        text = text.lower()
 
-        # Remove special characters, keep only letters and spaces
-        text = re.sub(r"[^a-z\s]", "", text)
+        # Boilerplate only: URLs and HTML tags
+        text = re.sub(r"https?://\S+|www\.\S+", " ", text)
+        text = re.sub(r"<[^>]+>", " ", text)
 
-        # Remove extra whitespace
+        # Keep letters, digits, apostrophes, and intra-word separators
+        text = re.sub(r"[^a-z0-9'\s._-]", " ", text)
         text = re.sub(r"\s+", " ", text).strip()
 
         return text
@@ -499,13 +456,21 @@ class TextPreprocessor:
             axis=1,
         )
 
-        # Preprocess text
+        # Near-raw text for the primary linear model
+        df["text_for_model"] = df.apply(
+            lambda row: self.build_model_text(
+                row["short_description"], row["long_description"]
+            ),
+            axis=1,
+        )
+
+        # Legacy cleaned text for the Random Forest baseline
         if show_progress:
             logger.info("Preprocessing text...")
             if self.use_pos_lemmatization:
                 logger.info("  Using POS-aware lemmatization (may take longer)...")
 
-        df["text_processed"] = df["text_combined"].apply(self.preprocess)
+        df["text_processed"] = df["text_for_model"].apply(self.preprocess)
 
         # Calculate text length
         df["text_length"] = df["text_processed"].str.split().str.len()

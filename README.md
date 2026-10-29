@@ -3,23 +3,24 @@
 Automated bug severity classification using NLP and machine learning, trained on ~10,000 Mozilla Firefox bug reports from Bugzilla.
 
 [![Tests](https://github.com/firsty-rahma/bug-priority-predictor/workflows/Tests/badge.svg)](https://github.com/firsty-rahma/bug-priority-predictor/actions)
-![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)
-![Coverage](https://img.shields.io/badge/coverage-85%25-green)
+![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
 ![License](https://img.shields.io/badge/license-MIT-yellow)
 
 ---
 
 ## Result
 
-**F1-Macro 0.29 on the test set — a 123% improvement over the majority-class baseline (0.13).**
+**F1-Macro 0.34 on the held-out test set — 2.4x the majority-class baseline (0.14).**
 
 | Metric            | Baseline (always "normal") | This model |
 |-------------------|----------------------------|------------|
-| Accuracy          | 76.0%                      | 66.0%      |
-| F1-Macro          | 0.13                       | **0.29**   |
+| Accuracy          | 76.0%                      | 65.3%      |
+| F1-Macro          | 0.14                       | **0.34**   |
 | Classes detected  | 1 of 6                     | **6 of 6** |
 
-The trade-off is intentional: the baseline gets higher accuracy by ignoring 24% of the data. This model sacrifices accuracy to give every severity class a non-zero recall, which is what assisted triage actually needs.
+Selection uses repeated 5-fold cross-validation on the training split only. The test set is evaluated once, after the model is frozen. Across five independent 80/20 splits the selected model scores **0.350 +/- 0.012** macro F1, versus **0.310 +/- 0.013** for the previous Random Forest + SMOTE baseline.
+
+The trade-off is intentional: the baseline gets higher accuracy by ignoring 24% of the data. This model sacrifices accuracy to give every severity class non-zero recall, which is what assisted triage actually needs.
 
 **Recommended use:** human-in-the-loop triage assistant, not full automation. See [Limitations](#limitations).
 
@@ -29,9 +30,9 @@ The trade-off is intentional: the baseline gets higher accuracy by ignoring 24% 
 
 Bugzilla-style trackers receive thousands of reports daily. Manual severity assignment is slow, inconsistent across reviewers, and risks delayed response on critical bugs in high-volume environments.
 
-The task: classify each bug into one of six severity levels (`blocker`, `critical`, `major`, `minor`, `normal`, `trivial`) from the report text, component, and product.
+The task: classify each bug into one of six severity levels (`blocker`, `critical`, `major`, `minor`, `normal`, `trivial`) from the report text.
 
-The hard part: a 37:1 class imbalance between `normal` (76% of data) and `blocker` (2.1%). Naive models simply predict `normal` every time and get 76% accuracy while being useless.
+The hard part: a 36:1 class imbalance between `normal` (76% of data) and `blocker` (2.1%). Naive models simply predict `normal` every time and get 76% accuracy while being useless.
 
 ---
 
@@ -40,18 +41,27 @@ The hard part: a 37:1 class imbalance between `normal` (76% of data) and `blocke
 ```
 Raw bug reports (9,998)
         ↓
-Text preprocessing  ── selective stop-word removal (keeps technical negations: "not", "can't")
+Near-raw text      ── short + long description; URLs/HTML stripped;
+                      digits, identifiers, and negations kept
         ↓
-Feature engineering ── TF-IDF (unigrams) + text length + component + product
+Feature engineering ── TF-IDF words + bigrams (20k features, sublinear TF);
+                      contractions preserved ("can't", "don't")
         ↓
-Class imbalance     ── SMOTE oversampling on minority classes
+Class imbalance     ── class_weight="balanced" in the classifier;
+                      no SMOTE (it interpolates ordinal codes)
         ↓
-Model               ── Random Forest (n=200, max_depth=20), tuned via GridSearchCV
+Model               ── one-vs-rest logistic regression (C=1.0)
         ↓
-Evaluation          ── per-class precision/recall, error analysis, ablation study
+Selection           ── repeated 5-fold CV on the training split;
+                      test set touched once
+        ↓
+Evaluation          ── per-class precision/recall, error analysis,
+                      5-split robustness check
 ```
 
-Random Forest was chosen over Logistic Regression for better minority-class handling. XGBoost was excluded due to memory constraints during development.
+The Random Forest + SMOTE pipeline is kept as a comparison baseline. It is not the primary model: on sparse 20k-feature text it underperforms a linear classifier, and applying SMOTE to ordinal-encoded categories created meaningless fractional values.
+
+On this dataset, one-vs-rest beats a single multinomial softmax on macro F1 (0.350 vs 0.335 across five splits). Macro F1 weights all six classes equally, and OvR gives each class its own decision boundary instead of concentrating capacity on `normal` (76% of the data).
 
 ---
 
@@ -60,28 +70,30 @@ Random Forest was chosen over Logistic Regression for better minority-class hand
 ```
               precision    recall  f1-score   support
 
-     blocker       0.10      0.05      0.06        41
-    critical       0.48      0.48      0.48       121
-       major       0.16      0.22      0.19       148
-       minor       0.10      0.06      0.07       108
-      normal       0.81      0.79      0.80      1521
-     trivial       0.11      0.21      0.14        61
+     blocker       0.27      0.17      0.21        41
+    critical       0.49      0.52      0.51       121
+       major       0.14      0.25      0.18       148
+       minor       0.14      0.19      0.16       108
+      normal       0.83      0.77      0.80      1521
+     trivial       0.26      0.15      0.19        61
 
-   macro avg       0.29      0.30      0.29      2000
-weighted avg       0.67      0.66      0.66      2000
+   macro avg       0.36      0.34      0.34      2000
+weighted avg       0.69      0.65      0.67      2000
 ```
 
-The model is genuinely useful on `normal` (the bulk of traffic) and `critical` (the class that matters most for triage), and weak on `blocker` and `minor` — both extreme minority classes where SMOTE alone isn't enough. See [docs/error-analysis.md](docs/error-analysis.md) for the breakdown.
+The model is most reliable on `normal` (F1 0.80) and `critical` (0.51). The other four classes are weak (F1 0.16–0.21): `blocker` has only 205 examples, and `minor` is partly label noise. See [results/error_analysis_report.txt](results/error_analysis_report.txt) for the breakdown.
 
 ---
 
 ## What I validated
 
-**Ablation study on the top feature.** "crash" was the strongest single feature at 7.2% importance. To check whether it carried real signal or was just correlated with severity, I retrained without it: F1-Macro dropped from 0.291 to 0.278, critical recall from 48% to 43%, blocker recall from 5% to 3%. The signal is real and not redundant with other features.
+**Candidate comparison across five random splits.** The selected OvR linear model scored 0.350 +/- 0.012 macro F1. A multinomial logistic regression scored 0.335 +/- 0.015, and the previous Random Forest + SMOTE baseline scored 0.310 +/- 0.013. The ordering is stable across all five seeds.
 
-**Stopword strategy comparison.** Tested three approaches: remove all NLTK stop words, remove none, and selective removal (keep technical negations like "not", "can't", "doesn't"). Selective removal won at 0.34 CV F1-Macro vs 0.32 and 0.31 for the other two. Domain-specific preprocessing matters more than generic NLP defaults.
+**Preprocessing ablation.** The old pipeline removed all NLTK stopwords (including `not`, `no`, `nor`), stripped digits and identifiers, and lemmatised every token. Switching to near-raw text raised the linear model from 0.306 to 0.330 in an earlier five-split check. That check changed several preprocessing choices at once, so the gain cannot be attributed to negations alone.
 
-**Error patterns by text length.** Error rate climbs from 23% on very short descriptions (<20 chars) to 64% on very long ones (200+ chars). The TF-IDF + Random Forest combination doesn't capture context well in long text — a transformer-based approach (BERT) is the obvious next step.
+**Tuning is easy to overfit.** In an earlier single 5-fold run, `C=0.3` narrowly beat `C=1.0` (CV 0.358 vs 0.356), but five independent splits reversed the result: 0.342 versus 0.350. Repeated CV likewise preferred unigrams only by 0.003, but five independent splits gave 0.347 versus 0.350 for unigrams + bigrams. The tuning script therefore compares against the full default configuration and keeps it unless a tuned combination wins by more than 0.005.
+
+**Error patterns by text length.** Error rate climbs from 22% on very short reports (<20 words) to 61% on very long ones (200+ words). TF-IDF has no notion of discourse structure, so long reports are harder.
 
 ---
 
@@ -89,16 +101,19 @@ The model is genuinely useful on `normal` (the bulk of traffic) and `critical` (
 
 I want to be direct about what this model is not:
 
-- **Not production-ready for autonomous decisions.** 95% of `blocker` bugs are missed. Any system using this model must keep humans in the loop for high-severity classifications.
-- **Confidence scores are poorly calibrated.** Average confidence on correct predictions (34.7%) is barely higher than on incorrect ones (31.5%). Don't use confidence thresholds without calibration (Platt scaling or isotonic regression).
+- **Not production-ready for autonomous decisions.** 82% of `blocker` bugs are still missed. Any system using this model must keep humans in the loop for high-severity classifications.
+- **Confidence scores are poorly calibrated.** Average confidence on correct predictions (0.42) is only modestly higher than on incorrect ones (0.33). Don't use confidence thresholds without calibration (Platt scaling or isotonic regression).
+- **`minor` labels are noisy.** In the raw data, `severity_code` 2 covers both `minor` and `normal` (541 vs 7,604 rows), and code 3 is absent. The model cannot reliably separate those two classes; this is a label problem, not only a modelling problem.
 - **Trained on Mozilla Firefox bugs only.** Generalization to other products, domains, or non-English bug reports is untested.
-- **F1-Macro 0.29 is modest.** Published research on similar tasks reports 0.6–0.8 using fine-tuned BERT and larger proprietary datasets. This project uses public data and classical ML to keep it reproducible.
+- **F1-Macro 0.34 is modest.** Reported results on similar tasks are often 0.6–0.8 with fine-tuned transformers and larger datasets; those numbers are not directly comparable. This project uses public data and classical ML to stay reproducible.
 
 A realistic deployment would run this model in shadow mode against human triagers for several months before any automation, route low-confidence and high-severity predictions to humans, and retrain monthly on corrected labels.
 
 ---
 
 ## Quick start
+
+Requires Python 3.11 or newer; CI covers 3.11 through 3.14.
 
 ```bash
 git clone https://github.com/firsty-rahma/bug-priority-predictor.git
@@ -108,9 +123,10 @@ python -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\activate
 
 pip install -r requirements.txt
-python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4')"
+pip install -r requirements-dev.txt   # pytest, black, isort
+python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4'); nltk.download('averaged_perceptron_tagger'); nltk.download('averaged_perceptron_tagger_eng')"
 
-pytest tests/ -v                  # verify install (85% coverage)
+pytest tests/ -v                  # verify install
 ```
 
 Run the full pipeline:
@@ -118,12 +134,12 @@ Run the full pipeline:
 ```bash
 python scripts/01_data_exploration.py
 python scripts/02_text_preprocessing.py
-python scripts/03_modeling.py
-python scripts/04_hyperparameter_tuning.py
+python scripts/03_modelling.py
+python scripts/04_modelling_hypertuning.py
 python scripts/05_error_analysis.py
 ```
 
-Total runtime: ~23 minutes on a 4-core CPU. Or run `make train`.
+Total runtime: ~10–15 minutes on a 4-core CPU. Or run `make train`.
 
 Interactive prediction: `python scripts/predict.py`.
 
@@ -135,18 +151,18 @@ Interactive prediction: `python scripts/predict.py`.
 bug-priority-predictor/
 ├── src/                  # Library code
 │   ├── data/             # Loading and preprocessing
-│   ├── features/         # Feature engineering
-│   ├── models/           # Training, evaluation, inference
-│   └── config.py         # Centralized hyperparameters
+│   ├── evaluation/       # Metrics and plots
+│   ├── models/           # Linear model, RF baseline, trainer
+│   └── utils/            # Config and custom transformers
 ├── scripts/              # Numbered, runnable pipeline stages
-├── tests/                # pytest suite, 85% coverage
-├── docs/                 # Detailed analysis writeups
+├── tests/                # pytest suite
+├── docs/                 # Dependency and license documentation
 ├── notebooks/            # Exploratory work
 ├── .github/workflows/    # CI: tests run on every push
 └── requirements.txt
 ```
 
-Design notes: library code is separated from execution scripts so the pipeline stages stay short and the logic stays testable. All hyperparameters live in `src/config.py` so experiments don't require code changes. Random seeds are fixed at 42 throughout; expect ±2% variation between runs from SMOTE and parallel processing.
+Design notes: library code is separated from execution scripts so the pipeline stages stay short and the logic stays testable. All hyperparameters live in `src/utils/config.py` so experiments don't require code changes. The main training seed is 42; the robustness check uses seeds 42, 0, 1, 2, and 3. Expect roughly ±1.5% macro-F1 variation between splits.
 
 ---
 
@@ -160,9 +176,9 @@ Design notes: library code is separated from execution scripts so the pipeline s
 
 ## Further reading
 
-- [docs/error-analysis.md](docs/error-analysis.md) — full error breakdown by class, text length, and confusion patterns
-- [docs/experiments.md](docs/experiments.md) — stopword strategy, ablation study, hyperparameter tuning logs
-- [docs/deployment-notes.md](docs/deployment-notes.md) — phased deployment strategy and monitoring requirements
+- [results/error_analysis_report.txt](results/error_analysis_report.txt) — full error breakdown by class, text length, and confusion patterns
+- [results/model_selection_summary.txt](results/model_selection_summary.txt) — candidate comparison and selection rationale
+- [results/hyperparameter_tuning_summary.txt](results/hyperparameter_tuning_summary.txt) — tuning grid, chosen parameters, and final test report
 
 ---
 

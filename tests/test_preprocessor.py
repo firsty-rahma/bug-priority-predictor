@@ -60,8 +60,12 @@ class TestTextPreprocessor:
         # Special character removal
         assert preprocessor.clean_text("Hello, World!") == "hello world"
 
-        # Numbers removal
-        assert preprocessor.clean_text("Test123") == "test"
+        # Numbers are kept: version numbers and error codes carry signal
+        assert preprocessor.clean_text("Test123") == "test123"
+        assert preprocessor.clean_text("Firefox 1.2.3 error") == "firefox 1.2.3 error"
+
+        # Contractions expand so negations survive tokenization
+        assert preprocessor.clean_text("Can't open") == "cannot open"
 
         # Empty/None handling
         assert preprocessor.clean_text("") == ""
@@ -128,6 +132,7 @@ class TestTextPreprocessor:
         result = preprocessor.preprocess_dataframe(sample_bug_data)
 
         # Check required columns exist
+        assert "text_for_model" in result.columns
         assert "text_processed" in result.columns
         assert "text_length" in result.columns
 
@@ -139,10 +144,31 @@ class TestTextPreprocessor:
             expected_length = len(row["text_processed"].split())
             assert row["text_length"] == expected_length
 
+    def test_negations_are_preserved(self):
+        """Negation terms must survive stopword removal."""
+        preprocessor = TextPreprocessor()
+
+        for term in ["not", "no", "nor", "cannot", "unable"]:
+            assert term not in preprocessor.stopwords
+
+        result = preprocessor.preprocess("The browser does not crash and no data loss")
+        assert "not" in result.split()
+        assert "no" in result.split()
+
+    def test_build_model_text_keeps_digits_and_punctuation(self):
+        """The linear model text is intentionally near-raw."""
+        preprocessor = TextPreprocessor()
+
+        result = preprocessor.build_model_text(
+            "Crash on 1.2.3", "Error NS_ERROR_FAILURE; can't open <b>file</b>"
+        )
+        assert "1.2.3" in result
+        assert "NS_ERROR_FAILURE" in result
+        assert "can't" in result
+        assert "<b>" not in result
+
     def test_preprocess_with_custom_stopwords(self):
         """Test preprocessing with custom stopwords."""
-        # Note: 'crash' is in the default extended stopwords!
-        # So we need to test with words NOT in default list
         custom_stopwords = ["vulnerability", "security"]
         preprocessor = TextPreprocessor(custom_stopwords=custom_stopwords)
 

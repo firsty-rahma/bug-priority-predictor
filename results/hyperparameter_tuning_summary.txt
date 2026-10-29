@@ -1,57 +1,41 @@
-======================================================================
 HYPERPARAMETER TUNING SUMMARY
 ======================================================================
 
-Date: 2026-04-01 06:43:12
+Date: 2026-10-28 20:27:46
 Dataset size: 9998 rows
 Train set: 7998 samples
 Test set: 2000 samples
 
-Label Encoding:
-  blocker -> 0
-  critical -> 1
-  major -> 2
-  minor -> 3
-  normal -> 4
-  trivial -> 5
+ovr:
+  Best CV F1-macro: 0.3478
+  Tuning time: 2.70 minutes
+  Best parameters:
+    classifier__estimator__C: 1.0
+    features__word__max_features: 20000
+    features__word__ngram_range: (1, 2)
 
-----------------------------------------------------------------------
-MODEL COMPARISON
-----------------------------------------------------------------------
-
-Random Forest:
-  Best CV F1-Macro: 0.3328
-  Tuning Time: 15.82 minutes
-  Best Parameters:
-    classifier__max_depth: 20
-    classifier__min_samples_split: 2
-    classifier__n_estimators: 200
-    feature_combiner__ngram_range: (1, 1)
-
-Logistic Regression:
-  Best CV F1-Macro: 0.2871
-  Tuning Time: 2.61 minutes
-  Best Parameters:
-    classifier__C: 10
-    classifier__penalty: l2
-    feature_combiner__ngram_range: (1, 1)
+multinomial:
+  Best CV F1-macro: 0.3478
+  Tuning time: 3.23 minutes
+  Best parameters:
+    classifier__C: 1.0
+    features__word__max_features: 20000
+    features__word__ngram_range: (1, 2)
 
 ======================================================================
-BEST MODEL: Random Forest
-CV F1-Macro: 0.3328
-Test F1-Macro: 0.3018
+BEST: ovr
+CV F1-macro: 0.3478
+Test F1-macro: 0.3402
 ======================================================================
 
-TEST SET PERFORMANCE:
+TEST SET PERFORMANCE (single evaluation):
               precision    recall  f1-score   support
-
-     blocker       0.18      0.05      0.08        41
-    critical       0.48      0.48      0.48       121
-       major       0.18      0.20      0.19       148
-       minor       0.14      0.07      0.10       108
-      normal       0.81      0.82      0.81      1521
-     trivial       0.12      0.23      0.15        61
-
-    accuracy                           0.68      2000
-   macro avg       0.32      0.31      0.30      2000
-weighted avg       0.67      0.68      0.67      2000
+blocker        0.269231  0.170732  0.208955    41.000
+critical       0.492188  0.520661  0.506024   121.000
+major          0.141762  0.250000  0.180929   148.000
+minor          0.137931  0.185185  0.158103   108.000
+normal         0.832740  0.769231  0.799727  1521.000
+trivial        0.257143  0.147541  0.187500    61.000
+accuracy       0.653000  0.653000  0.653000     0.653
+macro avg      0.355166  0.340558  0.340206  2000.000
+weighted avg   0.694377  0.653000  0.670735  2000.000

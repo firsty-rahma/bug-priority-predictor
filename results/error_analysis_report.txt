@@ -1,56 +1,56 @@
 ======================================================================
 ERROR ANALYSIS REPORT
-Bug Severity Classification - Random Forest Model
+Bug Severity Classification - ovr_logistic_regression_tuned
 ======================================================================
 
 1. OVERALL STATISTICS
 ----------------------------------------------------------------------
 Total predictions: 2000
-Correct: 1311 (65.5%)
-Incorrect: 689 (34.4%)
+Correct: 1306 (65.3%)
+Incorrect: 694 (34.7%)
 
 2. ERROR RATE BY CLASS
 ----------------------------------------------------------------------
    Class  Total  Errors  Error Rate (%)  Accuracy (%)
- blocker     41      39       95.121951      4.878049
-critical    121      63       52.066116     47.933884
-   major    148     116       78.378378     21.621622
-   minor    108     102       94.444444      5.555556
-  normal   1521     321       21.104536     78.895464
- trivial     61      48       78.688525     21.311475
+ blocker     41      34       82.926829     17.073171
+critical    121      58       47.933884     52.066116
+   major    148     111       75.000000     25.000000
+   minor    108      88       81.481481     18.518519
+  normal   1521     351       23.076923     76.923077
+ trivial     61      52       85.245902     14.754098
 
 3. TOP MISCLASSIFICATION PATTERNS
 ----------------------------------------------------------------------
 true_label predicted_label  count
-    normal           major    134
-     major          normal     90
-    normal         trivial     86
-     minor          normal     75
-  critical          normal     49
-    normal           minor     44
-    normal        critical     43
-   trivial          normal     35
-   blocker          normal     30
-    normal         blocker     14
+    normal           major    177
+    normal           minor     98
+     major          normal     83
+     minor          normal     68
+    normal        critical     45
+   trivial          normal     32
+  critical          normal     31
+   blocker          normal     21
+    normal         trivial     19
+  critical           major     16
 
 4. CONFIDENCE ANALYSIS
 ----------------------------------------------------------------------
-Avg confidence (correct): 0.347
-Avg confidence (incorrect): 0.315
-Confidence gap: 0.032
+Avg confidence (correct): 0.418
+Avg confidence (incorrect): 0.332
+Confidence gap: 0.086
 
 5. CRITICAL ERRORS
 ----------------------------------------------------------------------
-Critical/Blocker missed (predicted as normal): 79
+Critical/Blocker missed (predicted as normal): 52
 False alarms (normal predicted as critical): 57
 
 6. TEXT LENGTH ANALYSIS
 ----------------------------------------------------------------------
                    Total  Errors  Error Rate (%)
 text_length_bin                                 
-Very Short (0-20)    593     137            23.1
-Short (20-50)        835     275            32.9
-Medium (50-100)      430     198            46.0
-Long (100-200)       117      63            53.8
-Very Long (200+)      25      16            64.0
+Very Short (0-20)    409      91            22.2
+Short (20-50)        735     194            26.4
+Medium (50-100)      526     227            43.2
+Long (100-200)       253     135            53.4
+Very Long (200+)      77      47            61.0
 

@@ -2,7 +2,9 @@
 """
 Error Analysis Script
 
-Performs comprehensive error analysis and feature importance analysis.
+Performs comprehensive error analysis and feature importance analysis for
+the selected model. Supports both the linear pipeline and the legacy Random
+Forest baseline.
 """
 
 import sys
@@ -16,12 +18,15 @@ import numpy as np
 import pandas as pd
 
 from data.loader import load_preprocessed_data
+from data.preprocessor import TextPreprocessor
 from evaluation.metrics import ModelEvaluator
 from evaluation.visualization import EvaluationVisualizer
+from models.linear import TEXT_COLUMN
 from models.train import ModelTrainer
 from utils.config import (
+    BEST_MODEL_PATH,
     FIGURES_DIR,
-    MODEL_DIR,
+    LEGACY_MODEL_PATH,
     PREPROCESSED_DATA_PATH,
     RANDOM_STATE,
     RESULTS_DIR,
@@ -35,46 +40,101 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def analyze_feature_importance(model, X_train):
-    """Extract and analyze feature importance."""
-    logger.info("Analyzing feature importance...")
+def load_features():
+    """Load data with every column either pipeline family may need."""
+    data = load_preprocessed_data(PREPROCESSED_DATA_PATH)
 
-    # Get feature names
-    feature_combiner = model.named_steps["feature_combiner"]
+    if TEXT_COLUMN not in data.columns:
+        preprocessor = TextPreprocessor()
+        data[TEXT_COLUMN] = [
+            preprocessor.build_model_text(short, long)
+            for short, long in zip(data["short_description"], data["long_description"])
+        ]
 
-    # TF-IDF feature names
-    tfidf_features = feature_combiner.tfidf.get_feature_names_out()
+    if "text_length" not in data.columns:
+        data["text_length"] = data["text_processed"].str.split().str.len()
 
-    # Categorical features
-    categorical_features = ["component", "product", "text_length"]
+    columns = [
+        TEXT_COLUMN,
+        "text_processed",
+        "component_name",
+        "product_name",
+        "text_length",
+    ]
+    return data[columns].copy(), data["severity_category"].copy()
 
-    # Combine all feature names
-    all_features = list(tfidf_features) + categorical_features
 
-    # Get feature importance from Random Forest
+def analyze_linear_importance(model, label_encoder):
+    """Aggregate absolute coefficients across classes and per class."""
+    features = model.named_steps["features"]
     classifier = model.named_steps["classifier"]
-    importances = classifier.feature_importances_
 
-    # Create DataFrame
+    feature_names = np.asarray(features.get_feature_names_out())
+
+    # Older sklearn versions forwarded coef_ from OneVsRestClassifier;
+    # current versions expose the fitted binary estimators directly.
+    if hasattr(classifier, "coef_"):
+        coefficients = np.asarray(classifier.coef_)
+    else:
+        coefficients = np.vstack(
+            [estimator.coef_[0] for estimator in classifier.estimators_]
+        )
+
     importance_df = pd.DataFrame(
-        {"feature": all_features, "importance": importances}
+        {
+            "feature": feature_names,
+            "importance": np.mean(np.abs(coefficients), axis=0),
+        }
     ).sort_values("importance", ascending=False)
 
-    # Calculate feature type percentages
-    n_tfidf = len(tfidf_features)
-    tfidf_importance = importance_df.head(n_tfidf)["importance"].sum()
-    categorical_importance = importance_df.tail(len(categorical_features))[
-        "importance"
-    ].sum()
+    per_class = {}
+    for index, label in enumerate(label_encoder.classes_):
+        per_class[label] = (
+            pd.DataFrame(
+                {
+                    "feature": feature_names,
+                    "coefficient": coefficients[index],
+                }
+            )
+            .sort_values("coefficient", ascending=False)
+            .head(15)
+        )
 
-    logger.info(f"\nFeature Importance by Type:")
-    logger.info(f"  Text features (TF-IDF): {tfidf_importance*100:.1f}%")
-    logger.info(f"  Categorical/Numeric: {categorical_importance*100:.1f}%")
+    logger.info("\nTop 20 features (mean absolute coefficient):")
+    logger.info(importance_df.head(20).to_string(index=False))
 
-    logger.info(f"\nTop 10 Most Important Features:")
-    logger.info(importance_df.head(10).to_string(index=False))
+    return (
+        importance_df,
+        feature_names,
+        importance_df["importance"].to_numpy(),
+        per_class,
+    )
 
-    return importance_df, all_features, importances
+
+def analyze_rf_importance(model):
+    """Extract feature importances from the legacy Random Forest pipeline."""
+    feature_combiner = model.named_steps["feature_combiner"]
+    tfidf_features = list(feature_combiner.tfidf.get_feature_names_out())
+    categorical_features = ["component", "product", "text_length"]
+
+    feature_names = np.asarray(tfidf_features + categorical_features)
+    importances = np.asarray(model.named_steps["classifier"].feature_importances_)
+
+    importance_df = pd.DataFrame(
+        {"feature": feature_names, "importance": importances}
+    ).sort_values("importance", ascending=False)
+
+    logger.info("\nTop 20 features:")
+    logger.info(importance_df.head(20).to_string(index=False))
+
+    return importance_df, feature_names, importances, {}
+
+
+def analyze_feature_importance(model, label_encoder):
+    """Dispatch to the analyzer matching the pipeline family."""
+    if "feature_combiner" in model.named_steps:
+        return analyze_rf_importance(model)
+    return analyze_linear_importance(model, label_encoder)
 
 
 def save_error_report(
@@ -83,66 +143,65 @@ def save_error_report(
     critical_errors,
     confidence_analysis,
     text_length_analysis,
+    model_name,
     output_path,
 ):
     """Save comprehensive error analysis report."""
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write("=" * 70 + "\n")
-        f.write("ERROR ANALYSIS REPORT\n")
-        f.write("Bug Severity Classification - Random Forest Model\n")
-        f.write("=" * 70 + "\n\n")
+    with open(output_path, "w", encoding="utf-8") as handle:
+        handle.write("=" * 70 + "\n")
+        handle.write("ERROR ANALYSIS REPORT\n")
+        handle.write(f"Bug Severity Classification - {model_name}\n")
+        handle.write("=" * 70 + "\n\n")
 
-        # Overall statistics
-        f.write("1. OVERALL STATISTICS\n")
-        f.write("-" * 70 + "\n")
+        handle.write("1. OVERALL STATISTICS\n")
+        handle.write("-" * 70 + "\n")
         total = error_df["Total"].sum()
         errors = error_df["Errors"].sum()
-        f.write(f"Total predictions: {total}\n")
-        f.write(f"Correct: {total - errors} ({(total-errors)/total*100:.1f}%)\n")
-        f.write(f"Incorrect: {errors} ({errors/total*100:.1f}%)\n\n")
+        handle.write(f"Total predictions: {total}\n")
+        handle.write(
+            f"Correct: {total - errors} ({(total - errors) / total * 100:.1f}%)\n"
+        )
+        handle.write(f"Incorrect: {errors} ({errors / total * 100:.1f}%)\n\n")
 
-        # Error rate by class
-        f.write("2. ERROR RATE BY CLASS\n")
-        f.write("-" * 70 + "\n")
-        f.write(error_df.to_string(index=False))
-        f.write("\n\n")
+        handle.write("2. ERROR RATE BY CLASS\n")
+        handle.write("-" * 70 + "\n")
+        handle.write(error_df.to_string(index=False))
+        handle.write("\n\n")
 
-        # Top misclassification patterns
-        f.write("3. TOP MISCLASSIFICATION PATTERNS\n")
-        f.write("-" * 70 + "\n")
-        f.write(confusion_patterns.to_string(index=False))
-        f.write("\n\n")
+        handle.write("3. TOP MISCLASSIFICATION PATTERNS\n")
+        handle.write("-" * 70 + "\n")
+        handle.write(confusion_patterns.to_string(index=False))
+        handle.write("\n\n")
 
-        # Confidence analysis
         if confidence_analysis:
-            f.write("4. CONFIDENCE ANALYSIS\n")
-            f.write("-" * 70 + "\n")
-            f.write(
+            handle.write("4. CONFIDENCE ANALYSIS\n")
+            handle.write("-" * 70 + "\n")
+            handle.write(
                 f"Avg confidence (correct): {confidence_analysis['correct_avg']:.3f}\n"
             )
-            f.write(
+            handle.write(
                 f"Avg confidence (incorrect): {confidence_analysis['incorrect_avg']:.3f}\n"
             )
-            f.write(f"Confidence gap: {confidence_analysis['gap']:.3f}\n\n")
+            handle.write(f"Confidence gap: {confidence_analysis['gap']:.3f}\n\n")
 
-        # Critical errors
-        f.write("5. CRITICAL ERRORS\n")
-        f.write("-" * 70 + "\n")
-        f.write(
-            f"Critical/Blocker missed (predicted as normal): {critical_errors['critical_missed']}\n"
+        handle.write("5. CRITICAL ERRORS\n")
+        handle.write("-" * 70 + "\n")
+        handle.write(
+            "Critical/Blocker missed (predicted as normal): "
+            f"{critical_errors['critical_missed']}\n"
         )
-        f.write(
-            f"False alarms (normal predicted as critical): {critical_errors['false_alarms']}\n\n"
+        handle.write(
+            f"False alarms (normal predicted as critical): "
+            f"{critical_errors['false_alarms']}\n\n"
         )
 
-        # Text length analysis
         if text_length_analysis is not None:
-            f.write("6. TEXT LENGTH ANALYSIS\n")
-            f.write("-" * 70 + "\n")
-            f.write(text_length_analysis.to_string())
-            f.write("\n\n")
+            handle.write("6. TEXT LENGTH ANALYSIS\n")
+            handle.write("-" * 70 + "\n")
+            handle.write(text_length_analysis.to_string())
+            handle.write("\n\n")
 
-    logger.info(f"✅ Error report saved: {output_path}")
+    logger.info(f"Error report saved: {output_path}")
 
 
 def main():
@@ -151,51 +210,37 @@ def main():
     logger.info("ERROR ANALYSIS & FEATURE IMPORTANCE")
     logger.info("=" * 70)
 
-    # Load data
-    data = load_preprocessed_data(PREPROCESSED_DATA_PATH)
-
-    # Add text length if not present
-    if "text_length" not in data.columns:
-        data["text_length"] = data["text_processed"].str.split().str.len()
-
-    # Prepare features
-    X = data[["text_processed", "component_name", "product_name", "text_length"]].copy()
-    y = data["severity_category"]
-
-    # Load trained model
-    model_path = MODEL_DIR / "best_model_random_forest_tuned.pkl"
-
+    model_path = BEST_MODEL_PATH if BEST_MODEL_PATH.exists() else LEGACY_MODEL_PATH
     if not model_path.exists():
         logger.error(f"Model not found: {model_path}")
-        logger.error("Please run 04_hyperparameter_tuning.py first")
+        logger.error("Please run 03_modelling.py first")
         return
 
     logger.info(f"Loading model from {model_path}")
     model_data = ModelTrainer.load_model(model_path)
     model = model_data["model"]
     label_encoder = model_data["label_encoder"]
+    metadata = model_data.get("metadata", {})
+    model_name = metadata.get("candidate", model_path.stem)
 
-    # Split data (same as training)
+    X, y = load_features()
+    y_encoded = label_encoder.transform(y)
+
     from sklearn.model_selection import train_test_split
 
-    y_encoded = label_encoder.transform(y)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y_encoded, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=y_encoded
     )
 
-    # Predictions
     logger.info("\nGenerating predictions...")
     y_pred = model.predict(X_test)
     y_pred_proba = model.predict_proba(X_test)
 
-    # Decode labels
     y_test_decoded = label_encoder.inverse_transform(y_test)
     y_pred_decoded = label_encoder.inverse_transform(y_pred)
 
-    # Initialize evaluator
     evaluator = ModelEvaluator(class_labels=sorted(label_encoder.classes_))
 
-    # Error analysis
     logger.info("\n" + "=" * 70)
     logger.info("PERFORMING ERROR ANALYSIS")
     logger.info("=" * 70)
@@ -206,7 +251,6 @@ def main():
     )
     critical_errors = evaluator.critical_errors(y_test_decoded, y_pred_decoded)
 
-    # Confidence analysis
     confidence_correct = y_pred_proba[y_test == y_pred].max(axis=1)
     confidence_incorrect = y_pred_proba[y_test != y_pred].max(axis=1)
 
@@ -216,18 +260,16 @@ def main():
         "gap": confidence_correct.mean() - confidence_incorrect.mean(),
     }
 
-    logger.info(f"\nConfidence Analysis:")
+    logger.info("\nConfidence Analysis:")
     logger.info(f"  Correct predictions: {confidence_analysis['correct_avg']:.3f}")
     logger.info(f"  Incorrect predictions: {confidence_analysis['incorrect_avg']:.3f}")
     logger.info(f"  Gap: {confidence_analysis['gap']:.3f}")
 
-    # Text length analysis
     test_data = X_test.copy()
     test_data["true_label"] = y_test_decoded
     test_data["pred_label"] = y_pred_decoded
     test_data["correct"] = y_test_decoded == y_pred_decoded
 
-    # Bin text lengths
     test_data["text_length_bin"] = pd.cut(
         test_data["text_length"],
         bins=[0, 20, 50, 100, 200, np.inf],
@@ -240,72 +282,76 @@ def main():
         ],
     )
 
-    text_length_analysis = test_data.groupby("text_length_bin").agg(
-        {"correct": ["count", lambda x: (~x).sum()]}
+    text_length_analysis = test_data.groupby("text_length_bin", observed=False).agg(
+        {"correct": ["count", lambda values: (~values).sum()]}
     )
     text_length_analysis.columns = ["Total", "Errors"]
     text_length_analysis["Error Rate (%)"] = (
         text_length_analysis["Errors"] / text_length_analysis["Total"] * 100
     ).round(1)
 
-    logger.info(f"\nText Length Analysis:")
+    logger.info("\nText Length Analysis:")
     logger.info(text_length_analysis.to_string())
 
-    # Feature importance
     logger.info("\n" + "=" * 70)
     logger.info("ANALYZING FEATURE IMPORTANCE")
     logger.info("=" * 70)
 
-    importance_df, feature_names, importances = analyze_feature_importance(
-        model, X_train
+    importance_df, feature_names, importances, per_class = analyze_feature_importance(
+        model, label_encoder
     )
 
-    # Save results
     logger.info("\nSaving results...")
-
-    # Save error report
     save_error_report(
         error_df,
         confusion_patterns,
         critical_errors,
         confidence_analysis,
         text_length_analysis,
+        model_name,
         RESULTS_DIR / "error_analysis_report.txt",
     )
 
-    # Save misclassified cases
+    importance_df.to_csv(RESULTS_DIR / "feature_importance.csv", index=False)
+    if per_class:
+        pd.concat(
+            [frame.assign(severity=label) for label, frame in per_class.items()],
+            ignore_index=True,
+        ).to_csv(RESULTS_DIR / "top_features_by_class.csv", index=False)
+
     misclassified = test_data[~test_data["correct"]].copy()
     misclassified_export = misclassified[
         [
             "true_label",
             "pred_label",
             "text_length",
-            "text_processed",
+            TEXT_COLUMN,
             "component_name",
             "product_name",
         ]
     ].copy()
-
-    # Add confidence
-    misclassified_indices = np.where(y_test != y_pred)[0]
-    misclassified_export["confidence"] = y_pred_proba[misclassified_indices].max(axis=1)
+    misclassified_export["confidence"] = y_pred_proba[y_test != y_pred].max(axis=1)
 
     misclassified_path = RESULTS_DIR / "misclassified_cases.csv"
     misclassified_export.to_csv(misclassified_path, index=False)
-    logger.info(f"✅ Misclassified cases saved: {misclassified_path}")
+    logger.info(f"Misclassified cases saved: {misclassified_path}")
 
-    # Visualizations
     logger.info("\nCreating visualizations...")
     visualizer = EvaluationVisualizer(class_labels=sorted(label_encoder.classes_))
 
-    # Error analysis plots
+    visualizer.plot_confusion_matrix(
+        y_test_decoded,
+        y_pred_decoded,
+        title=f"Confusion Matrix - {model_name}",
+        save_path=FIGURES_DIR / "confusion_matrix_final.png",
+    )
+
     visualizer.plot_error_analysis(
         error_df,
         confusion_patterns,
         save_path=FIGURES_DIR / "error_analysis_overview.png",
     )
 
-    # Feature importance
     visualizer.plot_feature_importance(
         feature_names,
         importances,
@@ -314,7 +360,7 @@ def main():
     )
 
     logger.info("\n" + "=" * 70)
-    logger.info("✅ ERROR ANALYSIS COMPLETE")
+    logger.info("ERROR ANALYSIS COMPLETE")
     logger.info("=" * 70)
     logger.info(f"Results saved to: {RESULTS_DIR}")
     logger.info(f"Figures saved to: {FIGURES_DIR}")

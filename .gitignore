@@ -52,6 +52,7 @@ models/*.pkl
 models/*.h5
 models/*.pt
 !models/best_model_*.pkl  # Exception: keep best model
+!models/best_model.pkl
 
 # Results/Outputs (optional - can commit summaries)
 results/temp/

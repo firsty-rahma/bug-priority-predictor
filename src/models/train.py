@@ -5,7 +5,6 @@ Model training utilities.
 import logging
 import pickle
 import sys
-import warnings
 from pathlib import Path
 from typing import Any, Dict, Tuple
 
@@ -13,10 +12,9 @@ import numpy as np
 import pandas as pd
 from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline as ImbPipeline
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, f1_score, make_scorer
 from sklearn.model_selection import GridSearchCV, StratifiedKFold, train_test_split
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 
 # Add src to path for imports
@@ -122,6 +120,26 @@ class ModelTrainer:
 
         steps.append(("classifier", classifier))
         return ImbPipeline(steps)
+
+    def create_linear_pipeline(self, **kwargs) -> Pipeline:
+        """
+        Create the primary linear text pipeline.
+
+        Parameters
+        ----------
+        **kwargs
+            Forwarded to :func:`models.linear.build_linear_pipeline`
+            (for example ``multiclass="ovr"`` or ``C=0.3``).
+
+        Returns
+        -------
+        Pipeline
+            Unfitted linear pipeline
+        """
+        from models.linear import build_linear_pipeline
+
+        kwargs.setdefault("random_state", self.random_state)
+        return build_linear_pipeline(**kwargs)
 
     def train_with_cv(
         self,
@@ -275,7 +293,11 @@ class ModelTrainer:
         return results
 
     def save_model(
-        self, model: Any, filepath: Path, include_encoder: bool = True
+        self,
+        model: Any,
+        filepath: Path,
+        include_encoder: bool = True,
+        metadata: Dict[str, Any] = None,
     ) -> None:
         """
         Save trained model to disk.
@@ -288,6 +310,8 @@ class ModelTrainer:
             Output file path
         include_encoder : bool
             Whether to include label encoder
+        metadata : dict, optional
+            Provenance such as selected candidate, CV score, and train size
         """
         filepath.parent.mkdir(parents=True, exist_ok=True)
 
@@ -298,6 +322,7 @@ class ModelTrainer:
                 "label_mapping": {
                     i: label for i, label in enumerate(self.label_encoder.classes_)
                 },
+                "metadata": metadata or {},
             }
         else:
             model_data = model
@@ -328,7 +353,7 @@ class ModelTrainer:
 
         # CRITICAL FIX: Import FeatureCombiner before unpickling
         # This ensures pickle can find the class definition
-        from utils.custom_transformers import FeatureCombiner
+        from utils.custom_transformers import FeatureCombiner  # noqa: F401
 
         with open(filepath, "rb") as f:
             model_data = pickle.load(f)
