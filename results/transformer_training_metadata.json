@@ -1,0 +1,91 @@
+{
+  "model_name": "distilbert-base-uncased",
+  "text_column": "text_for_model",
+  "labels": [
+    "blocker",
+    "critical",
+    "major",
+    "minor",
+    "normal",
+    "trivial"
+  ],
+  "label_to_id": {
+    "blocker": 0,
+    "critical": 1,
+    "major": 2,
+    "minor": 3,
+    "normal": 4,
+    "trivial": 5
+  },
+  "max_length": 256,
+  "seed": 42,
+  "test_size": 0.2,
+  "val_size": 0.1,
+  "train_rows": 7198,
+  "validation_rows": 800,
+  "test_rows": 2000,
+  "test_set_evaluated": true,
+  "class_weights": {
+    "blocker": 8.105855855855856,
+    "critical": 2.7515290519877675,
+    "major": 2.259259259259259,
+    "minor": 3.0760683760683762,
+    "normal": 0.21915722810863475,
+    "trivial": 5.4779299847792995
+  },
+  "hyperparameters": {
+    "epochs": 5.0,
+    "batch_size": 8,
+    "eval_batch_size": 16,
+    "gradient_accumulation_steps": 2,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "label_smoothing": 0.0,
+    "fp16": true,
+    "gradient_checkpointing": false,
+    "early_stopping_patience": 2,
+    "max_steps": -1
+  },
+  "training": {
+    "runtime_minutes": 10.56,
+    "train_loss": 2.297948462592231,
+    "best_validation_f1_macro": 0.3585554187741175
+  },
+  "validation_metrics": {
+    "eval_loss": 1.5975189208984375,
+    "eval_f1_macro": 0.3585554187741175,
+    "eval_f1_weighted": 0.6805062522504842,
+    "eval_accuracy": 0.6625,
+    "eval_blocker_precision": 0.2,
+    "eval_blocker_recall": 0.25,
+    "eval_blocker_f1": 0.2222222222222222,
+    "eval_critical_precision": 0.5294117647058824,
+    "eval_critical_recall": 0.5510204081632653,
+    "eval_critical_f1": 0.54,
+    "eval_major_precision": 0.26153846153846155,
+    "eval_major_recall": 0.288135593220339,
+    "eval_major_f1": 0.27419354838709675,
+    "eval_minor_precision": 0.08823529411764706,
+    "eval_minor_recall": 0.13953488372093023,
+    "eval_minor_f1": 0.10810810810810811,
+    "eval_normal_precision": 0.8362989323843416,
+    "eval_normal_recall": 0.7730263157894737,
+    "eval_normal_f1": 0.8034188034188035,
+    "eval_trivial_precision": 0.17647058823529413,
+    "eval_trivial_recall": 0.24,
+    "eval_trivial_f1": 0.2033898305084746,
+    "eval_runtime": 2.7734,
+    "eval_samples_per_second": 288.457,
+    "eval_steps_per_second": 18.029,
+    "epoch": 5.0
+  },
+  "versions": {
+    "python": "3.14.7",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.22.1",
+    "datasets": "5.1.0",
+    "accelerate": "1.15.0"
+  },
+  "device": "NVIDIA GeForce RTX 2050"
+}

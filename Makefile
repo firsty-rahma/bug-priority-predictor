@@ -1,4 +1,4 @@
-.PHONY: help install install-dev test test-fast test-cov format lint clean train predict
+.PHONY: help install install-dev test test-fast test-cov format lint clean train predict transformer-install transformer-train transformer-eval
 
 help:
 	@echo "Available commands:"
@@ -12,6 +12,9 @@ help:
 	@echo "  make clean        - Remove cache and temp files"
 	@echo "  make train        - Train the model"
 	@echo "  make predict      - Run predictions"
+	@echo "  make transformer-install - Install transformer dependencies"
+	@echo "  make transformer-train   - Fine-tune the transformer (test held out)"
+	@echo "  make transformer-eval    - Evaluate the transformer on test once"
 
 install:
 	pip install -r requirements.txt
@@ -57,3 +60,12 @@ train:
 
 predict:
 	python scripts/predict.py
+
+transformer-install:
+	pip install -r requirements-transformer.txt
+
+transformer-train:
+	python scripts/06_transformer_training.py
+
+transformer-eval:
+	python scripts/07_transformer_evaluation.py
