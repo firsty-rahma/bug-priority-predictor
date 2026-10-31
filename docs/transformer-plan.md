@@ -1,6 +1,7 @@
 # Transformer Fine-Tuning Plan
 
-Status: implemented and smoke-tested on the RTX 2050; full training pending.
+Status: complete. The transformer was trained, evaluated once on the test split,
+and **not adopted**. See `results/transformer_negative_result.md`.
 
 ## Goal
 
@@ -184,6 +185,23 @@ Merge only if all of the following hold:
 
 If the transformer does not clear these conditions, keep the classical model as
 the released baseline and document the negative result.
+
+## Result
+
+Full details are in `results/transformer_negative_result.md`.
+
+| Metric | Classical baseline | Transformer |
+|---|---|---|
+| Test macro F1 | **0.3402** | 0.3483 |
+| Test weighted F1 | 0.6707 | 0.6627 |
+| Test accuracy | 65.30% | 63.65% |
+| Best validation macro F1 | - | 0.3586 |
+| Blocker recall | 0.1707 | 0.4146 |
+| Critical recall | 0.5207 | 0.5124 |
+
+Adoption check: macro-F1 target **FAIL**, blocker recall **PASS**, critical
+recall **FAIL**. The transformer is not adopted; `main` keeps the classical
+model. Only one test evaluation was performed.
 
 ## Risks
 
