@@ -54,6 +54,13 @@ models/*.pt
 !models/best_model_*.pkl  # Exception: keep best model
 !models/best_model.pkl
 
+# Transformer checkpoints and adapters (large)
+models/transformer-*/
+models/checkpoints/
+models/*transformer*/
+*.safetensors
+
+
 # Results/Outputs (optional - can commit summaries)
 results/temp/
 results/*.log

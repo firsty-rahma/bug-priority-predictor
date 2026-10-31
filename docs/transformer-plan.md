@@ -1,6 +1,6 @@
 # Transformer Fine-Tuning Plan
 
-Status: planned, not implemented.
+Status: implemented and smoke-tested on the RTX 2050; full training pending.
 
 ## Goal
 
@@ -88,28 +88,28 @@ Also report:
 
 ## Compute
 
-Local GPU: NVIDIA GeForce RTX 2050, 4 GB VRAM.
+Local GPU: NVIDIA GeForce RTX 2050, 4.29 GB VRAM reported by PyTorch.
 
-- DistilBERT at 256 tokens, batch 8-16, should fit with fp16.
-- Estimated runtime: 30-60 minutes per run on this GPU.
-- If OOM: reduce batch size, use gradient accumulation, freeze lower layers, or
-  shorten `max_length`.
+- DistilBERT at 256 tokens, batch 8 with fp16 fits; this was smoke-tested on
+  the actual GPU.
+- Estimated runtime: roughly 30-60 minutes per full run on this GPU.
+- If OOM: reduce batch size, increase gradient accumulation, enable gradient
+  checkpointing, freeze lower layers, or shorten `max_length`.
 - CPU training is possible but not practical for repeated experiments.
-- Environment currently has no `torch`, `transformers`, `datasets`, or
-  `accelerate` installed.
+- Verified stack: Python 3.14.7, torch 2.14.1+cu130, transformers 5.22.1,
+  datasets 5.1.0, accelerate 1.15.0, driver 610.78 (CUDA 13.3 UMD).
 
 ## Dependencies
 
-Install CUDA-compatible PyTorch first, then the Hugging Face stack:
+Install the verified stack with:
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cu124
-pip install transformers datasets accelerate
+pip install -r requirements-transformer.txt
 ```
 
-Record the exact working versions in `requirements-transformer.txt` after a
-successful install. Do not guess-pin versions before verifying Python 3.14 and
-CUDA compatibility.
+Do not install `torch` from PyPI alone on this machine: pip resolves Python
+3.14 to a CPU-only build. The requirements file points at the CUDA 13.0 wheel
+index and pins the exact versions used for the smoke test.
 
 ## Implementation checklist
 
@@ -125,6 +125,53 @@ CUDA compatibility.
 6. Update `.gitignore` for transformer checkpoints and large artifacts.
 7. If the transformer wins, update `predict.py`, README, and docs in a separate
    commit. Otherwise keep the branch as an experiment and leave `main` intact.
+
+## Implementation on this branch
+
+The following files implement the plan:
+
+- `src/models/transformer.py`: fixed label mapping, stratified split helper,
+  balanced class weights, tokenized dataset, weighted trainer, metrics, and
+  batched probability inference.
+- `scripts/06_transformer_training.py`: training with a stratified validation
+  split and early stopping; saves the model, tokenizer, split indices, metadata,
+  and a training summary. It does not evaluate the test split.
+- `scripts/07_transformer_evaluation.py`: one-shot test evaluation, per-class
+  report, classical baseline comparison on exactly the same rows, adoption
+  check, predictions, confusion matrix, and misclassified cases.
+- `tests/test_transformer.py`: CPU-only unit tests for labels, splits, class
+  weights, tokenization, metrics, and inference; skipped if torch is absent.
+- `requirements-transformer.txt`: CUDA 13.0 PyTorch and Hugging Face stack.
+
+Smoke test:
+
+```bash
+python scripts/06_transformer_training.py \
+  --max-train-samples 300 \
+  --max-val-samples 120 \
+  --epochs 1 \
+  --max-steps 10 \
+  --batch-size 4 \
+  --output-dir models/transformer-smoke
+```
+
+Full training:
+
+```bash
+python scripts/06_transformer_training.py
+```
+
+Evaluate the test split once, after reviewing validation results:
+
+```bash
+python scripts/07_transformer_evaluation.py
+```
+
+The evaluation script refuses to overwrite an existing
+`results/transformer_evaluation.json` unless `--force` is passed. Repeated test
+evaluation invalidates the comparison, so use `--force` only after an invalid
+run.
+
 
 ## Adoption rule
 
@@ -144,6 +191,8 @@ the released baseline and document the negative result.
 - Label noise still caps achievable F1; the five-class result suggests the
   ceiling is well below 1.0.
 - Long reports lose information at 256 tokens.
-- Python 3.14 and CUDA wheel compatibility must be verified before installing.
+- Python 3.14 and CUDA wheel compatibility required care: PyPI resolved torch
+  to a CPU build. Keep the CUDA index and exact pin in
+  `requirements-transformer.txt`.
 - Fine-tuning on ~8k training rows can overfit; early stopping is mandatory.
 - Repeated test evaluation would invalidate the comparison; evaluate once.
