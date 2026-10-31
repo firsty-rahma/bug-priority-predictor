@@ -1,14 +1,14 @@
 HYPERPARAMETER TUNING SUMMARY
 ======================================================================
 
-Date: 2026-10-28 20:27:46
+Date: 2026-10-30 16:25:57
 Dataset size: 9998 rows
 Train set: 7998 samples
 Test set: 2000 samples
 
 ovr:
   Best CV F1-macro: 0.3478
-  Tuning time: 2.70 minutes
+  Tuning time: 2.76 minutes
   Best parameters:
     classifier__estimator__C: 1.0
     features__word__max_features: 20000
@@ -16,7 +16,7 @@ ovr:
 
 multinomial:
   Best CV F1-macro: 0.3478
-  Tuning time: 3.23 minutes
+  Tuning time: 3.43 minutes
   Best parameters:
     classifier__C: 1.0
     features__word__max_features: 20000

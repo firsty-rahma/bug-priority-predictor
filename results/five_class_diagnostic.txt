@@ -1,0 +1,43 @@
+FIVE-CLASS DIAGNOSTIC (minor merged into normal)
+======================================================================
+
+Train rows: 7998
+Test rows: 2000
+Normal share (test): 0.8145
+Majority baseline macro F1: 0.1796
+
+1. CURRENT 6-CLASS MODEL, PREDICTIONS MAPPED minor -> normal
+----------------------------------------------------------------------
+Test macro F1 (5 classes): 0.3873
+              precision    recall  f1-score   support
+
+     blocker     0.2692    0.1707    0.2090        41
+    critical     0.4922    0.5207    0.5060       121
+       major     0.1418    0.2500    0.1809       148
+      normal     0.8748    0.8324    0.8531      1629
+     trivial     0.2571    0.1475    0.1875        61
+
+    accuracy                         0.7360      2000
+   macro avg     0.4070    0.3843    0.3873      2000
+weighted avg     0.7662    0.7360    0.7489      2000
+
+
+2. RETRAINED 5-CLASS MODEL
+----------------------------------------------------------------------
+CV macro F1 (2x5): 0.4007 +/- 0.0154
+Test macro F1 (5 classes): 0.3911
+              precision    recall  f1-score   support
+
+     blocker     0.2500    0.1707    0.2029        41
+    critical     0.4848    0.5289    0.5059       121
+       major     0.1323    0.2297    0.1679       148
+      normal     0.8771    0.8324    0.8542      1629
+     trivial     0.2973    0.1803    0.2245        61
+
+    accuracy                         0.7360      2000
+   macro avg     0.4083    0.3884    0.3911      2000
+weighted avg     0.7677    0.7360    0.7498      2000
+
+
+NOTE: These numbers are not comparable to the six-class 0.3402.
+They answer how much of the error is tied to the minor/normal split.
