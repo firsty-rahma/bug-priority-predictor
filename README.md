@@ -97,6 +97,22 @@ The model is most reliable on `normal` (F1 0.80) and `critical` (0.51). The othe
 
 ---
 
+## Transformer experiment
+
+I also tested whether a fine-tuned transformer materially improves the six-class result. `distilbert-base-uncased` was trained on the same 80/20 split, with class-weighted cross-entropy, 256-token inputs, fp16, and early stopping on a stratified 10% validation split. The test set was evaluated once.
+
+| Metric | Classical model | DistilBERT |
+|---|---|---|
+| Test macro F1 | **0.3402** | 0.3483 |
+| Weighted F1 | 0.6707 | 0.6627 |
+| Accuracy | 65.3% | 63.65% |
+| Blocker recall | 0.1707 | 0.4146 |
+| Critical recall | 0.5207 | 0.5124 |
+
+The transformer gained only +0.0081 macro F1, short of the +0.03 adoption threshold, and critical recall slipped slightly. It is therefore not adopted: the released model remains the classical OvR logistic regression. Full metrics, error patterns, and reproduction steps are in [results/transformer_negative_result.md](results/transformer_negative_result.md); the plan is in [docs/transformer-plan.md](docs/transformer-plan.md).
+
+---
+
 ## Limitations
 
 I want to be direct about what this model is not:
@@ -105,7 +121,7 @@ I want to be direct about what this model is not:
 - **Confidence scores are poorly calibrated.** Average confidence on correct predictions (0.42) is only modestly higher than on incorrect ones (0.33). Don't use confidence thresholds without calibration (Platt scaling or isotonic regression).
 - **`minor` labels are noisy.** In the raw data, `severity_code` 2 covers both `minor` and `normal` (541 vs 7,604 rows), and code 3 is absent. The model cannot reliably separate those two classes; this is a label problem, not only a modelling problem.
 - **Trained on Mozilla Firefox bugs only.** Generalization to other products, domains, or non-English bug reports is untested.
-- **F1-Macro 0.34 is modest.** Reported results on similar tasks are often 0.6–0.8 with fine-tuned transformers and larger datasets; those numbers are not directly comparable. This project uses public data and classical ML to stay reproducible.
+- **F1-Macro 0.34 is modest.** Reported results on similar tasks are often 0.6–0.8 with fine-tuned transformers and larger datasets; those numbers are not directly comparable. A DistilBERT experiment on this dataset reached 0.3483, so the classical model remains the released baseline. This project uses public data and classical ML to stay reproducible.
 
 A realistic deployment would run this model in shadow mode against human triagers for several months before any automation, route low-confidence and high-severity predictions to humans, and retrain monthly on corrected labels.
 
@@ -179,6 +195,8 @@ Design notes: library code is separated from execution scripts so the pipeline s
 - [results/error_analysis_report.txt](results/error_analysis_report.txt) — full error breakdown by class, text length, and confusion patterns
 - [results/model_selection_summary.txt](results/model_selection_summary.txt) — candidate comparison and selection rationale
 - [results/hyperparameter_tuning_summary.txt](results/hyperparameter_tuning_summary.txt) — tuning grid, chosen parameters, and final test report
+- [results/transformer_negative_result.md](results/transformer_negative_result.md) — DistilBERT experiment, test metrics, and adoption decision
+- [docs/transformer-plan.md](docs/transformer-plan.md) — transformer scope, training setup, and evaluation rule
 
 ---
 

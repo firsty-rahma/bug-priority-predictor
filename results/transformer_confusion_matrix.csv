@@ -1,0 +1,7 @@
+true_label,blocker,critical,major,minor,normal,trivial
+blocker,17,4,6,0,14,0
+critical,12,62,11,3,32,1
+major,12,8,27,21,79,1
+minor,1,4,8,19,69,7
+normal,41,50,102,145,1132,51
+trivial,1,0,4,19,21,16

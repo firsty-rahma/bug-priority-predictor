@@ -1,0 +1,50 @@
+TRANSFORMER TEST EVALUATION
+======================================================================
+
+Model: distilbert-base-uncased
+Test rows: 2000
+Max length: 256
+Device: cuda
+
+TRANSFORMER
+----------------------------------------------------------------------
+macro F1 0.3483 | weighted F1 0.6627 | accuracy 0.6365
+              precision    recall  f1-score   support
+
+     blocker     0.2024    0.4146    0.2720        41
+    critical     0.4844    0.5124    0.4980       121
+       major     0.1709    0.1824    0.1765       148
+       minor     0.0918    0.1759    0.1206       108
+      normal     0.8404    0.7442    0.7894      1521
+     trivial     0.2105    0.2623    0.2336        61
+
+    accuracy                         0.6365      2000
+   macro avg     0.3334    0.3820    0.3483      2000
+weighted avg     0.6966    0.6365    0.6627      2000
+
+
+CLASSICAL BASELINE (same test rows)
+----------------------------------------------------------------------
+macro F1 0.3402 | weighted F1 0.6707 | accuracy 0.6530
+Delta macro F1: +0.0081
+
+Blocker recall: baseline 0.1707 -> transformer 0.4146
+Critical recall: baseline 0.5207 -> transformer 0.5124
+
+PER-CLASS F1 COMPARISON
+----------------------------------------------------------------------
+class        baseline  transformer     delta
+blocker        0.2090       0.2720   +0.0630
+critical       0.5060       0.4980   -0.0080
+major          0.1809       0.1765   -0.0045
+minor          0.1581       0.1206   -0.0375
+normal         0.7997       0.7894   -0.0103
+trivial        0.1875       0.2336   +0.0461
+
+ADOPTION RULE
+----------------------------------------------------------------------
+Required macro F1: >= 0.3702
+macro_f1_at_least_target: FAIL
+blocker_recall_not_reduced: PASS
+critical_recall_not_reduced: FAIL
+Adopt transformer: NO

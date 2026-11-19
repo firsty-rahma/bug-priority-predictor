@@ -1,0 +1,14 @@
+# Transformer fine-tuning stack (verified on Windows, Python 3.14.7)
+#
+# The CUDA 13.0 index is required: PyPI currently resolves torch to a CPU-only
+# build for Python 3.14. The RTX 2050 driver supports CUDA 13.x.
+#
+# Install with:
+#   pip install -r requirements-transformer.txt
+
+--extra-index-url https://download.pytorch.org/whl/cu130
+
+torch==2.14.1+cu130
+transformers==5.22.1
+datasets==5.1.0
+accelerate==1.15.0
